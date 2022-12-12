@@ -34,25 +34,25 @@ de nodo, va más rápido cuando el hilo 1 está cerca de él (los resultados se 
 siempre de forma constante).
 (Resultados pendientes de revisión)
 
-#Resultados:
-#Nodos: 0 y 2 (los más lejanos)
-# Resultado hilo 0:
-# T_lectura: 7.33e-07
-# T_escritura: 8.3e-08
-# T_lectura/escritura: 1.85e-07
+# Resultados:
+## Nodos: 0 y 2 (los más lejanos)
+Resultado hilo 0:
+T_lectura: 7.33e-07
+T_escritura: 8.3e-08
+T_lectura/escritura: 1.85e-07
 
-# Resultado hilo 2:
-# T_lectura: 6.22e-07
-# T_escritura: 1.8e-07
-# T_lectura/escritura: 1.83e-07
+Resultado hilo 2:
+T_lectura: 6.22e-07
+T_escritura: 1.8e-07
+T_lectura/escritura: 1.83e-07
 
-#Nodos: 0 y 0 (los más cercanos)
-# Resultado hilo 0:
-# T_lectura: 3.76e-07
-# T_escritura: 8.7e-08
-# T_lectura/escritura: 8.9e-08
+## Nodos: 0 y 0 (los más cercanos)
+Resultado hilo 0:
+T_lectura: 3.76e-07
+T_escritura: 8.7e-08
+T_lectura/escritura: 8.9e-08
 
-# Resultado hilo 1:
-# T_lectura: 2.76e-07
-# T_escritura: 8.6e-08
-# T_lectura/escritura: 8.9e-08
+Resultado hilo 1:
+T_lectura: 2.76e-07
+T_escritura: 8.6e-08
+T_lectura/escritura: 8.9e-0

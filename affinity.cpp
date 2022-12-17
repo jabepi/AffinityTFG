@@ -29,7 +29,7 @@ typedef NumaAlloc::NumaAlloc<char> na_t;
 class Thread_array{
 
 	private:
-		//TODO cuando generalice esto es un vector de vectores
+		//TODO cuando generalizar esto es un vector de vectores
 		static vector<char,na_t> *shared_vec;
 
 		//La zona prinvada siempre es única

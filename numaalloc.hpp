@@ -1,4 +1,5 @@
-/* From https://github.com/ReidAtcheson/numaallocator */
+/* Based on https://github.com/ReidAtcheson/numaallocator */
+
 /* (C) Copyright Reid Atcheson 2016.
  * Permission to copy, use, modify, sell and distribute this software
  * is granted provided this copyright notice appears in all copies.
@@ -10,7 +11,7 @@
 namespace NumaAlloc {
 	template<class T>
 	class NumaAlloc {
-		const int node;
+		int node;
 
 	public:
 		typedef T              value_type;

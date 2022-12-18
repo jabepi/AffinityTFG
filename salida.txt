@@ -1,19 +1,4 @@
---Esta implementación es temporal--
-Ejecución:  ./a.out 2 0 0 0 1000
-                -Número de hilos 
-                -lista de nodos por hilo 
-                -nodo de la zona compartida
-                -tamaño de los vectores 
-
-//TODO el tiempo está expresado por cada hilo de forma individual
-    1. Debería estudiarse en el program en global también (por ahora 
-    se coje el tiempo del hilo más lento como el tiempo global)
-
-//RESULTADOS: para hilos lo más cercanos y los más alejados posibles 
-Los resultados son 
-
-# Resultados:
-## Hilos muy afines: 
+Hilos muy afines: 
 -Datos- 
 Hilo: 0 - CPU: 4 - Node: 0
 Hilo: 1 - CPU: 16 - Node: 0
@@ -89,7 +74,7 @@ T_lectura: 80.3056
 T_escritura: 74.8972
 T_lectura/escritura: 129.02
 
-## Hilos muy poco afines: 
+Hilos muy poco afines: 
 -Datos- 
 Hilo: 0 - CPU: 12 - Node: 0
 Hilo: 1 - CPU: 26 - Node: 2

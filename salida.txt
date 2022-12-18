@@ -1,109 +1,138 @@
-Hilos muy afines: 
--Datos- 
-Hilo: 0 - CPU: 4 - Node: 0
-Hilo: 1 - CPU: 16 - Node: 0
-
--Resultados-
-Resultado hilo 0 :
-T_lectura: 0.00271154
-T_escritura: 0.00221991
-T_lectura/escritura: 0.00406873
-
-Resultado hilo 1 :
-T_lectura: 0.00271228
-T_escritura: 0.00223152
-T_lectura/escritura: 0.00408958
-
--Datos- 
-Hilo: 0 - CPU: 8 - Node: 0
-Hilo: 1 - CPU: 28 - Node: 0
-
--Resultados-
-Resultado hilo 0 :
-T_lectura: 0.0213086
-T_escritura: 0.0181628
-T_lectura/escritura: 0.0331759
-
-Resultado hilo 1 :
-T_lectura: 0.0213219
-T_escritura: 0.0181686
-T_lectura/escritura: 0.0331931
-
 -Datos- 
 Hilo: 0 - CPU: 32 - Node: 0
 Hilo: 1 - CPU: 12 - Node: 0
 
 -Resultados-
 Resultado hilo 0 :
-T_lectura: 2.03889
-T_escritura: 1.91711
-T_lectura/escritura: 3.31532
+T_lectura: 0.0026489
+T_escritura: 0.00230025
+T_lectura/escritura: 0.00416873
 
 Resultado hilo 1 :
-T_lectura: 2.03889
-T_escritura: 1.9152
-T_lectura/escritura: 3.31294
+T_lectura: 0.0026487
+T_escritura: 0.00229928
+T_lectura/escritura: 0.00416652
 
 -Datos- 
-Hilo: 0 - CPU: 36 - Node: 0
-Hilo: 1 - CPU: 8 - Node: 0
+Hilo: 0 - CPU: 32 - Node: 0
+Hilo: 1 - CPU: 24 - Node: 0
 
 -Resultados-
 Resultado hilo 0 :
-T_lectura: 20.383
-T_escritura: 19.0656
-T_lectura/escritura: 32.7431
+T_lectura: 0.020572
+T_escritura: 0.0183377
+T_lectura/escritura: 0.0328718
 
 Resultado hilo 1 :
-T_lectura: 20.383
-T_escritura: 19.0256
-T_lectura/escritura: 32.727
+T_lectura: 0.020563
+T_escritura: 0.0183243
+T_lectura/escritura: 0.0328556
 
 -Datos- 
 Hilo: 0 - CPU: 0 - Node: 0
-Hilo: 1 - CPU: 16 - Node: 0
+Hilo: 1 - CPU: 36 - Node: 0
 
 -Resultados-
 Resultado hilo 0 :
-T_lectura: 80.3056
-T_escritura: 75.0798
-T_lectura/escritura: 128.953
+T_lectura: 2.02594
+T_escritura: 1.90964
+T_lectura/escritura: 3.23537
 
 Resultado hilo 1 :
-T_lectura: 80.3056
-T_escritura: 74.8972
-T_lectura/escritura: 129.02
+T_lectura: 2.02594
+T_escritura: 1.9115
+T_lectura/escritura: 3.2353
+
+-Datos- 
+Hilo: 0 - CPU: 16 - Node: 0
+Hilo: 1 - CPU: 0 - Node: 0
+
+-Resultados-
+Resultado hilo 0 :
+T_lectura: 20.1689
+T_escritura: 18.8076
+T_lectura/escritura: 32.2673
+
+Resultado hilo 1 :
+T_lectura: 20.1689
+T_escritura: 18.8288
+T_lectura/escritura: 32.2637
+
+-Datos- 
+Hilo: 0 - CPU: 24 - Node: 0
+Hilo: 1 - CPU: 4 - Node: 0
+
+-Resultados-
+Resultado hilo 0 :
+T_lectura: 81.8011
+T_escritura: 76.7477
+T_lectura/escritura: 131.742
+
+Resultado hilo 1 :
+T_lectura: 81.8011
+T_escritura: 76.5806
+T_lectura/escritura: 131.712
 
 Hilos muy poco afines: 
 -Datos- 
 Hilo: 0 - CPU: 12 - Node: 0
-Hilo: 1 - CPU: 26 - Node: 2
+Hilo: 1 - CPU: 2 - Node: 2
 
 -Resultados-
 Resultado hilo 0 :
-T_lectura: 0.00257229
-T_escritura: 0.00226234
-T_lectura/escritura: 0.00412258
+T_lectura: 0.00266773
+T_escritura: 0.00221324
+T_lectura/escritura: 0.00400884
 
 Resultado hilo 1 :
-T_lectura: 0.00263696
-T_escritura: 0.00235637
-T_lectura/escritura: 0.00426873
+T_lectura: 0.00265873
+T_escritura: 0.00221443
+T_lectura/escritura: 0.00400476
 
 -Datos- 
-Hilo: 1 - CPU: 26 - Node: 2
 Hilo: 0 - CPU: 16 - Node: 0
+Hilo: 1 - CPU: 6 - Node: 2
 
 -Resultados-
 Resultado hilo 0 :
-T_lectura: 0.0203549
-T_escritura: 0.0178241
-T_lectura/escritura: 0.0322155
+T_lectura: 0.0203358
+T_escritura: 0.0178184
+T_lectura/escritura: 0.0322547
 
 Resultado hilo 1 :
-T_lectura: 0.0201501
-T_escritura: 0.0180032
-T_lectura/escritura: 0.0322401
+T_lectura: 0.0202304
+T_escritura: 0.0178315
+T_lectura/escritura: 0.032021
+
+-Datos- 
+Hilo: 0 - CPU: 0 - Node: 0
+Hilo: 1 - CPU: 10 - Node: 2
+
+-Resultados-
+Resultado hilo 0 :
+T_lectura: 2.00102
+T_escritura: 1.81653
+T_lectura/escritura: 3.20527
+
+Resultado hilo 1 :
+T_lectura: 2.00391
+T_escritura: 1.81678
+T_lectura/escritura: 3.20412
+
+-Datos- 
+Hilo: 0 - CPU: 0 - Node: 0
+Hilo: 1 - CPU: 14 - Node: 2
+
+-Resultados-
+Resultado hilo 0 :
+T_lectura: 20.3515
+T_escritura: 18.6726
+T_lectura/escritura: 32.1521
+
+Resultado hilo 1 :
+T_lectura: 20.3507
+T_escritura: 18.7346
+T_lectura/escritura: 32.0933
 
 -Datos- 
 Hilo: 0 - CPU: 0 - Node: 0
@@ -111,42 +140,12 @@ Hilo: 1 - CPU: 18 - Node: 2
 
 -Resultados-
 Resultado hilo 0 :
-T_lectura: 2.00372
-T_escritura: 1.82286
-T_lectura/escritura: 3.21593
+T_lectura: 81.0445
+T_escritura: 74.9972
+T_lectura/escritura: 128.445
 
 Resultado hilo 1 :
-T_lectura: 2.02842
-T_escritura: 1.83275
-T_lectura/escritura: 3.2188
-
--Datos- 
-Hilo: 1 - CPU: 26 - Node: 2
-Hilo: 0 - CPU: 4 - Node: 0
-
--Resultados-
-Resultado hilo 0 :
-T_lectura: 20.3103
-T_escritura: 18.691
-T_lectura/escritura: 32.165
-
-Resultado hilo 1 :
-T_lectura: 20.3112
-T_escritura: 18.7404
-T_lectura/escritura: 32.1766
-
--Datos- 
-Hilo: 1 - CPU: 22 - Node: 2
-Hilo: 0 - CPU: 8 - Node: 0
-
--Resultados-
-Resultado hilo 0 :
-T_lectura: 81.3991
-T_escritura: 74.7056
-T_lectura/escritura: 128.66
-
-Resultado hilo 1 :
-T_lectura: 81.4068
-T_escritura: 74.9402
-T_lectura/escritura: 128.671
+T_lectura: 81.0453
+T_escritura: 74.7953
+T_lectura/escritura: 128.365
 

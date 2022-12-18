@@ -12,6 +12,9 @@ using namespace std;
 
 //TODO borrar o poner como un argumento más
 #define ITER 10
+#define L1 32768
+#define L2 262144
+#define L3 26214400
 
 //Types def
 typedef NumaAlloc::NumaAlloc<char> na_t;
@@ -107,10 +110,19 @@ vector<cpu_set_t> getHardwareData(){
 		}
 		numa_free_cpumask(cpus);
 	}
-
 	return cpus_vec;
 }
 
+//Flush all cache of a specific node
+int flushCache(short node){
+    char *ptr = (char*)numa_alloc_onnode(L3, node);  
+	int b;
+	for(long a = 0; a < L3; a++){
+		b += ptr[a];
+	}
+    numa_free(ptr, L3);  
+	return b;
+}
 
 int main(int argc, char* argv[]){
 
@@ -145,16 +157,7 @@ int main(int argc, char* argv[]){
 
 	//Get cpu and nodes information 
 	vector<cpu_set_t> cpus_vec = getHardwareData();
-	// for(int i = 0; i < 4; i++){
-	// 	cout << "Node " << i << ": ";
-	// 	for(int j=0; j<CPU_SETSIZE; j++){
-	// 		if(CPU_ISSET(j,&cpus_vec[i])){
-	// 			cout << j << " ";
-	// 		}
-	// 	}
-	// 	cout << endl;
-	// }
-
+	
 	//Openmp clauses
 	omp_set_num_threads(thread_num);
 	omp_set_dynamic(false);
@@ -201,6 +204,8 @@ int main(int argc, char* argv[]){
 		auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> diff = end - start;
 		r_tmarks[thread] = diff.count();
+
+		flushCache(list_thr_node[thread]);
 		#pragma omp barrier
 
 		//2. Memory writes
@@ -215,6 +220,8 @@ int main(int argc, char* argv[]){
 		end = std::chrono::high_resolution_clock::now();
         diff = end - start;
 		w_tmarks[thread] = diff.count();
+		
+		flushCache(list_thr_node[thread]);
 		#pragma omp barrier
 
 		//3. Memory reads and writes

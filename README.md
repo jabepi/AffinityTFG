@@ -9,7 +9,9 @@ Ejecución:  ./a.out 2 0 0 0 1000
     1. Debería estudiarse en el program en global también (por ahora 
     se coje el tiempo del hilo más lento como el tiempo global)
 
-//RESULTADOS: para hilos lo más cercanos y los más alejados posibles 
+//RESULTADOS: para hilos lo más cercanos y los más alejados posibles
+//TODO: para que los resultados de los tamaños más pequeños que no llevan la 
+caché abría que hacer un flush.  
 
 Los resultados son 
 

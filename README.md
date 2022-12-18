@@ -10,10 +10,13 @@ Ejecución:  ./a.out 2 0 0 0 1000
     se coje el tiempo del hilo más lento como el tiempo global)
 
 //RESULTADOS: para hilos lo más cercanos y los más alejados posibles 
+
 Los resultados son 
 
 # Resultados:
 ## Hilos muy afines: 
+
+```
 -Datos- 
 Hilo: 0 - CPU: 4 - Node: 0
 Hilo: 1 - CPU: 16 - Node: 0
@@ -89,7 +92,10 @@ T_lectura: 80.3056
 T_escritura: 74.8972
 T_lectura/escritura: 129.02
 
+```
 ## Hilos muy poco afines: 
+
+```
 -Datos- 
 Hilo: 0 - CPU: 12 - Node: 0
 Hilo: 1 - CPU: 26 - Node: 2
@@ -165,3 +171,4 @@ T_lectura: 81.4068
 T_escritura: 74.9402
 T_lectura/escritura: 128.671
 
+```

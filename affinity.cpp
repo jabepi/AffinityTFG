@@ -1,6 +1,7 @@
 #include <iostream>
 #include <chrono>
 #include <vector>
+#include <iomanip>
 using namespace std;
 
 #include <numa.h>
@@ -19,6 +20,12 @@ using namespace std;
 //Types def
 typedef NumaAlloc::NumaAlloc<char> na_t;
 //TODO typedef vector data type
+
+//Aux
+template<typename T> 
+	inline void doNotOptimizeAway(T&& datum) {
+	asm volatile ("" : "+r" (datum));
+}
 
 //Class def: contains all vector and the operations over them
 //TODO en caso de crecer mucho, trasladar la clase a un fichero independiente
@@ -43,48 +50,82 @@ class Thread_array{
 		// Fuctions over vectors data
 		int read_private(){
 			int size = priv_vec.size();
-			int add = 0;
-			for(int i = 0; i< size; i ++){
+			volatile int add = 0;
+			int i = 0;
+			
+			while(i < size){
 				add += priv_vec[i];
+				i++;
 			}
 			return add;
 		}
 
 		int read_shared(){
 			int size = shared_vec.size();
-			int add = 0;
-			for(int i = 0; i< size; i ++){
+			volatile int add = 0;
+			int i = 0; 
+
+			while(i < size){
 				add += shared_vec[i];
+				i++;
 			}
 			return add;
 		}
 
-		void write_private(){
+		int write_private(){
+
 			int size = priv_vec.size();
-			for(int i = 0; i< size; i ++){
+			volatile int i = 0;
+			
+			while(i < size){
 				priv_vec[i] = 'X';
+				i++;
 			}
+
+			return i;
 		}
 
-		void write_shared(){
-			int size = priv_vec.size();
-			for(int i = 0; i< size; i ++){
-				priv_vec[i] = 'X';
-			}
+		int write_shared(){
+			
+			int size = shared_vec.size();
+			volatile int i = 0;
+			
+			while(i<size){
+				shared_vec[i] = 'X';
+				i++;
+			}		
+
+			return i;
 		}
 
-		void rw_private(){
+		int rw_private(){
+			
 			int size = priv_vec.size();
-			for(int i = 0; i< size; i ++){
-				priv_vec[i] = priv_vec[i] + 1;
+			volatile char aux; 
+			volatile int i = 0;
+
+			while(i < size){
+				aux = priv_vec[i];
+				priv_vec[i] = aux + 1;
+				i++;
 			}
+
+			return i;
 		}
 
-		void rw_shared(){
-			int size = priv_vec.size();
-			for(int i = 0; i< size; i ++){
-				priv_vec[i] = priv_vec[i] + 1;
+		int rw_shared(){
+			
+			int size = shared_vec.size();
+			volatile char aux; 
+			volatile int i = 0;
+
+			while(i<size){
+				aux = shared_vec[i];
+				shared_vec[i] = aux + 1;
+				i++;
 			}
+
+			return i;
 		}
 };
 
@@ -168,15 +209,25 @@ int main(int argc, char* argv[]){
 
 	//2. Time marks vector
 	vector<double> r_tmarks(thread_num);
+	vector<double> r_tmarkp(thread_num);
 	vector<double> w_tmarks(thread_num);
+	vector<double> w_tmarkp(thread_num);
 	vector<double> rw_tmarks(thread_num);
+	vector<double> rw_tmarkp(thread_num);
 
 	
 	cout << "-Datos- " << endl;
+	cout << "Tamaño de los sets privados: " << psets_size << endl;
+	cout << "Tamaño de los sets compartidos: " << ssets_size << endl;
 	#pragma omp parallel
 	{
 		//Variables
 		int i; 
+
+		//Auxiliar variables
+		int r1, r2;
+		int w1, w2;
+		int rw1, rw2;
 
 		//Allocated thread and  vector at the same node
 		int thread = omp_get_thread_num();
@@ -192,57 +243,94 @@ int main(int argc, char* argv[]){
 		}	
 		#pragma omp barrier	
 		
-		//1. Memory reads
+		//1. Memory writes
 		auto start = std::chrono::high_resolution_clock::now();
-		for (i = 0; i < ITER; i++ ){
-			array.read_private();
-		}
-		#pragma omp barrier
-		for(i = 0; i < ITER; i++){
-			array.read_shared();
+		i = 0;
+		while(i<ITER){
+			w1 = array.write_private();
+			i++;
 		}
 		auto end = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> diff = end - start;
-		r_tmarks[thread] = diff.count();
-
-		flushCache(list_thr_node[thread]);
+		w_tmarkp[thread] = diff.count();
 		#pragma omp barrier
-
-		//2. Memory writes
+		
 		start = std::chrono::high_resolution_clock::now();
-		for(i = 0; i < ITER; i++){
-			array.write_private();
-		}
-		#pragma omp barrier
-		for(i = 0; i < ITER; i++){
-			array.write_shared();
+		i=0;
+		while(i < ITER){
+			w2 = array.write_shared();
+			i++;
 		}
 		end = std::chrono::high_resolution_clock::now();
-        diff = end - start;
+		diff = end - start;
 		w_tmarks[thread] = diff.count();
 		
 		flushCache(list_thr_node[thread]);
+		doNotOptimizeAway(w1);
+		doNotOptimizeAway(w2);
+		#pragma omp barrier
+
+		//2. Memory reads
+		start = std::chrono::high_resolution_clock::now();
+		i=0;
+		while(i < ITER){
+			r1 = array.read_private();
+			i++;
+		}
+		end = std::chrono::high_resolution_clock::now();
+        diff = end - start;
+		r_tmarkp[thread] = diff.count();
+		#pragma omp barrier
+		
+		start = std::chrono::high_resolution_clock::now();
+		i=0;
+		while(i < ITER){
+			r2 = array.read_shared();
+			i++;
+		}
+		end = std::chrono::high_resolution_clock::now();
+        diff = end - start;
+		r_tmarks[thread] = diff.count();
+
+		flushCache(list_thr_node[thread]);
+		doNotOptimizeAway(r1);
+		doNotOptimizeAway(r2);
 		#pragma omp barrier
 
 		//3. Memory reads and writes
 		start = std::chrono::high_resolution_clock::now();
-		for(i = 0; i < ITER; i++){
-			array.rw_private();
-		}
-		#pragma omp barrier
-		for(i = 0; i < ITER; i++){
-			array.rw_shared();
+		i=0;
+		while(i < ITER){
+			rw1 = array.rw_private();
+			i++;
 		}
 		end = std::chrono::high_resolution_clock::now();
-        diff = end - start;
+		diff = end - start;
+		rw_tmarkp[thread] = diff.count();
+
+		#pragma omp barrier
+		start = std::chrono::high_resolution_clock::now();
+		i=0;
+		while(i < ITER){
+			rw2 = array.rw_shared();
+			i++;
+		}
+		end = std::chrono::high_resolution_clock::now();
+		diff = end - start;
 		rw_tmarks[thread] = diff.count();
+
+		doNotOptimizeAway(rw1);
+		doNotOptimizeAway(rw2);
 	}
 	
 	for(int j = 0; j < thread_num; j ++){
 		cout << "Resultado hilo " << j << " :\n";
-		cout << "T_lectura: " << r_tmarks[j] << endl;
-		cout << "T_escritura: " << w_tmarks[j] << endl;
-		cout << "T_lectura/escritura: " << rw_tmarks[j] << "\n\n";
+		cout << setw(25) << " "  << std::left << setw(20) << "T_Datos_Privados" << std::left << setw(20) << "T_Datos_Compartidos" << endl;
+		
+		cout << setw(25) << "T_lectura: " << std::left << setw(20) << r_tmarkp[j] << r_tmarks[j] << endl;
+		cout << setw(25) << "T_escritura: " << std::left << setw(20) << w_tmarkp[j] << w_tmarks[j] << endl;
+		cout << setw(25) << "T_lectura/escritura: " << std::left << setw(20) << rw_tmarkp[j] << rw_tmarks[j] << endl;
+		cout << endl;
 	}
 	
 	return 0;

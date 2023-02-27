@@ -1,0 +1,40 @@
+-------------------Hilos muy afines------------------- 
+-Datos- 
+Tamaño de los sets privados: 1048576000
+Tamaño de los sets compartidos: 1048576000
+Hilo: 1 - CPU: 0 - Node: 0
+Hilo: 0 - CPU: 24 - Node: 0
+
+-Resultados-
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               41.9773             39.5792
+T_escritura:             39.765              38.905
+T_lectura/escritura:     73.129              66.9827
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               42.0349             39.5793
+T_escritura:             39.773              38.9042
+T_lectura/escritura:     72.96               66.9845
+
+-------------------Hilos muy poco afines-------------------
+-Datos- 
+Tamaño de los sets privados: 1048576000
+Tamaño de los sets compartidos: 1048576000
+Hilo: 1 - CPU: 14 - Node: 2
+Hilo: 0 - CPU: 32 - Node: 0
+
+-Resultados-
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               41.7493             40.6197
+T_escritura:             39.566              42.0791
+T_lectura/escritura:     72.8929             66.9101
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               41.918              40.619
+T_escritura:             39.6794             42.0783
+T_lectura/escritura:     72.7176             66.7092
+

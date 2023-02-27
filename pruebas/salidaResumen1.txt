@@ -1,0 +1,38 @@
+-------------------Hilos muy afines------------------- 
+-Datos- 
+Tamaño de los sets: 1048576000
+Hilo: 1 - CPU: 20 - Node: 0
+Hilo: 0 - CPU: 0 - Node: 0
+
+-Resultados-
+Resultado hilo 0 :
+                         T_Datos_Privados    
+T_lectura:               42.0952             
+T_escritura:             39.8576             
+T_lectura/escritura:     73.354              
+
+Resultado hilo 1 :
+                         T_Datos_Privados    
+T_lectura:               42.0726             
+T_escritura:             39.8985             
+T_lectura/escritura:     73.2866             
+
+-------------------Hilos muy poco afines-------------------
+-Datos- 
+Tamaño de los sets: 1048576000
+Hilo: 1 - CPU: 2 - Node: 2
+Hilo: 0 - CPU: 0 - Node: 0
+
+-Resultados-
+Resultado hilo 0 :
+                         T_Datos_Privados    
+T_lectura:               41.9786             
+T_escritura:             39.7834             
+T_lectura/escritura:     73.0275             
+
+Resultado hilo 1 :
+                         T_Datos_Privados    
+T_lectura:               42.7979             
+T_escritura:             41.6189             
+T_lectura/escritura:     73.3799             
+

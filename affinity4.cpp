@@ -20,6 +20,8 @@ using namespace std;
 //Types def
 typedef NumaAlloc::NumaAlloc<char> na_t;
 //TODO typedef vector data type
+typedef char vectorType;
+typedef long long int vectorSize; 
 
 //Aux
 template<typename T> 
@@ -33,26 +35,36 @@ class Thread_array{
 
 	private:
 		//TODO cuando generalice esto es un vector de vectores
-		static vector<char, na_t> shared_vec;
+		static vectorType* shared_vec;
 
 		//La zona privada siempre es única
-		vector<char,na_t > priv_vec;
+		vectorType* priv_vec; 
+
 
 	public:
-		Thread_array(long tam_priv, short node) :
-			priv_vec(tam_priv,'0',na_t(node))
-		{}
+		Thread_array(long tam_priv, short node){
+			priv_vec = (vectorType*) numa_alloc_onnode(tam_priv, node);
 
+			//inicializamos el vector 
+			for(long i = 0; i < tam_priv; i++){
+				priv_vec[i] = 'A';
+			}
+		}
+			
 		static void init_shared(long tam_shared, short node){
-			shared_vec = vector<char,na_t>(tam_shared, '1', na_t(node));
+			shared_vec = (vectorType*) numa_alloc_onnode(tam_shared, node);
+
+			//inicializamos el vector
+			for(long i = 0; i < tam_shared; i++){
+				shared_vec[i] = 'A';
+			}
 		}
 
 		// Fuctions over vectors data
-		int read_private(){
-			int size = priv_vec.size();
+		int read_private(vectorSize size){
+			vectorSize i = 0; 
 			volatile int add = 0;
-			int i = 0;
-			
+
 			while(i < size){
 				add += priv_vec[i];
 				i++;
@@ -60,11 +72,10 @@ class Thread_array{
 			return add;
 		}
 
-		int read_shared(){
-			int size = shared_vec.size();
+		int read_shared(vectorSize size){
+			vectorSize i = 0; 
 			volatile int add = 0;
-			int i = 0; 
-
+		
 			while(i < size){
 				add += shared_vec[i];
 				i++;
@@ -72,11 +83,9 @@ class Thread_array{
 			return add;
 		}
 
-		int write_private(){
+		int write_private(vectorSize size){
+			volatile vectorSize i = 0;
 
-			int size = priv_vec.size();
-			volatile int i = 0;
-			
 			while(i < size){
 				priv_vec[i] = 'X';
 				i++;
@@ -85,10 +94,8 @@ class Thread_array{
 			return i;
 		}
 
-		int write_shared(){
-			
-			int size = shared_vec.size();
-			volatile int i = 0;
+		int write_shared(vectorSize size){
+			volatile vectorSize i = 0;
 			
 			while(i<size){
 				shared_vec[i] = 'X';
@@ -98,30 +105,78 @@ class Thread_array{
 			return i;
 		}
 
-		int rw_private(){
-			
-			int size = priv_vec.size();
+		int rw_private(vectorSize size, int tipo){
 			volatile char aux; 
-			volatile int i = 0;
+			volatile vectorSize i = 0;
 
+			int j = 0;
+			//En caso de que sea tipo 0 leemos solos primeros 20 datos sin bucle
+			if(tipo == 0){
+				while(i < 80){
+					aux = priv_vec[i];
+					priv_vec[i] = aux + 1;
+					i++;
+				}
+				j = 0;
+				//leemos y escribimos el dato 200 veces el mismo dato
+				while(j < 200){
+					aux = priv_vec[i];
+					priv_vec[i] = aux + 1;
+					j++;
+				}	
+			}
 			while(i < size){
-				aux = priv_vec[i];
-				priv_vec[i] = aux + 1;
+				if(i%160 == 0 || (i-80)%160 == 0){
+					j = 0;
+					//leemos y escribimos el dato 200 veces el mismo dato
+					while(j < 200){
+						aux = priv_vec[i];
+						priv_vec[i] = aux + 1;
+						j++;
+					}	
+				}else{
+					aux = priv_vec[i];
+					priv_vec[i] = aux + 1;
+				}
 				i++;
 			}
 
 			return i;
 		}
 
-		int rw_shared(){
-			
-			int size = shared_vec.size();
+		int rw_shared(vectorSize size, int tipo){
 			volatile char aux; 
-			volatile int i = 0;
+			volatile vectorSize i = 0;
 
-			while(i<size){
-				aux = shared_vec[i];
-				shared_vec[i] = aux + 1;
+			int j = 0;
+			//En caso de que sea tipo 0 leemos solos primeros 20 datos sin bucle
+			if(tipo == 0){
+				while(i < 80){
+					aux = shared_vec[i];
+					shared_vec[i] = aux + 1;
+					i++;
+				}
+				j = 0;
+				//leemos y escribimos el dato 200 veces el mismo dato
+				while(j < 200){
+					aux = shared_vec[i];
+					shared_vec[i] = aux + 1;
+					j++;
+				}	
+			}
+			while(i < size){
+				if(i%160 == 0 || (i-80)%160 == 0){
+					j = 0;
+					//leemos y escribimos el dato 200 veces el mismo dato
+					while(j < 200){
+						aux = shared_vec[i];
+						shared_vec[i] = aux + 1;
+						j++;
+					}	
+				}else{
+					aux = shared_vec[i];
+					shared_vec[i] = aux + 1;
+				}
 				i++;
 			}
 
@@ -129,16 +184,13 @@ class Thread_array{
 		}
 };
 
-vector<char,na_t> Thread_array::shared_vec;
+vectorType* Thread_array::shared_vec;
 
 //Vector of cpus by node	
 vector<cpu_set_t> getHardwareData(){
 	int num_nodes = numa_max_node() + 1;
 	vector<cpu_set_t> cpus_vec(num_nodes);
-	long psets_size = 2621440000; 
-	long ssets_size = 2621440000;
-	short sset_node = 0;
-
+	
 	//Get cpus by node	
 	for(int i = 0; i < num_nodes; i++){
 		struct bitmask *cpus = numa_allocate_cpumask();
@@ -156,6 +208,7 @@ vector<cpu_set_t> getHardwareData(){
 
 //Flush all cache of a specific node
 int flushCache(short node){
+	//TODO prevenir optimizaciones de este bucle para cuando se compile con -O3
     char *ptr = (char*)numa_alloc_onnode(L3, node);  
 	int b;
 	for(long a = 0; a < L3; a++){
@@ -166,7 +219,6 @@ int flushCache(short node){
 }
 
 int main(int argc, char* argv[]){
-
 
 	vector<size_t> list_thr_node;
 	size_t thread_num;
@@ -247,7 +299,7 @@ int main(int argc, char* argv[]){
 		auto start = std::chrono::high_resolution_clock::now();
 		i = 0;
 		while(i<ITER){
-			w1 = array.write_private();
+			w1 = array.write_private(ssets_size);
 			i++;
 		}
 		auto end = std::chrono::high_resolution_clock::now();
@@ -258,7 +310,7 @@ int main(int argc, char* argv[]){
 		start = std::chrono::high_resolution_clock::now();
 		i=0;
 		while(i < ITER){
-			w2 = array.write_shared();
+			w2 = array.write_shared(ssets_size);
 			i++;
 		}
 		end = std::chrono::high_resolution_clock::now();
@@ -274,7 +326,7 @@ int main(int argc, char* argv[]){
 		start = std::chrono::high_resolution_clock::now();
 		i=0;
 		while(i < ITER){
-			r1 = array.read_private();
+			r1 = array.read_private(ssets_size);
 			i++;
 		}
 		end = std::chrono::high_resolution_clock::now();
@@ -285,7 +337,7 @@ int main(int argc, char* argv[]){
 		start = std::chrono::high_resolution_clock::now();
 		i=0;
 		while(i < ITER){
-			r2 = array.read_shared();
+			r2 = array.read_shared(ssets_size);
 			i++;
 		}
 		end = std::chrono::high_resolution_clock::now();
@@ -301,7 +353,7 @@ int main(int argc, char* argv[]){
 		start = std::chrono::high_resolution_clock::now();
 		i=0;
 		while(i < ITER){
-			rw1 = array.rw_private();
+			rw1 = array.rw_private(ssets_size, thread);
 			i++;
 		}
 		end = std::chrono::high_resolution_clock::now();
@@ -312,7 +364,7 @@ int main(int argc, char* argv[]){
 		start = std::chrono::high_resolution_clock::now();
 		i=0;
 		while(i < ITER){
-			rw2 = array.rw_shared();
+			rw2 = array.rw_shared(ssets_size, thread);
 			i++;
 		}
 		end = std::chrono::high_resolution_clock::now();
@@ -335,19 +387,3 @@ int main(int argc, char* argv[]){
 	
 	return 0;
 }
-
-//Auxiliares
-//1. Obtener CPU de cada hilo
-//cout << sched_getcpu();
-
-//2. Imprimir la lista de CPUs de cada nodo
-// //Print cpus by node
-// for(int i = 0; i < num_nodes; i++){
-// 	cout << "Node " << i << ": ";
-// 	for(int j=0; j<CPU_SETSIZE; j++){
-// 		if(CPU_ISSET(j,&cpus_vec[i])){
-// 			cout << j << " ";
-// 		}
-// 	}
-// 	cout << endl;
-// }

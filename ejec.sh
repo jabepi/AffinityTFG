@@ -1,4 +1,4 @@
-g++ affinity.cpp -lnuma -fopenmp -O0
+g++ affinity5.cpp -lnuma -fopenmp -O0
 
 #Tamaños de L1, L2, L3, 10*L3 y 40*L3
 tam="32768 262144 26214400 262144000 1048576000"

@@ -1,114 +1,274 @@
+-------------------Hilos muy afines------------------- 
+-Datos- 
+Tamaño de los sets privados: 10000
+Tamaño de los sets compartidos: 10000
+Hilo: 0 - CPU: 36 - Node: 0
+Hilo: 1 - CPU: 4 - Node: 0
+
+-Resultados-
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.00302868          0.00316066
+T_escritura:             0.00116714          0.00127198
+T_lectura/escritura:     0.00681028          0.00686212
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.00302655          0.0031616
+T_escritura:             0.00116261          0.00127034
+T_lectura/escritura:     0.00680638          0.00685548
+
+-Datos- 
+Tamaño de los sets privados: 20000
+Tamaño de los sets compartidos: 20000
+Hilo: 0 - CPU: 0 - Node: 0
+Hilo: 1 - CPU: 8 - Node: 0
+
+-Resultados-
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.00592022          0.00625712
+T_escritura:             0.00226874          0.00252303
+T_lectura/escritura:     0.0133241           0.0133696
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.00591999          0.0062593
+T_escritura:             0.00226923          0.00252568
+T_lectura/escritura:     0.0133282           0.0133792
+
 -Datos- 
 Tamaño de los sets privados: 32768
 Tamaño de los sets compartidos: 32768
 Hilo: 0 - CPU: 20 - Node: 0
-Hilo: 1 - CPU: 36 - Node: 0
-
--Resultados-
-Resultado hilo 0 :
-                         T_Datos_Privados    T_Datos_Compartidos 
-T_lectura:               0.000972307         0.00109176
-T_escritura:             0.000877016         0.0011883
-T_lectura/escritura:     0.297269            0.323632
-
-Resultado hilo 1 :
-                         T_Datos_Privados    T_Datos_Compartidos 
-T_lectura:               0.000971816         0.00109111
-T_escritura:             0.000889448         0.00119072
-T_lectura/escritura:     0.297301            0.323565
-
--Datos- 
-Tamaño de los sets privados: 262144
-Tamaño de los sets compartidos: 262144
-Hilo: 0 - CPU: 12 - Node: 0
-Hilo: 1 - CPU: 0 - Node: 0
-
--Resultados-
-Resultado hilo 0 :
-                         T_Datos_Privados    T_Datos_Compartidos 
-T_lectura:               0.00784718          0.00874915
-T_escritura:             0.0070897           0.00869776
-T_lectura/escritura:     2.37982             2.51412
-
-Resultado hilo 1 :
-                         T_Datos_Privados    T_Datos_Compartidos 
-T_lectura:               0.007849            0.00875264
-T_escritura:             0.00708893          0.00869889
-T_lectura/escritura:     2.37982             2.5152
-
--Datos- 
-Tamaño de los sets privados: 26214400
-Tamaño de los sets compartidos: 26214400
 Hilo: 1 - CPU: 4 - Node: 0
-Hilo: 0 - CPU: 24 - Node: 0
 
 -Resultados-
 Resultado hilo 0 :
                          T_Datos_Privados    T_Datos_Compartidos 
-T_lectura:               0.7979              0.883823
-T_escritura:             0.726485            0.84643
-T_lectura/escritura:     219.473             232.929
+T_lectura:               0.00999692          0.0104785
+T_escritura:             0.00383327          0.00431994
+T_lectura/escritura:     0.0224132           0.0225034
 
 Resultado hilo 1 :
                          T_Datos_Privados    T_Datos_Compartidos 
-T_lectura:               0.796061            0.883826
-T_escritura:             0.725399            0.845716
-T_lectura/escritura:     219.519             233.116
+T_lectura:               0.00998497          0.010476
+T_escritura:             0.00383194          0.00431437
+T_lectura/escritura:     0.0224092           0.0224817
 
 -Datos- 
-Tamaño de los sets privados: 32768
-Tamaño de los sets compartidos: 32768
-Hilo: 0 - CPU: 28 - Node: 0
-Hilo: 1 - CPU: 26 - Node: 2
+Tamaño de los sets privados: 40000
+Tamaño de los sets compartidos: 40000
+Hilo: 0 - CPU: 8 - Node: 0
+Hilo: 1 - CPU: 12 - Node: 0
 
 -Resultados-
 Resultado hilo 0 :
                          T_Datos_Privados    T_Datos_Compartidos 
-T_lectura:               0.00085905          0.000973911
-T_escritura:             0.000849782         0.00109921
-T_lectura/escritura:     0.263183            0.277577
+T_lectura:               0.0121837           0.0128987
+T_escritura:             0.00466413          0.00497986
+T_lectura/escritura:     0.027308            0.0273944
 
 Resultado hilo 1 :
                          T_Datos_Privados    T_Datos_Compartidos 
-T_lectura:               0.00106214          0.000971952
-T_escritura:             0.000930949         0.00107014
-T_lectura/escritura:     0.263406            0.277475
+T_lectura:               0.0121809           0.0128958
+T_escritura:             0.00466166          0.00497269
+T_lectura/escritura:     0.0272989           0.0273769
+
+-Datos- 
+Tamaño de los sets privados: 80000
+Tamaño de los sets compartidos: 80000
+Hilo: 0 - CPU: 24 - Node: 0
+Hilo: 1 - CPU: 12 - Node: 0
+
+-Resultados-
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.0245501           0.0258565
+T_escritura:             0.00936269          0.00999681
+T_lectura/escritura:     0.0552877           0.0551988
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.024546            0.0258597
+T_escritura:             0.00936076          0.00999436
+T_lectura/escritura:     0.0552677           0.0551658
+
+-Datos- 
+Tamaño de los sets privados: 200000
+Tamaño de los sets compartidos: 200000
+Hilo: 0 - CPU: 28 - Node: 0
+Hilo: 1 - CPU: 16 - Node: 0
+
+-Resultados-
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.061332            0.0661413
+T_escritura:             0.0234261           0.0251322
+T_lectura/escritura:     0.138048            0.137656
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.0613437           0.0661535
+T_escritura:             0.0234495           0.0251277
+T_lectura/escritura:     0.138077            0.137707
 
 -Datos- 
 Tamaño de los sets privados: 262144
 Tamaño de los sets compartidos: 262144
-Hilo: 0 - CPU: 32 - Node: 0
-Hilo: 1 - CPU: 30 - Node: 2
+Hilo: 0 - CPU: 8 - Node: 0
+Hilo: 1 - CPU: 20 - Node: 0
 
 -Resultados-
 Resultado hilo 0 :
                          T_Datos_Privados    T_Datos_Compartidos 
-T_lectura:               0.00693004          0.00776405
-T_escritura:             0.00632794          0.00793894
-T_lectura/escritura:     2.10428             2.23532
+T_lectura:               0.0810781           0.0853901
+T_escritura:             0.0309126           0.0330424
+T_lectura/escritura:     0.181128            0.181119
 
 Resultado hilo 1 :
                          T_Datos_Privados    T_Datos_Compartidos 
-T_lectura:               0.007034            0.00776732
-T_escritura:             0.006452            0.00776035
-T_lectura/escritura:     2.1065              2.2352
+T_lectura:               0.0810776           0.0854015
+T_escritura:             0.0309312           0.0330377
+T_lectura/escritura:     0.181181            0.181176
+
+-Datos- 
+Tamaño de los sets privados: 400000
+Tamaño de los sets compartidos: 400000
+Hilo: 0 - CPU: 12 - Node: 0
+Hilo: 1 - CPU: 24 - Node: 0
+
+-Resultados-
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.123983            0.130253
+T_escritura:             0.0471541           0.0501198
+T_lectura/escritura:     0.277101            0.275814
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.124032            0.130302
+T_escritura:             0.0471796           0.0501422
+T_lectura/escritura:     0.277216            0.275944
+
+-Datos- 
+Tamaño de los sets privados: 800000
+Tamaño de los sets compartidos: 800000
+Hilo: 0 - CPU: 16 - Node: 0
+Hilo: 1 - CPU: 28 - Node: 0
+
+-Resultados-
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.247874            0.259954
+T_escritura:             0.0937535           0.101837
+T_lectura/escritura:     0.554196            0.551402
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.247751            0.2598
+T_escritura:             0.0937211           0.101839
+T_lectura/escritura:     0.553843            0.551407
+
+-Datos- 
+Tamaño de los sets privados: 20000000
+Tamaño de los sets compartidos: 20000000
+Hilo: 1 - CPU: 32 - Node: 0
+Hilo: 0 - CPU: 32 - Node: 0
+
+-Resultados-
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               6.15948             6.3467
+T_escritura:             2.34301             2.49397
+T_lectura/escritura:     13.6656             13.5908
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               6.15071             6.34546
+T_escritura:             2.34193             2.4934
+T_lectura/escritura:     13.6626             13.5908
 
 -Datos- 
 Tamaño de los sets privados: 26214400
 Tamaño de los sets compartidos: 26214400
-Hilo: 1 - CPU: 34 - Node: 2
+Hilo: 1 - CPU: 36 - Node: 0
 Hilo: 0 - CPU: 36 - Node: 0
 
 -Resultados-
 Resultado hilo 0 :
                          T_Datos_Privados    T_Datos_Compartidos 
-T_lectura:               0.699206            0.786886
-T_escritura:             0.63145             0.77853
-T_lectura/escritura:     210.449             221.13
+T_lectura:               7.75247             8.16949
+T_escritura:             2.96225             3.15851
+T_lectura/escritura:     17.3782             17.3247
 
 Resultado hilo 1 :
                          T_Datos_Privados    T_Datos_Compartidos 
-T_lectura:               0.698963            0.788474
-T_escritura:             0.632501            0.779214
-T_lectura/escritura:     210.555             221.29
+T_lectura:               7.75267             8.16694
+T_escritura:             2.96152             3.15849
+T_lectura/escritura:     17.3733             17.319
 
+-Datos- 
+Tamaño de los sets privados: 40000000
+Tamaño de los sets compartidos: 40000000
+Hilo: 1 - CPU: 0 - Node: 0
+Hilo: 0 - CPU: 4 - Node: 0
+
+-Resultados-
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               11.808              12.4527
+T_escritura:             4.51646             4.81422
+T_lectura/escritura:     26.5003             26.4247
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               11.8285             12.4561
+T_escritura:             4.51798             4.81474
+T_lectura/escritura:     26.5096             26.4247
+
+-Datos- 
+Tamaño de los sets privados: 80000000
+Tamaño de los sets compartidos: 80000000
+Hilo: 1 - CPU: 4 - Node: 0
+Hilo: 0 - CPU: 8 - Node: 0
+
+-Resultados-
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               24.5894             25.5938
+T_escritura:             9.24916             9.89044
+T_lectura/escritura:     54.5086             54.4732
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               24.5495             25.5861
+T_escritura:             9.25117             9.89045
+T_lectura/escritura:     54.4897             54.4732
+
+-Datos- 
+Tamaño de los sets privados: 200000000
+Tamaño de los sets compartidos: 200000000
+Hilo: 0 - CPU: 0 - Node: 0
+Hilo: 1 - CPU: 8 - Node: 0
+
+-Resultados-
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               59.1031             62.2503
+T_escritura:             22.5759             24.0614
+T_lectura/escritura:     132.45              132.014
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               59.0041             62.223
+T_escritura:             22.5653             24.0543
+T_lectura/escritura:     132.39              132.014
+
+-Datos- 
+Tamaño de los sets privados: 262144000
+Tamaño de los sets compartidos: 262144000
+Hilo: 1 - CPU: 12 - Node: 0
+Hilo: 0 - CPU: 8 - Node: 0
+
+-Resultados-

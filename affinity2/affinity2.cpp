@@ -1,7 +1,9 @@
 #include <iostream>
+#include <fstream>
 #include <chrono>
 #include <vector>
 #include <iomanip>
+#include <math.h>
 using namespace std;
 
 #include <numa.h>
@@ -40,148 +42,148 @@ class Thread_array{
 		//La zona privada siempre es única
 		vectorType* priv_vec; 
 
+		static void initVector(vectorType* vec, const vectorSize size, const char init_val){
+			for(vectorSize i = 0; i < size; i++){
+				vec[i] = init_val;
+			}
+		}
+
 
 	public:
-		Thread_array(long tam_priv, short node){
+		Thread_array(const long tam_priv, const short node){
 			priv_vec = (vectorType*) numa_alloc_onnode(tam_priv, node);
 
-			//inicializamos el vector 
-			for(long i = 0; i < tam_priv; i++){
-				priv_vec[i] = 'A';
-			}
+			//Inicializamos el vector 
+			initVector(priv_vec, tam_priv, 'A');
+		}
+		void delete_private(){
+			numa_free(priv_vec, sizeof(vectorType));
 		}
 			
-		static void init_shared(long tam_shared, short node){
+		static void init_shared(const long tam_shared, const short node){
 			shared_vec = (vectorType*) numa_alloc_onnode(tam_shared, node);
 
-			//inicializamos el vector
-			for(long i = 0; i < tam_shared; i++){
-				shared_vec[i] = 'A';
-			}
+			//Inicializamos el vector
+			initVector(shared_vec, tam_shared, 'A');
 		}
+		static void free_shared(){
+			numa_free(shared_vec, sizeof(vectorType));
+		}
+
+
 
 		// Fuctions over vectors data
-		int read_private(vectorSize size){
+		// 1. Reads
+		int read_private(const vectorSize size){
 			vectorSize i = 0; 
 			volatile int add = 0;
+			volatile int j = 0;
 
 			while(i < size){
-				add += priv_vec[i];
+				j = 0;
+				while(j < 40){
+					add = priv_vec[i];
+					add = (add*add-add*add) + (add / 2) + (44 + add/add); 
+					j++;
+				}
 				i++;
 			}
 			return add;
 		}
 
-		int read_shared(vectorSize size){
+		int read_shared(const vectorSize size){
 			vectorSize i = 0; 
 			volatile int add = 0;
+			volatile int j = 0;
 		
 			while(i < size){
-				add += shared_vec[i];
+				j = 0;
+				while(j < 40){
+					add = shared_vec[i];
+					add = (add*add-add*add) + (add / 2) + (44 + add/add);
+					j++;
+				}
 				i++;
 			}
 			return add;
 		}
 
-		int write_private(vectorSize size){
+		// 2. Writes
+		int write_private(const vectorSize size){
 			volatile vectorSize i = 0;
+			volatile int j = 0;
+			volatile int add = 0;
 
 			while(i < size){
-				priv_vec[i] = 'X';
+				j = 0;
+				while(j < 40){
+					add = 'X';
+					add = (add*add-add*add) + (add / 2) + (44 + add/add);
+					priv_vec[i] = add;
+					j++;
+				}
 				i++;
 			}
 
 			return i;
 		}
 
-		int write_shared(vectorSize size){
+		int write_shared(const vectorSize size){
 			volatile vectorSize i = 0;
+			volatile int j = 0;
+			volatile int add = 0;
 			
 			while(i<size){
-				shared_vec[i] = 'X';
+				j = 0;
+				while(j < 40){
+					add = 'X';
+					add = (add*add-add*add) + (add / 2) + (44 + add/add);
+					shared_vec[i] = add;
+					j++;
+				}
 				i++;
 			}		
 
 			return i;
 		}
 
-		int rw_private(vectorSize size, int tipo){
+		// 3. Read-Write
+		int rw_private(const vectorSize size){
 			volatile char aux; 
 			volatile vectorSize i = 0;
+			volatile int j = 0;
 
-			int j = 0;
-			//En caso de que sea tipo 0 leemos solos primeros 20 datos sin bucle
-			if(tipo == 0){
-				while(i < 80){
-					aux = priv_vec[i];
-					priv_vec[i] = aux + 1;
-					i++;
-				}
+			while(i < size){
 				j = 0;
-				//leemos y escribimos el dato 200 veces el mismo dato
-				while(j < 200){
+				while(j < 40){
 					aux = priv_vec[i];
-					priv_vec[i] = aux + 1;
+					priv_vec[i] = (aux*aux-aux*aux) + (aux / 2) + (44 + aux/aux); 
+
 					j++;
 				}	
-			}
-			while(i < size){
-				if(i%160 == 0 || (i-80)%160 == 0){
-					j = 0;
-					//leemos y escribimos el dato 200 veces el mismo dato
-					while(j < 200){
-						aux = priv_vec[i];
-						priv_vec[i] = aux + 1;
-						j++;
-					}	
-				}else{
-					aux = priv_vec[i];
-					priv_vec[i] = aux + 1;
-				}
 				i++;
 			}
-
 			return i;
 		}
 
-		int rw_shared(vectorSize size, int tipo){
+		int rw_shared(const vectorSize size){
 			volatile char aux; 
 			volatile vectorSize i = 0;
+			volatile int j = 0;
 
-			int j = 0;
-			//En caso de que sea tipo 0 leemos solos primeros 20 datos sin bucle
-			if(tipo == 0){
-				while(i < 80){
-					aux = shared_vec[i];
-					shared_vec[i] = aux + 1;
-					i++;
-				}
+			while(i<size){
 				j = 0;
-				//leemos y escribimos el dato 200 veces el mismo dato
-				while(j < 200){
+				while(j < 40){
 					aux = shared_vec[i];
-					shared_vec[i] = aux + 1;
+					shared_vec[i] = (aux*aux-aux*aux) + (aux / 2) + (44 + aux/aux); 
 					j++;
-				}	
-			}
-			while(i < size){
-				if(i%160 == 0 || (i-80)%160 == 0){
-					j = 0;
-					//leemos y escribimos el dato 200 veces el mismo dato
-					while(j < 200){
-						aux = shared_vec[i];
-						shared_vec[i] = aux + 1;
-						j++;
-					}	
-				}else{
-					aux = shared_vec[i];
-					shared_vec[i] = aux + 1;
 				}
 				i++;
 			}
-
 			return i;
 		}
+
+
 };
 
 vectorType* Thread_array::shared_vec;
@@ -207,14 +209,14 @@ vector<cpu_set_t> getHardwareData(){
 }
 
 //Flush all cache of a specific node
-int flushCache(short node){
+int flushCache(const short node){
 	//TODO prevenir optimizaciones de este bucle para cuando se compile con -O3
-    char *ptr = (char*)numa_alloc_onnode(L3, node);  
+    char *ptr = (char*)numa_alloc_onnode(2*L3, node);  
 	int b;
-	for(long a = 0; a < L3; a++){
+	for(long a = 0; a < 2*L3; a++){
 		b += ptr[a];
 	}
-    numa_free(ptr, L3);  
+    numa_free(ptr, 2*L3);  
 	return b;
 }
 
@@ -246,6 +248,9 @@ int main(int argc, char* argv[]){
 	//Tamaño de los sets privado y compartico
 	ssets_size = atol(argv[i+2]);
 	psets_size = ssets_size;
+
+	//Archivo de salida 
+	string salida = argv[i+3];
 	//---------------------------------------------------------------------------------------------------
 
 	//Get cpu and nodes information 
@@ -260,17 +265,14 @@ int main(int argc, char* argv[]){
 	Thread_array::init_shared(ssets_size, sset_node);
 
 	//2. Time marks vector
-	vector<double> r_tmarks(thread_num);
-	vector<double> r_tmarkp(thread_num);
-	vector<double> w_tmarks(thread_num);
-	vector<double> w_tmarkp(thread_num);
-	vector<double> rw_tmarks(thread_num);
-	vector<double> rw_tmarkp(thread_num);
-
+	double r_tmarks[thread_num];
+	double r_tmarkp[thread_num];
+	double w_tmarks[thread_num];
+	double w_tmarkp[thread_num];
+	double rw_tmarks[thread_num];
+	double rw_tmarkp[thread_num];
 	
-	cout << "-Datos- " << endl;
-	cout << "Tamaño de los sets privados: " << psets_size << endl;
-	cout << "Tamaño de los sets compartidos: " << ssets_size << endl;
+	
 	#pragma omp parallel
 	{
 		//Variables
@@ -292,98 +294,153 @@ int main(int argc, char* argv[]){
 		#pragma omp barrier	
 		if(thread == 0){
 			cout << endl << "-Resultados-" << endl;
-		}	
-		#pragma omp barrier	
+		}
+		flushCache(list_thr_node[thread]);	
+		
 		
 		//1. Memory writes
-		auto start = std::chrono::high_resolution_clock::now();
 		i = 0;
+		#pragma omp barrier	
+		auto start = std::chrono::high_resolution_clock::now();
 		while(i<ITER){
 			w1 = array.write_private(ssets_size);
 			i++;
 		}
 		auto end = std::chrono::high_resolution_clock::now();
+
         std::chrono::duration<double> diff = end - start;
-		w_tmarkp[thread] = diff.count();
-		#pragma omp barrier
+		w_tmarkp[thread] = diff.count()/ITER;
+		#pragma omp single
+		{
+			cout << "Terminadas las escrituras privadas" << endl;
+		}
 		
-		start = std::chrono::high_resolution_clock::now();
 		i=0;
+		#pragma omp barrier
+		start = std::chrono::high_resolution_clock::now();
 		while(i < ITER){
 			w2 = array.write_shared(ssets_size);
 			i++;
 		}
 		end = std::chrono::high_resolution_clock::now();
 		diff = end - start;
-		w_tmarks[thread] = diff.count();
+		w_tmarks[thread] = diff.count()/ITER;
 		
 		flushCache(list_thr_node[thread]);
 		doNotOptimizeAway(w1);
 		doNotOptimizeAway(w2);
-		#pragma omp barrier
+		#pragma omp single
+		{
+			cout << "Terminadas las escrituras compartidas" << endl;
+		}
 
 		//2. Memory reads
-		start = std::chrono::high_resolution_clock::now();
 		i=0;
+		#pragma omp barrier
+		start = std::chrono::high_resolution_clock::now();
 		while(i < ITER){
 			r1 = array.read_private(ssets_size);
 			i++;
 		}
 		end = std::chrono::high_resolution_clock::now();
         diff = end - start;
-		r_tmarkp[thread] = diff.count();
-		#pragma omp barrier
+		r_tmarkp[thread] = diff.count()/ITER;
+		#pragma omp single
+		{
+			cout << "Terminadas las lecturas privadas" << endl;
+		}
 		
-		start = std::chrono::high_resolution_clock::now();
 		i=0;
+		#pragma omp barrier
+		start = std::chrono::high_resolution_clock::now();
 		while(i < ITER){
 			r2 = array.read_shared(ssets_size);
 			i++;
 		}
 		end = std::chrono::high_resolution_clock::now();
         diff = end - start;
-		r_tmarks[thread] = diff.count();
+		r_tmarks[thread] = diff.count()/ITER;
 
 		flushCache(list_thr_node[thread]);
 		doNotOptimizeAway(r1);
 		doNotOptimizeAway(r2);
-		#pragma omp barrier
+		#pragma omp single
+		{
+			cout << "Terminadas las lecturas compartidas" << endl;
+		}
+		
 
 		//3. Memory reads and writes
-		start = std::chrono::high_resolution_clock::now();
 		i=0;
-		while(i < ITER){
-			rw1 = array.rw_private(ssets_size, thread);
-			i++;
-		}
-		end = std::chrono::high_resolution_clock::now();
-		diff = end - start;
-		rw_tmarkp[thread] = diff.count();
-
 		#pragma omp barrier
 		start = std::chrono::high_resolution_clock::now();
-		i=0;
 		while(i < ITER){
-			rw2 = array.rw_shared(ssets_size, thread);
+			rw1 = array.rw_private(ssets_size);
 			i++;
 		}
 		end = std::chrono::high_resolution_clock::now();
 		diff = end - start;
-		rw_tmarks[thread] = diff.count();
+		rw_tmarkp[thread] = diff.count()/ITER;
+		#pragma omp single
+		{
+			cout << "Terminadas las lecturas y escrituras privadas" << endl;
+		}
 
+		i=0;
+		#pragma omp barrier
+		start = std::chrono::high_resolution_clock::now();
+		while(i < ITER){
+			rw2 = array.rw_shared(ssets_size);
+			i++;
+		}
+		end = std::chrono::high_resolution_clock::now();
+		diff = end - start;
+		rw_tmarks[thread] = diff.count()/ITER;
 		doNotOptimizeAway(rw1);
 		doNotOptimizeAway(rw2);
+		#pragma omp single
+		{
+			cout << "Terminadas las lecturas y escrituras compartidas" << endl;
+		}
+
+		//Destruimos el objeto 
+		array.delete_private();
 	}
+	Thread_array::free_shared();
 	
+	//Escribimos los resultados de forma visual
+	ofstream outfile(salida+"Visual.txt");
+    if (!outfile.is_open()) {
+       cout << "No se ha podido abrir el archivo " << salida+"Visual.txt" << endl;
+       return 1;
+    }
+	outfile << "-Datos- " << endl;
+	outfile << "Tamaño de los sets privados: " << psets_size << endl;
+	outfile << "Tamaño de los sets compartidos: " << ssets_size << endl;
 	for(int j = 0; j < thread_num; j ++){
-		cout << "Resultado hilo " << j << " :\n";
-		cout << setw(25) << " "  << std::left << setw(20) << "T_Datos_Privados" << std::left << setw(20) << "T_Datos_Compartidos" << endl;
+
+		outfile << "Resultado hilo " << j << " :\n";
+		outfile << setw(25) << " "  << std::left << setw(20) << "T_Datos_Privados" << std::left << setw(20) << "T_Datos_Compartidos" << endl;
 		
-		cout << setw(25) << "T_lectura: " << std::left << setw(20) << r_tmarkp[j] << r_tmarks[j] << endl;
-		cout << setw(25) << "T_escritura: " << std::left << setw(20) << w_tmarkp[j] << w_tmarks[j] << endl;
-		cout << setw(25) << "T_lectura/escritura: " << std::left << setw(20) << rw_tmarkp[j] << rw_tmarks[j] << endl;
-		cout << endl;
+		outfile << setw(25) << "T_lectura: " << std::left << setw(20) << r_tmarkp[j] << r_tmarks[j] << endl;
+		outfile << setw(25) << "T_escritura: " << std::left << setw(20) << w_tmarkp[j] << w_tmarks[j] << endl;
+		outfile << setw(25) << "T_lectura/escritura: " << std::left << setw(20) << rw_tmarkp[j] << rw_tmarks[j] << endl;
+		outfile << endl;
 	}
+	outfile.close();
+
+	//Escribir los resultados de forma procesable
+	ofstream outfile(salida+"Proc.txt");
+    if (!outfile.is_open()) {
+       cout << "No se ha podido abrir el archivo " << salida+"Proc.txt" << endl;
+       return 1;
+    }
+	for(int j = 0; j < thread_num; j ++){
+		outfile << "privados:" << psets_size << endl;
+		outfile << "compartidos:" << ssets_size << endl;
+		outfile << r_tmarkp[j] << " " << r_tmarks[j] << " " << w_tmarkp[j] << " " << w_tmarks[j] << " " << rw_tmarkp[j] << " " << rw_tmarks[j] << endl;
+	}
+	outfile.close();
 	
 	return 0;
 }

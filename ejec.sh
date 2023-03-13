@@ -2,18 +2,20 @@
 archivo="affinity"
 g++ "$archivo.cpp" -lnuma -fopenmp -O0 -o "$archivo.out"
 
-#Tamaños de L1, L2, L3, 10*L3
-#tam="32768 262144 26214400 262144000"
-tam="10000 20000 32768 40000 80000 200000 262144 400000 800000 20000000 26214400 40000000 80000000 200000000"
+#Tamaños de L1, L2, L3
+#tam="32768 262144 26214400"
+tam="8192 16384 32768 65526 131072 262144 524288 1048576 26214400 52428800 104857600 104857600 209715200"
 
-echo "-------------------Hilos muy afines------------------- " >> salidaFinal.txt
+echo "-------------------Hilos muy afines------------------- " >> salidaVisual.txt
 for i in $tam
     do 
-    ./"$archivo.out" 2 0 0 0 $i >> salidaFinal.txt 
+    #perf record -e LLC-load-misses,LLC-loads,LLC-store-misses,LLC-stores,L1-dcache-load-misses,L1-dcache-loads,L1-dcache-stores,l2_rqsts.all_demand_miss,l2_rqsts.all_demand_references -o "datosA$i.data" 
+    ./"$archivo.out" 2 0 0 0 $i salida
 done
 
-echo "-------------------Hilos muy poco afines-------------------" >> salidaFinal.txt
+echo "-------------------Hilos muy poco afines-------------------" >> salidaVisual.txt
 for i in $tam
     do 
-    ./"$archivo.out" 2 0 2 0 $i >> salidaFinal.txt 
+    #perf record -e LLC-load-misses,LLC-loads,LLC-store-misses,LLC-stores,L1-dcache-load-misses,L1-dcache-loads,L1-dcache-stores,l2_rqsts.all_demand_miss,l2_rqsts.all_demand_references -o "datosNA$i.data"  
+    ./"$archivo.out" 2 0 2 0 $i salida
 done

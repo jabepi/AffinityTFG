@@ -1,5 +1,4 @@
 #include <iostream>
-#include <fstream>
 #include <chrono>
 #include <vector>
 #include <iomanip>
@@ -248,9 +247,6 @@ int main(int argc, char* argv[]){
 	//Tamaño de los sets privado y compartico
 	ssets_size = atol(argv[i+2]);
 	psets_size = ssets_size;
-
-	//Archivo de salida 
-	string salida = argv[i+3];
 	//---------------------------------------------------------------------------------------------------
 
 	//Get cpu and nodes information 
@@ -272,7 +268,9 @@ int main(int argc, char* argv[]){
 	double rw_tmarks[thread_num];
 	double rw_tmarkp[thread_num];
 	
-	
+	cout << "-Datos- " << endl;
+	cout << "Tamaño de los sets privados: " << psets_size << endl;
+	cout << "Tamaño de los sets compartidos: " << ssets_size << endl;
 	#pragma omp parallel
 	{
 		//Variables
@@ -310,10 +308,6 @@ int main(int argc, char* argv[]){
 
         std::chrono::duration<double> diff = end - start;
 		w_tmarkp[thread] = diff.count()/ITER;
-		#pragma omp single
-		{
-			cout << "Terminadas las escrituras privadas" << endl;
-		}
 		
 		i=0;
 		#pragma omp barrier
@@ -329,10 +323,7 @@ int main(int argc, char* argv[]){
 		flushCache(list_thr_node[thread]);
 		doNotOptimizeAway(w1);
 		doNotOptimizeAway(w2);
-		#pragma omp single
-		{
-			cout << "Terminadas las escrituras compartidas" << endl;
-		}
+		
 
 		//2. Memory reads
 		i=0;
@@ -345,10 +336,6 @@ int main(int argc, char* argv[]){
 		end = std::chrono::high_resolution_clock::now();
         diff = end - start;
 		r_tmarkp[thread] = diff.count()/ITER;
-		#pragma omp single
-		{
-			cout << "Terminadas las lecturas privadas" << endl;
-		}
 		
 		i=0;
 		#pragma omp barrier
@@ -364,10 +351,6 @@ int main(int argc, char* argv[]){
 		flushCache(list_thr_node[thread]);
 		doNotOptimizeAway(r1);
 		doNotOptimizeAway(r2);
-		#pragma omp single
-		{
-			cout << "Terminadas las lecturas compartidas" << endl;
-		}
 		
 
 		//3. Memory reads and writes
@@ -381,10 +364,6 @@ int main(int argc, char* argv[]){
 		end = std::chrono::high_resolution_clock::now();
 		diff = end - start;
 		rw_tmarkp[thread] = diff.count()/ITER;
-		#pragma omp single
-		{
-			cout << "Terminadas las lecturas y escrituras privadas" << endl;
-		}
 
 		i=0;
 		#pragma omp barrier
@@ -396,51 +375,23 @@ int main(int argc, char* argv[]){
 		end = std::chrono::high_resolution_clock::now();
 		diff = end - start;
 		rw_tmarks[thread] = diff.count()/ITER;
+
 		doNotOptimizeAway(rw1);
 		doNotOptimizeAway(rw2);
-		#pragma omp single
-		{
-			cout << "Terminadas las lecturas y escrituras compartidas" << endl;
-		}
 
 		//Destruimos el objeto 
 		array.delete_private();
 	}
 	Thread_array::free_shared();
 	
-	//Escribimos los resultados de forma visual
-	ofstream outfile(salida+"Visual.txt");
-    if (!outfile.is_open()) {
-       cout << "No se ha podido abrir el archivo " << salida+"Visual.txt" << endl;
-       return 1;
-    }
-	outfile << "-Datos- " << endl;
-	outfile << "Tamaño de los sets privados: " << psets_size << endl;
-	outfile << "Tamaño de los sets compartidos: " << ssets_size << endl;
 	for(int j = 0; j < thread_num; j ++){
-
-		outfile << "Resultado hilo " << j << " :\n";
-		outfile << setw(25) << " "  << std::left << setw(20) << "T_Datos_Privados" << std::left << setw(20) << "T_Datos_Compartidos" << endl;
+		cout << "Resultado hilo " << j << " :\n";
+		cout << setw(25) << " "  << std::left << setw(20) << "T_Datos_Privados" << std::left << setw(20) << "T_Datos_Compartidos" << endl;
 		
-		outfile << setw(25) << "T_lectura: " << std::left << setw(20) << r_tmarkp[j] << r_tmarks[j] << endl;
-		outfile << setw(25) << "T_escritura: " << std::left << setw(20) << w_tmarkp[j] << w_tmarks[j] << endl;
-		outfile << setw(25) << "T_lectura/escritura: " << std::left << setw(20) << rw_tmarkp[j] << rw_tmarks[j] << endl;
-		outfile << endl;
-	}
-	outfile.close();
-
-	//Escribir los resultados de forma procesable
-	ofstream outfile(salida+"Proc.txt");
-    if (!outfile.is_open()) {
-       cout << "No se ha podido abrir el archivo " << salida+"Proc.txt" << endl;
-       return 1;
-    }
-	for(int j = 0; j < thread_num; j ++){
-		outfile << "privados:" << psets_size << endl;
-		outfile << "compartidos:" << ssets_size << endl;
-		outfile << r_tmarkp[j] << " " << r_tmarks[j] << " " << w_tmarkp[j] << " " << w_tmarks[j] << " " << rw_tmarkp[j] << " " << rw_tmarks[j] << endl;
-	}
-	outfile.close();
-	
+		cout << setw(25) << "T_lectura: " << std::left << setw(20) << r_tmarkp[j] << r_tmarks[j] << endl;
+		cout << setw(25) << "T_escritura: " << std::left << setw(20) << w_tmarkp[j] << w_tmarks[j] << endl;
+		cout << setw(25) << "T_lectura/escritura: " << std::left << setw(20) << rw_tmarkp[j] << rw_tmarks[j] << endl;
+		cout << endl;
+	}	
 	return 0;
 }

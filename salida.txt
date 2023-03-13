@@ -1,8 +1,0 @@
--------------------Hilos muy afines------------------- 
--Datos- 
-Tamaño de los sets privados: 262144000
-Tamaño de los sets compartidos: 262144000
-Hilo: 1 - CPU: 0 - Node: 0
-Hilo: 0 - CPU: 20 - Node: 0
-
--Resultados-

@@ -1,0 +1,444 @@
+-------------------Hilos muy afines------------------- 
+Hilo: 0 - CPU: 16 - Node: 0
+Hilo: 1 - CPU: 16 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 8192
+Tamaño de los sets compartidos: 8192
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               2.42282e-05         2.74571e-05
+T_lectura_S:             2.57237e-05         2.34005e-05
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               2.42048e-05         2.82108e-05
+T_lectura_S:             2.54838e-05         2.32582e-05
+
+Hilo: 0 - CPU: 0 - Node: 0
+Hilo: 1 - CPU: 20 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 16384
+Tamaño de los sets compartidos: 16384
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               5.36281e-05         5.84513e-05
+T_lectura_S:             5.0989e-05          4.60229e-05
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               5.35745e-05         5.8447e-05
+T_lectura_S:             5.09285e-05         4.60301e-05
+
+Hilo: 0 - CPU: 4 - Node: 0
+Hilo: 1 - CPU: 24 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 32768
+Tamaño de los sets compartidos: 32768
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.000105195         0.000102437
+T_lectura_S:             0.000109406         0.000100411
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.000105009         0.000102345
+T_lectura_S:             0.000109159         9.76082e-05
+
+Hilo: 0 - CPU: 36 - Node: 0
+Hilo: 1 - CPU: 28 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 65526
+Tamaño de los sets compartidos: 65526
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.000227477         0.000207118
+T_lectura_S:             0.000208219         0.000191719
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.000226985         0.000206521
+T_lectura_S:             0.000208224         0.00019166
+
+Hilo: 0 - CPU: 8 - Node: 0
+Hilo: 1 - CPU: 32 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 131072
+Tamaño de los sets compartidos: 131072
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.000463511         0.000410189
+T_lectura_S:             0.000416235         0.000373987
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.000463702         0.000410439
+T_lectura_S:             0.000416542         0.000374067
+
+Hilo: 0 - CPU: 12 - Node: 0
+Hilo: 1 - CPU: 36 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 262144
+Tamaño de los sets compartidos: 262144
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.00102768          0.000975179
+T_lectura_S:             0.000850803         0.000758772
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.000975131         0.000969082
+T_lectura_S:             0.000853625         0.000758728
+
+Hilo: 0 - CPU: 16 - Node: 0
+Hilo: 1 - CPU: 0 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 524288
+Tamaño de los sets compartidos: 524288
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.00214999          0.00203171
+T_lectura_S:             0.00163954          0.00147706
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.00222451          0.00209441
+T_lectura_S:             0.00163559          0.00147683
+
+Hilo: 0 - CPU: 0 - Node: 0
+Hilo: 1 - CPU: 4 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 1048576
+Tamaño de los sets compartidos: 1048576
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.00468441          0.0043961
+T_lectura_S:             0.0032627           0.00297392
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.00468688          0.00439631
+T_lectura_S:             0.00326715          0.00297766
+
+Hilo: 1 - CPU: 8 - Node: 0
+Hilo: 0 - CPU: 20 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 26214400
+Tamaño de los sets compartidos: 26214400
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.30257             0.181283
+T_lectura_S:             0.0854708           0.076289
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.302959            0.181284
+T_lectura_S:             0.085685            0.076289
+
+Hilo: 0 - CPU: 24 - Node: 0
+Hilo: 1 - CPU: 28 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 52428800
+Tamaño de los sets compartidos: 52428800
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.608514            0.514472
+T_lectura_S:             0.172584            0.154589
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.608302            0.514472
+T_lectura_S:             0.172542            0.154589
+
+Hilo: 1 - CPU: 0 - Node: 0
+Hilo: 0 - CPU: 28 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 104857600
+Tamaño de los sets compartidos: 104857600
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               1.19215             1.00351
+T_lectura_S:             0.335863            0.302522
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               1.18946             1.00351
+T_lectura_S:             0.335415            0.302522
+
+Hilo: 0 - CPU: 32 - Node: 0
+Hilo: 1 - CPU: 32 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 104857600
+Tamaño de los sets compartidos: 104857600
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               1.21946             1.02148
+T_lectura_S:             0.339087            0.307726
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               1.21638             1.02148
+T_lectura_S:             0.337364            0.307726
+
+Hilo: 0 - CPU: 36 - Node: 0
+Hilo: 1 - CPU: 36 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 209715200
+Tamaño de los sets compartidos: 209715200
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               2.37054             2.00906
+T_lectura_S:             0.667826            0.600164
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               2.36996             2.00906
+T_lectura_S:             0.668087            0.600164
+
+-------------------Hilos muy poco afines-------------------
+Hilo: 0 - CPU: 0 - Node: 0
+Hilo: 1 - CPU: 10 - Node: 2
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 8192
+Tamaño de los sets compartidos: 8192
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               2.42581e-05         2.22135e-05
+T_lectura_S:             2.54491e-05         2.30325e-05
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               2.42204e-05         2.57054e-05
+T_lectura_S:             2.552e-05           2.30328e-05
+
+Hilo: 0 - CPU: 4 - Node: 0
+Hilo: 1 - CPU: 14 - Node: 2
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 16384
+Tamaño de los sets compartidos: 16384
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               5.35897e-05         4.80912e-05
+T_lectura_S:             5.1258e-05          4.60206e-05
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               5.35173e-05         5.09254e-05
+T_lectura_S:             5.11653e-05         4.60365e-05
+
+Hilo: 0 - CPU: 4 - Node: 0
+Hilo: 1 - CPU: 14 - Node: 2
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 32768
+Tamaño de los sets compartidos: 32768
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.000105115         9.28238e-05
+T_lectura_S:             0.000101871         9.22833e-05
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.000105062         9.276e-05
+T_lectura_S:             0.000101948         9.23498e-05
+
+Hilo: 0 - CPU: 8 - Node: 0
+Hilo: 1 - CPU: 18 - Node: 2
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 65526
+Tamaño de los sets compartidos: 65526
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.000222134         0.000190415
+T_lectura_S:             0.000203664         0.000184579
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.000222163         0.000190681
+T_lectura_S:             0.000203854         0.00018479
+
+Hilo: 0 - CPU: 12 - Node: 0
+Hilo: 1 - CPU: 22 - Node: 2
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 131072
+Tamaño de los sets compartidos: 131072
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.000443202         0.000379605
+T_lectura_S:             0.000406456         0.000369213
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.000465234         0.000380282
+T_lectura_S:             0.000406762         0.000370695
+
+Hilo: 1 - CPU: 26 - Node: 2
+Hilo: 0 - CPU: 8 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 262144
+Tamaño de los sets compartidos: 262144
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.00101617          0.000944781
+T_lectura_S:             0.000816366         0.000738832
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.00100518          0.000936268
+T_lectura_S:             0.000816236         0.000738314
+
+Hilo: 0 - CPU: 16 - Node: 0
+Hilo: 1 - CPU: 18 - Node: 2
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 524288
+Tamaño de los sets compartidos: 524288
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.00213764          0.00198405
+T_lectura_S:             0.00163198          0.00147853
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.00213317          0.00197337
+T_lectura_S:             0.00163082          0.00147687
+
+Hilo: 0 - CPU: 20 - Node: 0
+Hilo: 1 - CPU: 30 - Node: 2
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 1048576
+Tamaño de los sets compartidos: 1048576
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.00426476          0.00394984
+T_lectura_S:             0.00326934          0.00295313
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.00437265          0.00406304
+T_lectura_S:             0.00326956          0.00295499
+
+Hilo: 1 - CPU: 34 - Node: 2
+Hilo: 0 - CPU: 24 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 26214400
+Tamaño de los sets compartidos: 26214400
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.208071            0.178146
+T_lectura_S:             0.0823076           0.0744288
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.17963             0.346702
+T_lectura_S:             0.0820724           0.0746758
+
+Hilo: 1 - CPU: 2 - Node: 2
+Hilo: 0 - CPU: 28 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 52428800
+Tamaño de los sets compartidos: 52428800
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.533885            1.6261
+T_lectura_S:             0.166351            0.156163
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               0.528282            1.6261
+T_lectura_S:             0.165997            0.155627
+
+Hilo: 1 - CPU: 34 - Node: 2
+Hilo: 0 - CPU: 32 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 104857600
+Tamaño de los sets compartidos: 104857600
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               1.06382             3.36475
+T_lectura_S:             0.333977            0.310783
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               1.06312             3.36475
+T_lectura_S:             0.331904            0.310707
+
+Hilo: 1 - CPU: 2 - Node: 2
+Hilo: 0 - CPU: 36 - Node: 0
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 104857600
+Tamaño de los sets compartidos: 104857600
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               1.07524             3.38961
+T_lectura_S:             0.334686            0.314945
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               1.05929             3.38961
+T_lectura_S:             0.331564            0.31271
+
+Hilo: 0 - CPU: 4 - Node: 0
+Hilo: 1 - CPU: 34 - Node: 2
+
+-Resultados-
+-Datos- 
+Tamaño de los sets privados: 209715200
+Tamaño de los sets compartidos: 209715200
+Resultado hilo 0 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               2.13652             6.73791
+T_lectura_S:             0.666065            0.624351
+
+Resultado hilo 1 :
+                         T_Datos_Privados    T_Datos_Compartidos 
+T_lectura:               2.12258             6.73791
+T_lectura_S:             0.664687            0.624274
+

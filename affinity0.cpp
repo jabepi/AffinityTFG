@@ -54,6 +54,7 @@ class Thread_array{
 
 	private:
 		static vectorType** shared_vec;
+		
 		static vectorType* shared_vec_AUX; //TODO borrar
 		
 		//La zona privada siempre es única
@@ -139,13 +140,7 @@ class Thread_array{
 		int read_private(vectorSize size){ 
 			vectorSize i = 0; 
 			volatile int add = 0;
-			volatile vectorSize j = 0;
-
-			printf("Empieza el hilo %d - Tamaño del vector: %lld - Nodo: %d\n", omp_get_thread_num(), size, getAdressNode(priv_vec) );
-			
-			
-			char *ptr = (char*)numa_alloc_onnode(size, getAdressNode(priv_vec));  
-
+			volatile vectorSize j = 0;			
 			
 			long long int aux = 0;
 			while(j < 192){
@@ -157,8 +152,6 @@ class Thread_array{
 				}
 				j++;
 			}
-
-			printf("Termina el hilo %d - posiciones recorridas %d\n", omp_get_thread_num(), aux);
 			return add;
 		}
 
@@ -167,18 +160,10 @@ class Thread_array{
 			volatile int add = 0;
 			volatile vectorSize j = 0;
 
-			
-			// printf("%p\n", priv_shared_vec);
-			// getAdressNode(priv_shared_vec);
-
-			// printf("%p\n", shared_vec_AUX);
-			// printf("%p\n", shared_vec[0]);
-			// printf("%p\n", priv_shared_vec);
-
 			while(j < dist){
 				i = j;
 				while(i < size){
-					add = shared_vec_AUX[i]; //TODO borrar
+					add = shared_vec_AUX[i]; 
 					i+=dist;
 				}
 				j++;
@@ -266,6 +251,7 @@ class Thread_array{
 };
 
 vectorType** Thread_array::shared_vec;
+
 vectorType* Thread_array::shared_vec_AUX; //TODO borrar
 
 //Vector of cpus by node	

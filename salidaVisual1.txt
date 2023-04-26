@@ -1,0 +1,15 @@
+                                           -Datos-
+-Hilo: 1
+ +CPU: 10 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 24 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 0:      2.133443575         2.187486816         
+Reads     | Hilo 1:      6.263170335         2.187493799         
+

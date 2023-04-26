@@ -1,0 +1,9 @@
+nodeThread: 0 2
+opType: r - -
+pData: 1 
+nodePVector: 1 2
+tamPVector: 1024 1024 
+nodeSVector: 0 
+tamSVector: 1024 
+SvectorPerThread: 0 1
+numSElmProc: 1024 1024 

@@ -1,0 +1,9 @@
+nodeThread: 1 2 3 4
+opType: r w rw # r w ó rw (lecturas, escrituras, lecturas-escrituras)
+pData: 1 # 0 ó 1 (usar datos privados en operacioens)
+nodePVector: -1 1 2 3  #Nodos de cada vector privado (si no se quiere vector privado '-1')
+tamPVector: 0 1000 1000 1000 #Tamaño de cada vector privado (Bytes)
+nodeSVector: 0 1 #Nodos de cada vector compartido
+tamSVector: 1000 1000 #Tamaño de cada vector compartido
+SvectorPerThread: 0 1, 2 #Hilos asociados a cada vector compartido
+numSElmProc: 300 300 1000 1000 #Número de elementos a recorrer por cada hilo

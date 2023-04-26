@@ -2,8 +2,8 @@
 clear
 archivo="affinity0"
 g++ "$archivo.cpp" -lnuma -fopenmp -O0 -o "$archivo.out"
+./"$archivo.out" args1_2 salida
 
-#./"$archivo.out" args salida
 
 # #Tamaños de L1, L2, L3
 # #tam="32768 262144 26214400"                                                                  

@@ -1,132 +1,46 @@
-Hilo: 0 - CPU: 9 - Node: 1
-Hilo: 3 - CPU: 30 - Node: 4
-Hilo: 2 - CPU: 7 - Node: 3
-Hilo: 1 - CPU: 18 - Node: 2
 
--Resultados-
-Hilo: 0 - CPU: 33 - Node: 1
-Hilo: 3 - CPU: 34 - Node: 4
-Hilo: 1 - CPU: 22 - Node: 2
-Hilo: 2 - CPU: 23 - Node: 3
+                                           -Datos-
+-Hilo: 0
+ +CPU: 12 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 1
+ +CPU: 29 - Node: 1
+ +Tamaño del P_SET(1): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
 
--Resultados-
-Hilo: 0 - CPU: 13 - Node: 1
-Hilo: 2 - CPU: 39 - Node: 3
-Hilo: 1 - CPU: 6 - Node: 2
-Hilo: 3 - CPU: 14 - Node: 4
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 0:      2.235041599         0.000000000         
+Reads     | Hilo 1:      2.261594212         0.000000000         
 
--Resultados-
-Hilo: 0 - CPU: 1 - Node: 1
-Hilo: 1 - CPU: 14 - Node: 2
-Hilo: 2 - CPU: 35 - Node: 3
-Hilo: 3 - CPU: 22 - Node: 4
+                                           -Datos-
+-Hilo: 1
+ +CPU: 9 - Node: 1
+ +Tamaño del P_SET(1): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 32 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
 
--Resultados-
-Hilo: 0 - CPU: 5 - Node: 1
-Hilo: 3 - CPU: 22 - Node: 4
-Hilo: 2 - CPU: 39 - Node: 3
-Hilo: 1 - CPU: 14 - Node: 2
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 0:      2.228926518         0.000000000         
+Reads     | Hilo 1:      6.476898921         0.000000000         
 
--Resultados-
-Hilo: 0 - CPU: 5 - Node: 1
-Hilo: 2 - CPU: 23 - Node: 3
-Hilo: 3 - CPU: 14 - Node: 4
-Hilo: 1 - CPU: 30 - Node: 2
+                                           -Datos-
+-Hilo: 0
+ +CPU: 20 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 1
+ +CPU: 33 - Node: 1
+ +Tamaño del P_SET(1): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
 
--Resultados-
-Hilo: 0 - CPU: 1 - Node: 1
-Hilo: 1 - CPU: 22 - Node: 2
-Hilo: 3 - CPU: 34 - Node: 4
-Hilo: 2 - CPU: 27 - Node: 3
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 0:      3.593872233         0.000000000         
+Reads     | Hilo 1:      3.678843748         0.000000000         
 
--Resultados-
-Hilo: 0 - CPU: 5 - Node: 1
-Hilo: 2 - CPU: 27 - Node: 3
-Hilo: 3 - CPU: 14 - Node: 4
-Hilo: 1 - CPU: 22 - Node: 2
-
--Resultados-
-Hilo: 0 - CPU: 29 - Node: 1
-Hilo: 2 - CPU: 15 - Node: 3
-Hilo: 1 - CPU: 6 - Node: 2
-Hilo: 3 - CPU: 18 - Node: 4
-
--Resultados-
-Hilo: 0 - CPU: 17 - Node: 1
-Hilo: 3 - CPU: 14 - Node: 4
-Hilo: 2 - CPU: 7 - Node: 3
-Hilo: 1 - CPU: 6 - Node: 2
-
--Resultados-
-Hilo: 0 - CPU: 9 - Node: 1
-Hilo: 1 - CPU: 26 - Node: 2
-Hilo: 2 - CPU: 31 - Node: 3
-Hilo: 3 - CPU: 34 - Node: 4
-
--Resultados-
-Hilo: 0 - CPU: 17 - Node: 1
-Hilo: 3 - CPU: 30 - Node: 4
-Hilo: 2 - CPU: 7 - Node: 3
-Hilo: 1 - CPU: 22 - Node: 2
-
--Resultados-
-Hilo: 0 - CPU: 25 - Node: 1
-Hilo: 3 - CPU: 34 - Node: 4
-Hilo: 2 - CPU: 35 - Node: 3
-Hilo: 1 - CPU: 26 - Node: 2
-
--Resultados-
-Hilo: 0 - CPU: 21 - Node: 1
-Hilo: 2 - CPU: 27 - Node: 3
-Hilo: 3 - CPU: 26 - Node: 4
-Hilo: 1 - CPU: 18 - Node: 2
-
--Resultados-
-Hilo: 0 - CPU: 13 - Node: 1
-Hilo: 2 - CPU: 31 - Node: 3
-Hilo: 3 - CPU: 38 - Node: 4
-Hilo: 1 - CPU: 22 - Node: 2
-
--Resultados-
-Hilo: 0 - CPU: 9 - Node: 1
-Hilo: 2 - CPU: 11 - Node: 3
-Hilo: 1 - CPU: 14 - Node: 2
-Hilo: 3 - CPU: 22 - Node: 4
-
--Resultados-
-Hilo: 0 - CPU: 21 - Node: 1
-Hilo: 2 - CPU: 23 - Node: 3
-Hilo: 3 - CPU: 22 - Node: 4
-Hilo: 1 - CPU: 10 - Node: 2
-
--Resultados-
-Hilo: 0 - CPU: 25 - Node: 1
-Hilo: 2 - CPU: 11 - Node: 3
-Hilo: 3 - CPU: 14 - Node: 4
-Hilo: 1 - CPU: 6 - Node: 2
-
--Resultados-
-Hilo: 0 - CPU: 25 - Node: 1
-Hilo: 3 - CPU: 22 - Node: 4
-Hilo: 2 - CPU: 15 - Node: 3
-Hilo: 1 - CPU: 14 - Node: 2
-
--Resultados-
-Hilo: 0 - CPU: 17 - Node: 1
-Hilo: 2 - CPU: 15 - Node: 3
-Hilo: 1 - CPU: 22 - Node: 2
-Hilo: 3 - CPU: 30 - Node: 4
-
--Resultados-
-Hilo: 0 - CPU: 13 - Node: 1
-Hilo: 3 - CPU: 26 - Node: 4
-Hilo: 1 - CPU: 14 - Node: 2
-Hilo: 2 - CPU: 31 - Node: 3
-
--Resultados-
-Hilo: 0 - CPU: 29 - Node: 1
-Hilo: 1 - CPU: 6 - Node: 2
-Hilo: 3 - CPU: 14 - Node: 4
-Hilo: 2 - CPU: 15 - Node: 3
-
--Resultados-

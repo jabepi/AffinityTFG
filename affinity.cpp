@@ -18,7 +18,6 @@ using namespace std;
 #include "numaalloc.hpp"
 #include "parser.hpp"
 #include "types.h"
-#include <sys/time.h>
 
 //TODO borrar o poner como un argumento más
 #define nOP 3
@@ -34,21 +33,6 @@ using namespace std;
 template<typename T> 
 	inline void doNotOptimizeAway(T&& datum) {
 	asm volatile ("" : "+r" (datum));
-}
-
-//TODO
-
-string getTimeAsStr(chrono::system_clock::time_point& t)
-{
-    std::time_t time = std::chrono::system_clock::to_time_t(t);
-    std::string time_str = std::ctime(&time);
-    time_str.pop_back();
-    return time_str;
-}
-ostream& operator<<(ostream& os, chrono::system_clock::time_point& t)
-{
-    os<<getTimeAsStr(t);
-    return os;
 }
 
 //Funciones auxioliares 
@@ -439,10 +423,10 @@ int main(int argc, char* argv[]){
 					//TODO revisar
 					tmarkp = 0;
 					while(i<ITER){
-						
-						
-						flushCache(cpus_vec);
-						
+						#pragma omp single
+						{	
+							flushCache(cpus_vec);
+						}
 						#pragma omp barrier	
 						start = std::chrono::high_resolution_clock::now();
 						

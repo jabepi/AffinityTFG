@@ -1,0 +1,951 @@
+                                           -Datos-
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 1
+ +CPU: 24 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      2.142915156         1.653248986         
+Reads     | Hilo 0:      1.442259696         1.653243654         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 1 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      2.142105609         1.638502023         
+Reads     | Hilo 0:      1.443383690         1.638496435         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 1 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      2.140822898         1.638697695         
+Reads     | Hilo 0:      1.441992479         1.638692287         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 1 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      2.139679217         1.640496837         
+Reads     | Hilo 0:      1.441553190         1.640490366         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 1 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      2.142212076         1.638131312         
+Reads     | Hilo 0:      1.444780605         1.638126177         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 17 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 0:      1.420950795         1.583413858         
+Reads     | Hilo 1:      2.164490294         1.583419109         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 31 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 0:      1.423015018         1.579586979         
+Reads     | Hilo 1:      2.163621203         1.579592274         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 31 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 0:      1.424874887         1.584281052         
+Reads     | Hilo 1:      2.164626142         1.584285911         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 16 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 0:      1.422265471         1.581210018         
+Reads     | Hilo 1:      2.163428348         1.581215377         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 1 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      2.139167525         1.637739131         
+Reads     | Hilo 0:      1.441462201         1.637733871         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 1 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      2.138592160         1.637928387         
+Reads     | Hilo 0:      1.441807012         1.637922743         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 1 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      2.143998123         1.638612629         
+Reads     | Hilo 0:      1.445696960         1.638604999         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 1 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      2.827240106         1.638115253         
+Reads     | Hilo 0:      1.444567590         1.638109153         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 1
+ +CPU: 31 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      5.271837521         1.589360233         
+Reads     | Hilo 0:      1.432543381         1.589354140         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 1 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      3.395152942         1.638983621         
+Reads     | Hilo 0:      1.441181771         1.638979294         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 1 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      4.378538454         1.639646271         
+Reads     | Hilo 0:      1.442663251         1.639639689         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 1 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      5.432727696         1.639277131         
+Reads     | Hilo 0:      1.442801117         1.639271561         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 1 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      5.445061881         1.639069360         
+Reads     | Hilo 0:      1.445003309         1.639063435         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 1 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      5.117706017         1.638947767         
+Reads     | Hilo 0:      1.443492846         1.638942530         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 17 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      5.524097355         1.581672226         
+Reads     | Hilo 0:      1.429688135         1.581666702         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+ 
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+os recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos
+del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      2.575521048         1.846669770         
+Reads     | Hilo 0:      1.711217481         1.846660875         
+          | Hilo 1:      2.572099491         1.904274869         
+Reads     | Hilo 0:      1.737935599         1.904265760         
+
+
+          | Hilo 0:      6.284597228         6.478479626         
+Reads     | Hilo 1:      1.467071394         6.478472946         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+tos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      2.568726772         1.846503947         
+Reads     | Hilo 0:      1.711739298         1.846498884         
+          | Hilo 1:      2.562405973         1.905018321         
+Reads     | Hilo 0:      1.737717993         1.905012354         
+
+
+          | Hilo 1:      1.486943939         6.199926204         
+Reads     | Hilo 0:      6.954986227         6.199931300         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU:Reads     | Hilo 1:      1.726445345         1.920232424         
+
+el P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 0:      1.712391046         1.870792308         
+Reads     | Hilo 1:      2.550283975         1.870798399         
+          | Hilo 0:      1.722891806         1.855450548         
+Reads     | Hilo 1:      2.573700731         1.855456242         
+
+
+          | Hilo 0:      6.785322718         6.164045369         
+Reads     | Hilo 1:      1.497173264         6.164038140         
+
+                                           -Datos-
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 11 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Da          | Hilo 0:      1.439799420         1.676817386         
+Reads     | Hilo 1:      2.344195148         1.676822977         
+
+del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 0:      1.687456837         2.261891032         
+Reads     | Hilo 1:      1.604066145         2.261884154         
+
+          | Hilo 0:      1.709054673         2.037620344         
+Reads     | Hilo 1:      2.391798407         2.037626005         
+
+          | Hilo 0:      6.777322557         6.313201212         
+Reads     | Hilo 1:      1.504654496         6.313193390         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+                                           -Datos-
+-Hilo: 1
+ +CPU: 33 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Dat          | Hilo 0:      1.413438517         1.981648576         
+Reads     | Hilo 1:      2.589055804         1.981873426         
+
+el P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 0:      1.714113427         1.848075874         
+Reads     | Hilo 1:      2.575320375         1.848081614         
+          | Hilo 1:      2.569711143         1.903545066         
+Reads     | Hilo 0:      1.740110838         1.903539166         
+
+
+          | Hilo 1:      1.454195431         6.354763986         
+Reads     | Hilo 0:      6.551797233         6.354773066         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Dat          | Hilo 1:      3.821776489         1.674270574         
+Reads     | Hilo 0:      1.441266633         1.674265161         
+
+del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 0:      1.722504405         1.870498771         
+Reads     | Hilo 1:      2.552461828         1.870504616         
+          | Hilo 0:      1.721281633         1.861899665         
+Reads     | Hilo 1:      2.578992371         1.861906403         
+
+
+          | Hilo 0:      6.800915052         6.163275940         
+Reads     | Hilo 1:      1.523482719         6.163267367         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+                                           -Datos-
+-Hilo: 1
+ +CPU: 33 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Dat          | Hilo 0:      1.440622397         1.673994721         
+Reads     | Hilo 1:      2.355803620         1.673999775         
+
+el P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      2.570966989         1.862685415         
+Reads     | Hilo 0:      1.721452127         1.862678441         
+          | Hilo 0:      1.717882960         1.877937006         
+Reads     | Hilo 1:      2.553730538         1.877943746         
+
+
+          | Hilo 1:      1.504377251         6.326679683         
+Reads     | Hilo 0:      6.794827078         6.326688495         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+                                           -Datos-
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Dato          | Hilo 0:      2.000671659         2.181345252         
+Reads     | Hilo 1:      3.571780078         2.181393816         
+
+el P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      3.371235238         2.579021956         
+Reads     | Hilo 0:      2.221260605         2.579016204         
+          | Hilo 0:      2.235234051         2.564502323         
+Reads     | Hilo 1:      3.411500841         2.564550965         
+
+
+          | Hilo 0:      9.172648917         9.668935043         
+Reads     | Hilo 1:      2.074879439         9.668929173         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+                                           -Datos-
+-Hilo: 1
+ +CPU: 33 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Dat          | Hilo 0:      1.986331178         2.180864918         
+Reads     | Hilo 1:      4.150566959         2.180907998         
+
+el P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 0:      2.274858688         3.236127523         
+Reads     | Hilo 1:      2.252242788         3.236121560         
+
+          | Hilo 1:      3.304315257         2.910170020         
+Reads     | Hilo 0:      2.324372377         2.910203787         
+
+          | Hilo 0:      9.220313264         9.531500341         
+Reads     | Hilo 1:      2.090796965         9.531493094         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+os recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 1
+ +CPU: 33 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 0:      1.992315681         2.182530974         
+Reads     | Hilo 1:      4.414664857         2.182577538         
+
+          | Hilo 0:      2.248067869         2.797816293         
+Reads     | Hilo 1:      3.322369346         2.797868308         
+
+
+          | Hilo 1:      2.039668483         9.508708773         
+Reads     | Hilo 0:      9.085024358         9.678336828         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Dat          | Hilo 0:      1.993607208         2.181733044         
+Reads     | Hilo 1:      3.340197963         2.181778444         
+
+el P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      3.408397731         2.560298370         
+Reads     | Hilo 0:      2.277263933         2.560293266         
+          | Hilo 1:      3.420343580         2.592423302         
+Reads     | Hilo 0:      2.306283984         2.592457375         
+
+
+          | Hilo 0:      9.256240287         9.571993551         
+Reads     | Hilo 1:      2.084150289         9.571985690         
+
+                                           -Datos-
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 4 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Dat          | Hilo 0:      1.993684408         2.182174806         
+Reads     | Hilo 1:      3.592484247         2.182219921         
+
+el P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      3.365197810         2.419786737         
+Reads     | Hilo 0:      2.231854869         2.419780684         
+          | Hilo 0:      2.226122102         2.406974727         
+Reads     | Hilo 1:      3.415016651         2.407020873         
+
+
+          | Hilo 1:      2.092347909         9.527443616         
+Reads     | Hilo 0:      9.221757548         9.527456804         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+                                           -Datos-
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 1
+ +CPU: 33 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      3.404581819         2.554741295         
+Reads     | Hilo 0:      2.251058967         2.554735684         
+          | Hilo 1:      3.404529001         2.572985802         
+Reads     | Hilo 0:      2.283645976         2.572984602         
+
+
+          | Hilo 0:      1.981480733         2.181267552         
+Reads     | Hilo 1:      4.358888539         2.181313077         
+
+          | Hilo 0:      9.903082659         12.596543065        
+Reads     | Hilo 1:      2.084467580         12.596533863        
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+                                           -Datos-
+-Hilo: 1
+ +CPU: 38 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Dat          | Hilo 0:      1.987207373         2.179794379         
+Reads     | Hilo 1:      3.654783670         2.179844221         
+
+el P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      3.405572491         2.561441847         
+Reads     | Hilo 0:      2.275441372         2.561436554         
+          | Hilo 1:      3.416609420         2.595563114         
+Reads     | Hilo 0:      2.304973881         2.595561132         
+
+
+          | Hilo 0:      8.986863274         9.685307188         
+Reads     | Hilo 1:      2.101692957         9.685298980         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 33 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Dat          | Hilo 0:      1.950183317         2.645569116         
+Reads     | Hilo 1:      2.657593118         2.645758175         
+
+el P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      3.377800866         2.589897787         
+Reads     | Hilo 0:      2.236109346         2.589891346         
+          | Hilo 0:      2.225515351         2.566727846         
+Reads     | Hilo 1:      3.413961191         2.566774521         
+
+
+          | Hilo 1:      2.095748116         9.625470062         
+Reads     | Hilo 0:      9.202140705         9.625475962         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 1
+ +CPU: 33 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 10 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      3.377338213         2.587373132         
+Reads     | Hilo 0:      2.207261480         2.587367354         
+          | Hilo 0:      2.229808616         2.570796616         
+Reads     | Hilo 1:      3.414471008         2.570843781         
+
+
+          | Hilo 0:      1.992147446         2.182407395         
+Reads     | Hilo 1:      4.224021881         2.182455372         
+
+          | Hilo 1:      2.035996440         9.646762898         
+Reads     | Hilo 0:      9.202398834         9.889240922         
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+                                           -Datos-
+-Hilo: 1
+ +CPU: 33 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Dat          | Hilo 1:      4.070636055         2.184631566         
+Reads     | Hilo 0:      1.989831339         2.184675528         
+
+el P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      3.394395255         2.437674221         
+Reads     | Hilo 0:      2.266257021         2.437669343         
+          | Hilo 0:      2.218265794         2.415874381         
+Reads     | Hilo 1:      3.398814466         2.415882512         
+
+
+          | Hilo 0:      9.304906212         9.663353906         
+Reads     | Hilo 1:      2.059481624         9.663339956         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+                                           -Datos-
+-Hilo: 1
+ +CPU: 33 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Dat          | Hilo 0:      1.989433603         2.177180337         
+Reads     | Hilo 1:      3.450756994         2.177229085         
+
+el P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 0:      2.279167282         3.215814744         
+Reads     | Hilo 1:      2.272572750         3.215809658         
+
+          | Hilo 0:      2.330520738         2.921119077         
+Reads     | Hilo 1:      3.300882552         2.921163097         
+
+          | Hilo 0:      9.261857355         9.472937664         
+Reads     | Hilo 1:      2.032453813         9.472933411         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 14 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+                                           -Datos-
+-Hilo: 1
+ +CPU: 33 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Da          | Hilo 0:      1.948297469         2.832187044         
+Reads     | Hilo 1:      2.880991934         2.832428046         
+
+del P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 1:      3.415737062         2.558883759         
+Reads     | Hilo 0:      2.223327964         2.558878399         
+          | Hilo 0:      2.225732470         2.603245746         
+Reads     | Hilo 1:      3.378398891         2.603256918         
+
+
+          | Hilo 0:      9.259185927         9.584343579         
+Reads     | Hilo 1:      2.091428559         9.584334955         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+-Hilo: 1
+ +CPU: 32 - Node: 2
+ +Tamaño del P_SET(2): 209715200
+ +Datos recorridos del P_SHARED(0): 209715200/209715200
+                                           -Datos-
+-Hilo: 0
+ +CPU: 0 - Node: 0
+ +Tamaño del P_SET(0): 209715200
+ +Dato          | Hilo 0:      1.994713463         2.180546993         
+Reads     | Hilo 1:      3.429270204         2.180604547         
+
+el P_SHARED(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+
+                                      -Resultados-
+                         T_Datos_Privados    T_Datos_Compartidos 
+          | Hilo 0:      2.273125150         3.230874477         
+Reads     | Hilo 1:      2.255285137         3.230867141         
+
+          | Hilo 1:      3.284167090         2.915014731         
+Reads     | Hilo 0:      2.277405010         2.915051284         
+
+          | Hilo 0:      9.255031087         9.496490612         
+Reads     | Hilo 1:      2.092899850         9.496478345         
+

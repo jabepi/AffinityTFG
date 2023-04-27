@@ -104,7 +104,7 @@ public:
                     file.close();
                     return false;
                 } 
-                for (int i = 0; i < nodeThread.size(); i++) {
+                for (int i = 0; i < (int)nodeThread.size(); i++) {
                     iss >> value;
                     nodePVector.push_back(value);
                 }
@@ -120,7 +120,7 @@ public:
                     file.close();
                     return false;
                 }
-                for (int i = 0; i < nodeThread.size(); i++) {
+                for (int i = 0; i < (int)nodeThread.size(); i++) {
                     iss >> value2;
                     tamPVector.push_back(value2);
                 }
@@ -173,7 +173,7 @@ public:
 
         initialize_SvectorPerThread();
         string group;
-        for(int i =0; i < nodeSVector.size(); i++) { 
+        for(int i =0; i < (int)nodeSVector.size(); i++) { 
             getline(iss, group, ',');
             istringstream groupStream(group);
             while (groupStream >> value) { 
@@ -202,7 +202,7 @@ public:
 
     //Getter the number of threads
     int get_num_threads() {
-        return nodeThread.size();
+        return (int)nodeThread.size();
     }
 
     //Getter the node of each thread
@@ -302,7 +302,7 @@ public:
         cout << endl;
 
         cout << "SvectorPerThread: ";
-        for (size_t i = 0; i < nodeThread.size(); ++i) {
+        for (int i = 0; i < (int)nodeThread.size(); ++i) {
             cout << SvectorPerThread[i] << " ";
         }
         cout << endl;
@@ -327,10 +327,10 @@ private:
     vector<vectorSize> numSElmProc;
 
     void  initialize_SvectorPerThread() {
-        int size = nodeThread.size();
+        int size = (int)nodeThread.size();
         SvectorPerThread = new int[size];
 
-        for (size_t i = 0; i < size; ++i) {
+        for (int i = 0; i < size; ++i) {
             SvectorPerThread[i] = -1;
         }
     }

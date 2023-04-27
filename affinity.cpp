@@ -18,6 +18,7 @@ using namespace std;
 #include "numaalloc.hpp"
 #include "parser.hpp"
 #include "types.h"
+#include <sys/time.h>
 
 //TODO borrar o poner como un argumento más
 #define nOP 3
@@ -35,8 +36,22 @@ template<typename T>
 	asm volatile ("" : "+r" (datum));
 }
 
+//TODO
 
-//TODO borrar
+string getTimeAsStr(chrono::system_clock::time_point& t)
+{
+    std::time_t time = std::chrono::system_clock::to_time_t(t);
+    std::string time_str = std::ctime(&time);
+    time_str.pop_back();
+    return time_str;
+}
+ostream& operator<<(ostream& os, chrono::system_clock::time_point& t)
+{
+    os<<getTimeAsStr(t);
+    return os;
+}
+
+//Funciones auxioliares 
 int getAdressNode(void* pointer){
 	int node;
 	if (get_mempolicy(&node, NULL, 0, pointer, MPOL_F_NODE | MPOL_F_ADDR) == -1) {
@@ -49,23 +64,22 @@ int getAdressNode(void* pointer){
 
 
 //Class def: contains all vector and the operations over them
-//TODO en caso de crecer mucho, trasladar la clase a un fichero independiente
 class Thread_array{
 
 	private:
 		static vectorType** shared_vec;
 		
-		static vectorType* shared_vec_AUX; //TODO borrar
-		
 		//La zona privada siempre es única
 		vectorType* priv_vec; 
-		vectorType* priv_shared_vec; 
+		std::vector<vectorType> priv_std_vec;
+		vectorType* priv_shared_vec;
 		
 		//Funcion pointer
 		typedef int (Thread_array::*MemFuncPtr)(vectorSize);
         MemFuncPtr function[2*nOP]; 
 		string function_name[nOP];
 
+		//Init vector
 		static void initVector(vectorType* vec, const vectorSize size, const char init_val){
 			for(vectorSize i = 0; i < size; i++){
 				vec[i] = init_val;
@@ -79,10 +93,9 @@ class Thread_array{
 		void init_Private(const int threadN, Parser& parser){
 
 			//Allocate private vector
-
-			printf("Thread(%d) %lld: \n", threadN,  parser.get_tam_p_vector(threadN)); //TODO
 			if(parser.get_p_data()){
 				priv_vec = (vectorType*) numa_alloc_onnode(parser.get_tam_p_vector(threadN), parser.get_node_p_vector(threadN));
+				priv_std_vec.resize(parser.get_tam_p_vector(threadN));
 				initVector(priv_vec, parser.get_tam_p_vector(threadN), 'A');
 			}
 
@@ -92,10 +105,10 @@ class Thread_array{
 			//Init function pointers
 			function[0] = &Thread_array::read_private; 
 			function[1] = &Thread_array::read_shared;
-			// function[2] = &Thread_array::write_private;
-			// function[3] = &Thread_array::write_shared;
-			// function[4] = &Thread_array::rw_private;
-			// function[5] = &Thread_array::rw_shared; 
+			function[2] = &Thread_array::write_private;
+			function[3] = &Thread_array::write_shared;
+			function[4] = &Thread_array::rw_private;
+			function[5] = &Thread_array::rw_shared; 
 
 			//Function names
 			function_name[0] = "Reads";
@@ -110,14 +123,10 @@ class Thread_array{
 		static void init_shared(Parser& parser){
 
 			shared_vec = (vectorType**) malloc(parser.get_num_s_vector()*sizeof(vectorType*));
-			
-			
 			for(int i = 0; i < parser.get_num_s_vector(); i++){
 				shared_vec[i] = (vectorType*) numa_alloc_onnode(parser.get_tam_s_vector(i), parser.get_node_s_vector(i));
 				initVector(shared_vec[i], parser.get_tam_s_vector(i), 'A');
 			}
-
-			shared_vec_AUX = shared_vec[0]; //TODO borrar
 		}
 		static void free_shared(Parser& parser){
 			for(int i = 0; i < parser.get_num_s_vector(); i++){
@@ -127,7 +136,7 @@ class Thread_array{
 		}
 
 		//Call functions
-		int call_function(int index, const vectorSize size) {
+		int call_function(int index, vectorSize size) {
             return (this->*function[index])(size);
         }
 		string get_function_name(int index){
@@ -143,11 +152,11 @@ class Thread_array{
 			volatile vectorSize j = 0;			
 			
 			long long int aux = 0;
-			while(j < 192){
+			while(j < 333){
 				i = j;
 				while(i < size){
 					add = priv_vec[i];
-					i+=192;
+					i+=333;
 					aux++;
 				}
 				j++;
@@ -163,7 +172,7 @@ class Thread_array{
 			while(j < dist){
 				i = j;
 				while(i < size){
-					add = shared_vec_AUX[i]; 
+					add = priv_shared_vec[i]; 
 					i+=dist;
 				}
 				j++;
@@ -171,14 +180,13 @@ class Thread_array{
 			return add;
 		}
 
-		//TODO revisar
+		
 		// 2. Writes
-		int write_private(const int threadN, Parser parser){
+		int write_private(vectorSize size){
 			volatile vectorSize i = 0;
 			volatile int j = 0;
 			volatile int add = 0;
 
-			int size = parser.get_tam_p_vector(threadN);
 			while(i < size){
 				j = 0;
 				while(j < 40){
@@ -192,12 +200,12 @@ class Thread_array{
 
 			return i;
 		}
-		int write_shared(const int threadN, Parser parser){
+		int write_shared(vectorSize size){
 			volatile vectorSize i = 0;
 			volatile int j = 0;
 			volatile int add = 0;
 			
-			int size = parser.get_num_s_elm_proc(threadN);
+			
 			while(i<size){
 				j = 0;
 				while(j < 40){
@@ -213,12 +221,11 @@ class Thread_array{
 		}
 
 		// 3. Read-Write
-		int rw_private(const int threadN, Parser parser){
+		int rw_private(vectorSize size){
 			volatile char aux; 
 			volatile vectorSize i = 0;
 			volatile int j = 0;
 
-			int size = parser.get_tam_p_vector(threadN);
 			while(i < size){
 				j = 0;
 				while(j < 40){
@@ -231,12 +238,12 @@ class Thread_array{
 			}
 			return i;
 		}
-		int rw_shared(const int threadN, Parser parser){
+		int rw_shared(vectorSize size){
 			volatile char aux; 
 			volatile vectorSize i = 0;
 			volatile int j = 0;
 
-			int size = parser.get_num_s_elm_proc(threadN);
+			
 			while(i<size){
 				j = 0;
 				while(j < 40){
@@ -252,8 +259,6 @@ class Thread_array{
 
 vectorType** Thread_array::shared_vec;
 
-vectorType* Thread_array::shared_vec_AUX; //TODO borrar
-
 //Vector of cpus by node	
 vector<cpu_set_t> getHardwareData(){
 	int num_nodes = numa_max_node() + 1;
@@ -264,7 +269,7 @@ vector<cpu_set_t> getHardwareData(){
 		struct bitmask *cpus = numa_allocate_cpumask();
 		numa_node_to_cpus(i,cpus);
 		CPU_ZERO(&cpus_vec[i]);
-		for(int j=0; j<cpus->size; j++){
+		for(long unsigned int j=0; j<cpus->size; j++){
 			if(numa_bitmask_isbitset(cpus,j)){
 				CPU_SET(j,&cpus_vec[i]);
 			}
@@ -274,8 +279,7 @@ vector<cpu_set_t> getHardwareData(){
 	return cpus_vec;
 }
 
-//Flush all cache of a specific node
-//TODO: revisar si puede que se hagan optimizaciones con -O3
+//Flush all cache of all nodes
 int flushCache(vector<cpu_set_t> cpus_vec){
 
 	int a;
@@ -305,7 +309,6 @@ int flushCache(vector<cpu_set_t> cpus_vec){
 			a+=b;
 		}
 	}
-	
 	return a;
 }
 
@@ -325,7 +328,7 @@ int main(int argc, char* argv[]){
 		return 1;
 	}
 
-	parser.print();
+	parser.print(); //TODO: borrar
 	
 	//Open output file
 	ofstream outfile(outputFile+"Visual.txt", std::ios::app);
@@ -433,38 +436,46 @@ int main(int argc, char* argv[]){
 					{
 						tam = parser.get_tam_p_vector(thread);
 					}
-
-					#pragma omp barrier	
-					start = std::chrono::high_resolution_clock::now();
+					//TODO revisar
+					tmarkp = 0;
 					while(i<ITER){
-						// result = array.call_function(k, tam);
-						result = array.read_private(tam);
+						
+						
+						flushCache(cpus_vec);
+						
+						#pragma omp barrier	
+						start = std::chrono::high_resolution_clock::now();
+						
+						// result = array.call_function(k, tam);z
+						array.read_private(tam);
+						
+						end = std::chrono::high_resolution_clock::now();
+						diff = end - start;
+						tmarkp += diff.count();
+						
 						i++;
 					}
-					end = std::chrono::high_resolution_clock::now();
-					diff = end - start;
-					tmarkp = diff.count()/ITER;
-					//doNotOptimizeAway(result);
+					tmarkp /= ITER;
+					doNotOptimizeAway(result);
 				}
 				
 				// //1.2. Shared
-				// i=0;
-				// #pragma omp critical
-				// {
-				// 	tam = parser.get_num_s_elm_proc(thread);
-				// }
+				i=0;
+				#pragma omp critical
+				{
+					tam = parser.get_num_s_elm_proc(thread);
+				}
 
-				// #pragma omp barrier
-				// start = std::chrono::high_resolution_clock::now();
-				// while(i < ITER){
-				// 	// result2 = array.call_function(k+1, tam);
-				// 	result2 = array.read_shared(tam);
-				// 	i++;
-				// }
-				// end = std::chrono::high_resolution_clock::now();
-				// diff = end - start;
-				// tmarks = diff.count()/ITER;
-				// doNotOptimizeAway(result2);
+				#pragma omp barrier
+				start = std::chrono::high_resolution_clock::now();
+				while(i < ITER){
+					result2 = array.call_function(k+1, tam);
+					i++;
+				}
+				end = std::chrono::high_resolution_clock::now();
+				diff = end - start;
+				tmarks = diff.count()/ITER;
+				doNotOptimizeAway(result2);
 
 				//Print results
 				#pragma omp critical
@@ -501,8 +512,7 @@ int main(int argc, char* argv[]){
 	}
 	cout << endl;
 	Thread_array::free_shared(parser);
-	// parser.~Parser();
-	
-	
+	outfile.close();
+
 	return 0;
 }

@@ -1,0 +1,65 @@
+slurmstepd: info: Setting TMPDIR to /scratch/2715546. Previous errors about TMPDIR can be discarded
+[H[2J[3Jr
+-
+-
+r
+-
+-
+r
+-
+nodeThread: 0 2 
+-
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+r
+-
+-
+nodeThread: 0 2 
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+Reads
+Reads
+
+
+Parser destructor
+Parser destructor
+Reads
+Reads
+
+Parser destructor
+
+Parser destructor

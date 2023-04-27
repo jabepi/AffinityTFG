@@ -1,0 +1,343 @@
+slurmstepd: info: Setting TMPDIR to /scratch/2714580. Previous errors about TMPDIR can be discarded
+[H[2J[3Jr
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+srun: Job 2714580 step creation temporarily disabled, retrying (Requested nodes are busy)
+srun: Step created for job 2714580
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor
+r
+-
+-
+nodeThread: 0 2 
+opType: 1 0 0 
+pData: 1
+nodePVector: 0 2 
+tamPVector: 209715200 209715200 
+nodeSVector: 0 
+tamSVector: 209715200 
+SvectorPerThread: 0 0 
+numSElmProc: 209715200 209715200 
+
+mbind: Invalid argument
+Reads
+
+Parser destructor

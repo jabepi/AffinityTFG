@@ -231,7 +231,7 @@ public:
     }
 
     //Getter the size of each private vector
-    long long get_tam_p_vector(int thread) {
+    vectorSize get_tam_p_vector(int thread) {
         return tamPVector[thread];
     }
 
@@ -246,7 +246,7 @@ public:
     }
 
     //Getter the size of each shared vector
-    int get_tam_s_vector(int vector) {
+    vectorSize get_tam_s_vector(int vector) {
         return tamSVector[vector];
     }
 

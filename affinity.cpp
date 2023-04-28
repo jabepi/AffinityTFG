@@ -147,7 +147,7 @@ class Thread_array{
 			while(j < dist){
 				i = j;
 				while(i < size){
-					// add = priv_vec[i];
+					add = priv_vec[i];
 					
 					i+=dist;
 					aux ++;
@@ -278,7 +278,7 @@ vector<cpu_set_t> getHardwareData(){
 int flushCache(int node){
 
 	int a = 0;	
-	char *ptr = (char *)numa_alloc_onnode(2 * L3, node);
+	char *ptr = (char *)numa_alloc_onnode(3 * L3, node);
 	
 	// Allocate memory in the node to flush cache
 	int b = 0;
@@ -352,8 +352,8 @@ int main(int argc, char* argv[]){
 		//Allocate thread on node
 		int thread = omp_get_thread_num();
 		int node = parser.get_node_thread(thread);
-		numa_run_on_node(node);
-		node = numa_node_of_cpu(sched_getcpu());
+		vector<cpu_set_t> cpus_vec = getHardwareData();
+		sched_setaffinity(0, sizeof(cpus_vec[node]), &cpus_vec[node]);
 		
 		#pragma omp single
 		{

@@ -21,14 +21,13 @@ using namespace std;
 
 //TODO borrar o poner como un argumento más
 #define nOP 3
-#define ITER 1
+#define ITER 10
 #define INTVALVEC 'A'
 #define L1 32768
 #define L2 262144
 #define L3 26214400
 
 //TODO IMPORTANTE Simplificar con numa_run_on_node  
-//#define cacheLineSize 64
 #define dist 192
 
 //Avoid compiler optimization
@@ -141,20 +140,15 @@ class Thread_array{
 			vectorSize i = 0; 
 			volatile int add = 0;
 			volatile vectorSize j = 0;			
-			long long int aux = 0;
-			cout << size << endl;
-			printf("%d-%p\n", omp_get_thread_num(), priv_vec);
+
 			while(j < dist){
 				i = j;
 				while(i < size){
-					add = priv_vec[i];
-					
+					add = priv_vec[i];					
 					i+=dist;
-					aux ++;
 				}
 				j++;
 			}
-			printf("%lld\n", aux);
 			return add;
 		}
 
@@ -416,9 +410,8 @@ int main(int argc, char* argv[]){
 				//1.1. Private
 				if(pData){
 					
-					
-					i = 0;
 					tam = parser.get_tam_p_vector(thread);
+					i = 0;
 					tmarkp = 0;
 					while(i<ITER){
 						
@@ -430,8 +423,7 @@ int main(int argc, char* argv[]){
 
 						start = std::chrono::high_resolution_clock::now();
 						
-						// result = array.call_function(k, tam);z
-						array.read_private(tam);
+						result = array.call_function(k, tam);
 						
 						end = std::chrono::high_resolution_clock::now();
 						diff = end - start;
@@ -442,22 +434,28 @@ int main(int argc, char* argv[]){
 					doNotOptimizeAway(result);
 				}
 				
-				// //1.2. Shared
+				//1.2. Shared
+				tam = parser.get_num_s_elm_proc(thread);
 				i=0;
-				#pragma omp critical
-				{
-					tam = parser.get_num_s_elm_proc(thread);
-				}
-
-				#pragma omp barrier
-				start = std::chrono::high_resolution_clock::now();
+				tmarks = 0;
 				while(i < ITER){
+
+					//Flush cache
+					if (thread == primer_hilo_por_nodo[node]) {
+						flushCache(node);
+					}
+					#pragma omp barrier	
+
+					start = std::chrono::high_resolution_clock::now();
+					
 					result2 = array.call_function(k+1, tam);
+
+					end = std::chrono::high_resolution_clock::now();
+					diff = end - start;
+					tmarks += diff.count();
 					i++;
 				}
-				end = std::chrono::high_resolution_clock::now();
-				diff = end - start;
-				tmarks = diff.count()/ITER;
+				tmarks /= ITER;
 				doNotOptimizeAway(result2);
 
 				//Print results

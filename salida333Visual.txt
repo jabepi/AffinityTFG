@@ -27,7 +27,6 @@ Reads     | Hilo 1:      2.344674751         2.947342114
                          T_Datos_Privados    T_Datos_Compartidos 
           | Hilo 1:      2.205193590         3.042075515         
 Reads     | Hilo 0:      1.987769203         3.048364663         
-
                                            -Datos-
 -Hilo: 1
  +CPU: 30 - Node: 2

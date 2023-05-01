@@ -18,16 +18,15 @@ using namespace std;
 #include "numaalloc.hpp"
 #include "parser.hpp"
 #include "types.h"
+#include <sys/time.h>
 
 //TODO borrar o poner como un argumento más
 #define nOP 3
 #define ITER 1
-#define INTVALVEC 'A'
 #define L1 32768
 #define L2 262144
 #define L3 26214400
 
-//TODO IMPORTANTE Simplificar con numa_run_on_node  
 //#define cacheLineSize 64
 #define dist 192
 
@@ -35,6 +34,21 @@ using namespace std;
 template<typename T> 
 	inline void doNotOptimizeAway(T&& datum) {
 	asm volatile ("" : "+r" (datum));
+}
+
+//TODO
+
+string getTimeAsStr(chrono::system_clock::time_point& t)
+{
+    std::time_t time = std::chrono::system_clock::to_time_t(t);
+    std::string time_str = std::ctime(&time);
+    time_str.pop_back();
+    return time_str;
+}
+ostream& operator<<(ostream& os, chrono::system_clock::time_point& t)
+{
+    os<<getTimeAsStr(t);
+    return os;
 }
 
 //Funciones auxioliares 
@@ -57,12 +71,20 @@ class Thread_array{
 		
 		//La zona privada siempre es única
 		vectorType* priv_vec; 
+		std::vector<vectorType> priv_std_vec;
 		vectorType* priv_shared_vec;
 		
 		//Funcion pointer
 		typedef int (Thread_array::*MemFuncPtr)(vectorSize);
         MemFuncPtr function[2*nOP]; 
 		string function_name[nOP];
+
+		//Init vector
+		static void initVector(vectorType* vec, const vectorSize size, const char init_val){
+			for(vectorSize i = 0; i < size; i++){
+				vec[i] = init_val;
+			}
+		}
 
 	public:
 
@@ -72,18 +94,9 @@ class Thread_array{
 
 			//Allocate private vector
 			if(parser.get_p_data()){
-				vectorSize size = parser.get_tam_p_vector(threadN);
-				priv_vec = (vectorType*) numa_alloc_onnode(size, parser.get_node_p_vector(threadN));
-
-				for(vectorSize i = 0; i < size; i++){
-					priv_vec[i] = INTVALVEC;
-				}
-
-				for(vectorSize i = 0; i < size; i++){
-					priv_vec[i] = INTVALVEC;
-				}
-
-
+				priv_vec = (vectorType*) numa_alloc_onnode(parser.get_tam_p_vector(threadN), parser.get_node_p_vector(threadN));
+				priv_std_vec.resize(parser.get_tam_p_vector(threadN));
+				initVector(priv_vec, parser.get_tam_p_vector(threadN), 'A');
 			}
 
 			//Get pointer to shared vector
@@ -111,12 +124,8 @@ class Thread_array{
 
 			shared_vec = (vectorType**) malloc(parser.get_num_s_vector()*sizeof(vectorType*));
 			for(int i = 0; i < parser.get_num_s_vector(); i++){
-				vectorSize size = parser.get_tam_p_vector(i);
-				shared_vec[i] = (vectorType*) numa_alloc_onnode(size, parser.get_node_s_vector(i));
-				
-				for(vectorSize j = 0; j < size; j++){
-					shared_vec[i][j] = INTVALVEC;
-				}
+				shared_vec[i] = (vectorType*) numa_alloc_onnode(parser.get_tam_s_vector(i), parser.get_node_s_vector(i));
+				initVector(shared_vec[i], parser.get_tam_s_vector(i), 'A');
 			}
 		}
 		static void free_shared(Parser& parser){
@@ -137,24 +146,39 @@ class Thread_array{
 
 		// Fuctions over vectors data
 		// 1. Reads
-		int read_private(const vectorSize size){ 
+		int read_private(vectorSize size){ 
 			vectorSize i = 0; 
 			volatile int add = 0;
 			volatile vectorSize j = 0;			
+			
+			//Obtengo el tiempo de inicio con get time of day
+			struct timeval t1, t2;
+    		double tiempo;
+			gettimeofday(&t1, NULL);
+
+
+
 			long long int aux = 0;
-			cout << size << endl;
-			printf("%d-%p\n", omp_get_thread_num(), priv_vec);
-			while(j < dist){
+			while(j < 192){
 				i = j;
 				while(i < size){
 					add = priv_vec[i];
-					
-					i+=dist;
-					aux ++;
+					i+=192;
+					aux++;
 				}
 				j++;
 			}
-			printf("%lld\n", aux);
+
+			gettimeofday(&t2, NULL);
+			
+
+			// chrono::system_clock::time_point currentTime2 = chrono::system_clock::now();
+			// // auto diff = end - start;
+			// auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime);
+
+			// printf("Tiempo de ejecución: %ld\n", diff.count());
+			cout << "Hilo 1 " << fixed << setprecision(9)<< omp_get_thread_num() << "Empieza: " << ((t1.tv_sec) + t1.tv_usec/1000000.0) << "Termina"  << ((t2.tv_sec)+t2.tv_usec/1000000.0) <<  endl;
+
 			return add;
 		}
 
@@ -176,7 +200,7 @@ class Thread_array{
 
 		
 		// 2. Writes
-		int write_private(const vectorSize size){
+		int write_private(vectorSize size){
 			volatile vectorSize i = 0;
 			volatile int j = 0;
 			volatile int add = 0;
@@ -194,8 +218,7 @@ class Thread_array{
 
 			return i;
 		}
-
-		int write_shared(const vectorSize size){
+		int write_shared(vectorSize size){
 			volatile vectorSize i = 0;
 			volatile int j = 0;
 			volatile int add = 0;
@@ -275,19 +298,36 @@ vector<cpu_set_t> getHardwareData(){
 }
 
 //Flush all cache of all nodes
-int flushCache(int node){
+int flushCache(vector<cpu_set_t> cpus_vec){
 
-	int a = 0;	
-	char *ptr = (char *)numa_alloc_onnode(3 * L3, node);
+	// int a;
+	// //Create the same number of threads as nodes
+	// omp_set_nested(1); 
+	// omp_set_num_threads(cpus_vec.size());
+	// omp_set_dynamic(false);
 	
-	// Allocate memory in the node to flush cache
-	int b = 0;
-	while (b < 3*L3){
-		a += ptr[b];
-		b++;
-	}
-	numa_free(ptr, 3*L3);  
-	return a;
+	// #pragma omp parallel
+	// {
+	// 	//Set affinity to each thread to a specific node
+	// 	int node = omp_get_thread_num();
+	// 	sched_setaffinity(0, sizeof(cpus_vec[node]), &cpus_vec[node]);
+		
+		
+	// 	//Allocate memory in the node to flush cache
+	// 	int b;
+	// 	char *ptr = (char*)numa_alloc_onnode(2*L3, node);  
+	// 	for(long a = 0; a < 2*L3; a++){
+	// 		b += ptr[a];
+	// 	}
+	// 	numa_free(ptr, 2*L3);  
+
+	// 	//Add b to a to avoid compiler optimization
+	// 	#pragma omp critical
+	// 	{
+	// 		a+=b;
+	// 	}
+	// }
+	return 1;
 }
 
 int main(int argc, char* argv[]){
@@ -325,16 +365,9 @@ int main(int argc, char* argv[]){
 	//Openmp clauses
 	omp_set_num_threads(parser.get_num_threads());
 	omp_set_dynamic(false);
-
-	//Variables for cache flush 
-	int num_nodes = numa_max_node() + 1;
-    std::vector<int> primer_hilo_por_nodo(num_nodes, -1);
 	
-	//Shared set creation
+	//1. Shared set creation
 	Thread_array::init_shared(parser);
-
-	//Get parser information
-	bool pData = parser.get_p_data();
 
 	#pragma omp parallel
 	{
@@ -354,10 +387,10 @@ int main(int argc, char* argv[]){
 
 		//Allocate thread on node
 		int thread = omp_get_thread_num();
-		int node = parser.get_node_thread(thread);
+		int node;
 		#pragma omp critical
 		{
-			sched_setaffinity(0, sizeof(cpus_vec[node]), &cpus_vec[node]);
+			 node = parser.get_node_thread(thread);
 		}
 		
 		#pragma omp single
@@ -366,32 +399,28 @@ int main(int argc, char* argv[]){
 		}
 		#pragma omp critical
         {
-			//Print thread information
+			sched_setaffinity(0, sizeof(cpus_vec[node]), &cpus_vec[node]);
 			outfile << "-Hilo: " << thread << endl;
-			outfile << " +CPU: " << sched_getcpu() << " - Node: " << node << endl;
-			if(pData){
+			outfile << " +CPU: " << sched_getcpu() << " - Node: " << parser.get_node_thread(thread) << endl;
+			if(parser.get_p_data()){
 				outfile << " +Tamaño del P_SET(" << parser.get_node_p_vector(thread) << "): " << parser.get_tam_p_vector(thread) << endl;
 			}
 			outfile << " +Datos recorridos del P_SHARED(" << parser.get_s_vector_per_thread(thread) << "): " << parser.get_num_s_elm_proc(thread) 
 			<< "/" << parser.get_tam_s_vector(parser.get_s_vector_per_thread(thread))  << endl;
 		}
 		#pragma omp barrier	
-        
-		//Configure cache flush
-        #pragma omp critical
-        {
-            if (primer_hilo_por_nodo[node] == -1) {
-                primer_hilo_por_nodo[node] = thread;
-            }
-        }
-        #pragma omp barrier
 
+		
 		//Allocate private data for each thread
 		Thread_array array;
-		array.init_Private(thread, parser);
-
 		//Variables axiliares //TODO 
 		bool condition;
+		bool pData;
+		#pragma omp critical
+		{
+			array.init_Private(thread, parser);
+			pData = parser.get_p_data(); //TODO
+		}
 
 		#pragma omp single
 		{	
@@ -403,31 +432,36 @@ int main(int argc, char* argv[]){
 				outfile << setw(25) << " ";
 			}
 			outfile << left << setw(20) << "T_Datos_Compartidos" << endl;
+			flushCache(cpus_vec);
 		}
 
 		//Operations 
 		while (op < nOP){
 
-			condition = parser.get_op_type(op);
+			#pragma omp critical
+			{
+				condition = parser.get_op_type(op);
+			}
 			
 			//Check if the operation is active
 			if(condition){
 
 				//1.1. Private
 				if(pData){
-					
-					
+					//TODO
 					i = 0;
-					tam = parser.get_tam_p_vector(thread);
+					#pragma omp critical
+					{
+						tam = parser.get_tam_p_vector(thread);
+					}
+					//TODO revisar
 					tmarkp = 0;
 					while(i<ITER){
-						
-						//Flush cache
-						if (thread == primer_hilo_por_nodo[node]) {
-							flushCache(node);
+						#pragma omp single
+						{	
+							flushCache(cpus_vec);
 						}
 						#pragma omp barrier	
-
 						start = std::chrono::high_resolution_clock::now();
 						
 						// result = array.call_function(k, tam);z
@@ -436,6 +470,7 @@ int main(int argc, char* argv[]){
 						end = std::chrono::high_resolution_clock::now();
 						diff = end - start;
 						tmarkp += diff.count();
+						
 						i++;
 					}
 					tmarkp /= ITER;
@@ -480,7 +515,7 @@ int main(int argc, char* argv[]){
 				
 				#pragma omp single
 				{
-					// flushCache(cpus_vec);
+					flushCache(cpus_vec);
 					outfile << endl;
 				}
 				

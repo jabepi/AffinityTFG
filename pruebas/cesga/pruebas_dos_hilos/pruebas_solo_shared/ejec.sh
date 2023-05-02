@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-archivo="../../affinity"
+archivo="../../../../affinity"
 g++ "$archivo.cpp" -lnuma -fopenmp -O0 -o "$archivo.out"
 
 # Define un vector con elementos que contienen pares de números

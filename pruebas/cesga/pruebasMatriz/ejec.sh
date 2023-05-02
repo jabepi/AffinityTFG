@@ -1,7 +1,6 @@
-
-#Crear la matriz 4x4 con los tiempos entre nodos y un thread
+#!/bin/bash
 clear
-archivo="../affinity"
+archivo="../../../affinity"
 g++ "$archivo.cpp" -lnuma -fopenmp -O0 -o "$archivo.out"
 
 for i in {0..3}

@@ -1,7 +1,9 @@
 #!/bin/bash
-clear
 archivo="../../../affinity"
-g++ "$archivo.cpp" -lnuma -fopenmp -O0 -o "$archivo.out"
+if [ $# -eq 1 ] && [ "$1" == "1" ]; then
+    clear
+    g++ "$archivo.cpp" -lnuma -fopenmp -O0 -o "$archivo.out"
+fi
 
 for i in {0..3}
 do

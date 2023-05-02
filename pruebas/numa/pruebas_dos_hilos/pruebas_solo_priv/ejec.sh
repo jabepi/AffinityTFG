@@ -1,7 +1,9 @@
 #!/bin/bash
-clear
 archivo="../../../../affinity"
-g++ "$archivo.cpp" -lnuma -fopenmp -O0 -o "$archivo.out"
+if [ $# -eq 1 ] && [ "$1" == "1" ]; then
+    clear
+    g++ "$archivo.cpp" -lnuma -fopenmp -O0 -o "$archivo.out"
+fi
 
 # Define un vector con elementos que contienen pares de números
 vector=("0 2 0 0" "0 0 0 0" "2 2 0 0" "0 2 0 2" "0 2 2 0" "0 0 0 2")

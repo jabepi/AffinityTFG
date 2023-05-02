@@ -1,0 +1,144 @@
+                                           -Datos-
+-Hilo: 0
+ +CPU: 12 - Node: 0
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+Reads     | Hilo 0:      2.030744993         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 25 - Node: 1
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+Reads     | Hilo 0:      5.890303034         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 22 - Node: 2
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+Reads     | Hilo 0:      6.040879505         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 7 - Node: 3
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+Reads     | Hilo 0:      5.892336658         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 24 - Node: 0
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+Reads     | Hilo 0:      5.915319701         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 25 - Node: 1
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+Reads     | Hilo 0:      2.035515150         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 10 - Node: 2
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+Reads     | Hilo 0:      5.912122347         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 35 - Node: 3
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+Reads     | Hilo 0:      6.103962840         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 28 - Node: 0
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+Reads     | Hilo 0:      6.073371113         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 25 - Node: 1
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+Reads     | Hilo 0:      5.956995805         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 14 - Node: 2
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+Reads     | Hilo 0:      2.028180073         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 31 - Node: 3
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+Reads     | Hilo 0:      5.909538392         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 32 - Node: 0
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+Reads     | Hilo 0:      5.946714224         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 29 - Node: 1
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+Reads     | Hilo 0:      6.051158602         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 34 - Node: 2
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+Reads     | Hilo 0:      5.891781849         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 19 - Node: 3
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+Reads     | Hilo 0:      2.025305687         
+

@@ -107,10 +107,11 @@ class Thread_array{
 		
 		//Init shared data
 		static void init_shared(Parser& parser){
-
+			
 			shared_vec = (vectorType**) malloc(parser.get_num_s_vector()*sizeof(vectorType*));
+
 			for(int i = 0; i < parser.get_num_s_vector(); i++){
-				vectorSize size = parser.get_tam_p_vector(i);
+				vectorSize size = parser.get_tam_s_vector(i);
 				shared_vec[i] = (vectorType*) numa_alloc_onnode(size, parser.get_node_s_vector(i));
 				
 				for(vectorSize j = 0; j < size; j++){
@@ -299,10 +300,11 @@ int main(int argc, char* argv[]){
 		cout << "Error parsing input file" << endl;
 		return 1;
 	}
-
+	
 	parser.print(); //TODO: borrar
 	
 	//Open output file
+
 	ofstream outfile(outputFile+"Visual.txt", std::ios::app);
     if (!outfile.is_open()) {
        cout << "Error openning file: " << outputFile+"Visual.txt" << endl;
@@ -316,6 +318,8 @@ int main(int argc, char* argv[]){
 	//Get cpu and nodes information 
 	vector<cpu_set_t> cpus_vec = getHardwareData();
 	
+	
+
 	//Openmp clauses
 	omp_set_num_threads(parser.get_num_threads());
 	omp_set_dynamic(false);
@@ -326,7 +330,7 @@ int main(int argc, char* argv[]){
 	
 	//Shared set creation
 	Thread_array::init_shared(parser);
-
+	
 	//Get parser information
 	bool pData = parser.get_p_data();
 
@@ -364,9 +368,9 @@ int main(int argc, char* argv[]){
 			outfile << "-Hilo: " << thread << endl;
 			outfile << " +CPU: " << sched_getcpu() << " - Node: " << node << endl;
 			if(pData){
-				outfile << " +Tamaño del P_SET(" << parser.get_node_p_vector(thread) << "): " << parser.get_tam_p_vector(thread) << endl;
+				outfile << " +Tamaño del P_Vector(" << parser.get_node_p_vector(thread) << "): " << parser.get_tam_p_vector(thread) << endl;
 			}
-			outfile << " +Datos recorridos del P_SHARED(" << parser.get_s_vector_per_thread(thread) << "): " << parser.get_num_s_elm_proc(thread) 
+			outfile << " +Datos recorridos del S_Vector(" << parser.get_s_vector_per_thread(thread) << "): " << parser.get_num_s_elm_proc(thread) 
 			<< "/" << parser.get_tam_s_vector(parser.get_s_vector_per_thread(thread))  << endl;
 		}
 		#pragma omp barrier	
@@ -398,10 +402,11 @@ int main(int argc, char* argv[]){
 			}
 			outfile << left << setw(20) << "T_Datos_Compartidos" << endl;
 		}
-
+		
 		//Operations 
 		while (op < nOP){
-
+			
+			
 			condition = parser.get_op_type(op);
 			
 			//Check if the operation is active

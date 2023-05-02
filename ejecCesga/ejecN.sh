@@ -6,7 +6,6 @@
 clear
 archivo="affinity"
 g++ "$archivo.cpp" -lnuma -fopenmp -O0 -o "$archivo.out" -fsanitize=address
-
-srun "$archivo.out" args/args0 salida333
+srun "$archivo.out" args/args0 salida
 
 

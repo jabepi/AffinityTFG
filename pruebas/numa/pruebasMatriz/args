@@ -1,7 +1,7 @@
-nodeThread: 3 
-opType: r - -
+nodeThread: 1 
+opType: - - rw
 pData: 0 
-nodeSVector: 3
+nodeSVector: 1
 tamSVector: 209715200 
 SvectorPerThread: 0
 numSElmProc: 209715200 209715200 

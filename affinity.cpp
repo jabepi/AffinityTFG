@@ -172,78 +172,73 @@ class Thread_array{
 		
 		// 2. Writes
 		int write_private(const vectorSize size){
-			volatile vectorSize i = 0;
-			volatile int j = 0;
+			vectorSize i = 0; 
 			volatile int add = 0;
+			volatile vectorSize j = 0;
 
-			while(i < size){
-				j = 0;
-				while(j < 40){
+			while(j < dist){
+				i = j;
+				while(i < size){
 					add = 'X';
-					add = (add*add-add*add) + (add / 2) + (44 + add/add);
-					priv_vec[i] = add;
-					j++;
+			 		priv_vec[i] = add;				
+					i+=dist;
 				}
-				i++;
+				j++;
 			}
-
-			return i;
+			return add;
 		}
 
 		int write_shared(const vectorSize size){
-			volatile vectorSize i = 0;
-			volatile int j = 0;
+			vectorSize i = 0; 
 			volatile int add = 0;
-			
-			
-			while(i<size){
-				j = 0;
-				while(j < 40){
-					add = 'X';
-					add = (add*add-add*add) + (add / 2) + (44 + add/add);
-					priv_shared_vec[i] = add;
-					j++;
-				}
-				i++;
-			}		
+			volatile vectorSize j = 0;
 
-			return i;
+			while(j < dist){
+				i = j;
+				while(i < size){
+					add = 'X';
+			 		priv_shared_vec[i] = add;					
+					i+=dist;
+				}
+				j++;
+			}
+			return add;
 		}
+
 
 		// 3. Read-Write
 		int rw_private(vectorSize size){
-			volatile char aux; 
-			volatile vectorSize i = 0;
-			volatile int j = 0;
+			vectorSize i = 0; 
+			volatile int add = 0;
+			volatile vectorSize j = 0;
 
-			while(i < size){
-				j = 0;
-				while(j < 40){
-					aux = priv_vec[i];
-					priv_vec[i] = (aux*aux-aux*aux) + (aux / 2) + (44 + aux/aux); 
-
-					j++;
-				}	
-				i++;
-			}
-			return i;
-		}
-		int rw_shared(vectorSize size){
-			volatile char aux; 
-			volatile vectorSize i = 0;
-			volatile int j = 0;
-
-			
-			while(i<size){
-				j = 0;
-				while(j < 40){
-					aux = priv_shared_vec[i];
-					priv_shared_vec[i] = (aux*aux-aux*aux) + (aux / 2) + (44 + aux/aux); 
-					j++;
+			while(j < dist){
+				i = j;
+				while(i < size){
+					add = priv_vec[i];
+					priv_vec[i] = add + 1; 
+					i+=dist;
 				}
-				i++;
+				j++;
 			}
-			return i;
+			return add;
+		}
+
+		int rw_shared(vectorSize size){
+			vectorSize i = 0; 
+			volatile int add = 0;
+			volatile vectorSize j = 0;
+
+			while(j < dist){
+				i = j;
+				while(i < size){
+					add = priv_vec[i];
+					priv_shared_vec[i] = add + 1; 
+					i+=dist;
+				}
+				j++;
+			}
+			return add;
 		}
 };
 
@@ -304,7 +299,6 @@ int main(int argc, char* argv[]){
 	parser.print(); //TODO: borrar
 	
 	//Open output file
-
 	ofstream outfile(outputFile+"Visual.txt", std::ios::app);
     if (!outfile.is_open()) {
        cout << "Error openning file: " << outputFile+"Visual.txt" << endl;
@@ -318,8 +312,6 @@ int main(int argc, char* argv[]){
 	//Get cpu and nodes information 
 	vector<cpu_set_t> cpus_vec = getHardwareData();
 	
-	
-
 	//Openmp clauses
 	omp_set_num_threads(parser.get_num_threads());
 	omp_set_dynamic(false);
@@ -333,6 +325,10 @@ int main(int argc, char* argv[]){
 	
 	//Get parser information
 	bool pData = parser.get_p_data();
+
+	//Time marks
+	double tmarkpT=0;
+	double tmarksT=0;	
 
 	#pragma omp parallel
 	{
@@ -475,15 +471,23 @@ int main(int argc, char* argv[]){
 					outfile  << "Hilo " << thread << left << setw(7) << ":"  ;
 					if(pData){
 						 outfile << fixed << setprecision(9) << left << setw(20) << tmarkp;
+						 tmarkpT += tmarkp;
 					}
 					outfile << fixed << setprecision(9) << left << setw(20) << tmarks << endl;
+					tmarksT += tmarks;
+
 					increment++;
 				}
 				#pragma omp barrier
 				
 				#pragma omp single
 				{
-					// flushCache(cpus_vec);
+					outfile << setw(10)  <<   " " << "| "  ;
+					outfile  << "Total " << left << setw(7) << ":"  ;
+					if(pData){
+						 outfile << fixed << setprecision(9) << left << setw(20) << tmarkpT;
+					}
+					outfile << fixed << setprecision(9) << left << setw(20) << tmarksT << endl;
 					outfile << endl;
 				}
 				

@@ -1,5 +1,5 @@
 nodeThread: 0 0
-opType: r - -
+opType: - - rw
 pData: 0 
 nodeSVector: 0
 tamSVector: 209715200

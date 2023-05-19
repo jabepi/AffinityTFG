@@ -1,0 +1,134 @@
+                                           -Datos-
+-Hilo: 1
+ +CPU: 22 - Node: 2
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 8 - Node: 0
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+          | Hilo 0:      6.497508774         
+Reads     | Hilo 1:      6.497768215         
+          | Total :      12.995276988        
+
+          | Hilo 1:      40.465539163        
+Writes    | Hilo 0:      40.468484012        
+          | Total :      80.934023175        
+
+          | Hilo 1:      6.406024687         
+R/W       | Hilo 0:      6.406163719         
+          | Total :      12.812188406        
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 12 - Node: 0
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+-Hilo: 1
+ +CPU: 8 - Node: 0
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+          | Hilo 1:      6.195798610         
+Reads     | Hilo 0:      6.190256656         
+          | Total :      12.386055266        
+
+          | Hilo 1:      39.613044693        
+Writes    | Hilo 0:      39.539550805        
+          | Total :      79.152595498        
+
+          | Hilo 1:      6.901029387         
+R/W       | Hilo 0:      6.892391392         
+          | Total :      13.793420779        
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 12 - Node: 0
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+-Hilo: 0
+ +CPU: 8 - Node: 0
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+          | Hilo 0:      2.187495379         
+Reads     | Hilo 1:      2.186230398         
+          | Total :      4.373725777         
+
+          | Hilo 0:      18.224794955        
+Writes    | Hilo 1:      18.233102022        
+          | Total :      36.457896977        
+
+          | Hilo 0:      3.463709403         
+R/W       | Hilo 1:      3.458819463         
+          | Total :      6.922528866         
+
+      
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 10 - Node: 2
+ +Datos recorridos del S_Vector(0): 104857600/209715200
+-Hilo: 0
+ +CPU: 20 - Node: 0
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+          | Hilo 1:      2.811544238         
+Reads     | Hilo 0:      3.052469084         
+          | Total :      5.864013322         
+
+          | Hilo 1:      19.970719752        
+Writes    | Hilo 0:      22.204871039        
+          | Total :      42.175590791        
+
+          | Hilo 1:      3.325902133         
+R/W       | Hilo 0:      4.299964260         
+          | Total :      7.625866392         
+
+                                           -Datos-
+-Hilo: 0
+ +CPU: 8 - Node: 0
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+-Hilo: 1
+ +CPU: 24 - Node: 0
+ +Datos recorridos del S_Vector(0): 104857600/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+          | Hilo 1:      3.347405842         
+Reads     | Hilo 0:      6.411313434         
+          | Total :      9.758719276         
+
+          | Hilo 1:      20.207388811        
+Writes    | Hilo 0:      40.579858685        
+          | Total :      60.787247496        
+
+          | Hilo 1:      3.626839134         
+R/W       | Hilo 0:      6.825222838         
+          | Total :      10.452061972        
+
+                                           -Datos-
+-Hilo: 1
+ +CPU: 16 - Node: 0
+ +Datos recorridos del S_Vector(0): 104857600/209715200
+-Hilo: 0
+ +CPU: 12 - Node: 0
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 
+          | Hilo 1:      1.106086699         
+Reads     | Hilo 0:      2.124408057         
+          | Total :      3.230494756         
+
+          | Hilo 1:      9.188809867         
+Writes    | Hilo 0:      18.503151597        
+          | Total :      27.691961464        
+
+          | Hilo 1:      1.724047461         
+R/W       | Hilo 0:      3.373082232         
+          | Total :      5.097129693         
+

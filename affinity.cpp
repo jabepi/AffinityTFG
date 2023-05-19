@@ -21,7 +21,7 @@ using namespace std;
 
 //TODO borrar o poner como un argumento más
 #define nOP 3
-#define ITER 1
+#define ITER 10
 #define INTVALVEC 'A'
 #define L1 32768
 #define L2 262144
@@ -45,58 +45,6 @@ int getAdressNode(void* pointer){
 	}
 	printf("La dirección de memoria %p pertenece al nodo NUMA %d.\n", (void *)pointer, node);
 	return node;
-}
-
-void set_no_fill_cache_mode() {
-    unsigned long cr0;
-
-    // Read CR0
-    __asm__ __volatile__(
-        "mov %%cr0, %0\n"
-        : "=r" (cr0)
-    );
-
-    // Set CD flag to 1 and NW flag to 0
-    cr0 |= (1UL << 30); // Set CD flag
-    cr0 &= ~(1UL << 29); // Clear NW flag
-
-    // Write the updated CR0 value
-    __asm__ __volatile__(
-        "mov %0, %%cr0\n"
-        :
-        : "r" (cr0)
-    );
-}
-
-void exit_no_fill_cache_mode() {
-    unsigned long cr0;
-
-    // Read CR0
-    __asm__ __volatile__(
-        "mov %%cr0, %0\n"
-        : "=r" (cr0)
-    );
-
-    // Set CD flag to 0 and NW flag to 1
-    cr0 &= ~(1UL << 30); // Clear CD flag
-    cr0 |= (1UL << 29); // Set NW flag
-
-    // Write the updated CR0 value
-    __asm__ __volatile__(
-        "mov %0, %%cr0\n"
-        :
-        : "r" (cr0)
-    );
-}
-
-
-void flush_all_caches() {
-    __asm__ __volatile__(
-        "wbinvd\n"
-        :
-        :
-        : "memory"
-    );
 }
 
 
@@ -151,7 +99,7 @@ class Thread_array{
 			//Function names
 			function_name[0] = "Reads";
 			function_name[1] = "Writes";
-			function_name[2] =  "Reads/Writes";
+			function_name[2] =  "R/W";
 		}
 		void delete_private(){
 			numa_free(priv_vec, sizeof(vectorType));
@@ -250,7 +198,6 @@ class Thread_array{
 				while(i < size){
 					add = 'X';
 			 		priv_shared_vec[i] = add;
-					add = priv_shared_vec[i];					
 					i+=dist;
 				}
 				j++;
@@ -462,6 +409,12 @@ int main(int argc, char* argv[]){
 			//Check if the operation is active
 			if(condition){
 
+				#pragma omp single
+				{
+					tmarkpT=0;
+					tmarksT=0;	
+				}
+				
 				//1.1. Private
 				if(pData){
 					
@@ -500,10 +453,10 @@ int main(int argc, char* argv[]){
 						flushCache(node);
 					}
 					
-					#pragma omp barrier	
-					if(omp_get_thread_num() == 1){
-						sleep(1);
-					}
+					// #pragma omp barrier	
+					// if(omp_get_thread_num() == 1){
+					// 	sleep(1);
+					// }
 
 					start = std::chrono::high_resolution_clock::now();
 					

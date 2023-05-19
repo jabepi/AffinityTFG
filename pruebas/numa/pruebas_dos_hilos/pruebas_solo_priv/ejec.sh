@@ -6,7 +6,7 @@ if [ $# -eq 1 ] && [ "$1" == "1" ]; then
 fi
 
 # Define un vector con elementos que contienen pares de números
-vector=("0 2 0 0" "0 0 0 0" "2 2 0 0" "0 2 0 2" "0 2 2 0" "0 0 0 2")
+vector=("0 0 0 2")
 
 # Recorre el vector
 for elemento in "${vector[@]}"; do

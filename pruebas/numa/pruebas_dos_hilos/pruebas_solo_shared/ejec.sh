@@ -8,7 +8,7 @@ fi
 
 # Define un vector con elementos que contienen pares de números
 vector=("0 2 0" "0 0 2" "0 0 0")
-elmRecorer=("209715200 209715200" "209715200 104857600")
+elmRecorer=("209715200 104857600")
 
 # Recorre el vector
 

@@ -1,4 +1,4 @@
-nodeThread: 1 
+nodeThread: 0 
 opType: - w -
 pData: 0 
 nodeSVector: 0

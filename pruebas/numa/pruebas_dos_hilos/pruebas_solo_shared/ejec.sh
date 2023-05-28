@@ -8,8 +8,8 @@ fi
 
 # Define un vector con elementos que contienen pares de números
 vector=("0 2 0" "0 0 2" "0 0 0")
-elmRecorer=("209715200 104857600")
-
+elmRecorer=("209715200 209715200")
+26214400
 # Recorre el vector
 
 for elmRecorer in "${elmRecorer[@]}"; do

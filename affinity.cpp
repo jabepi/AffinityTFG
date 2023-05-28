@@ -30,6 +30,8 @@ using namespace std;
 //TODO IMPORTANTE Simplificar con numa_run_on_node  
 #define dist 192
 
+int inicio = 0;
+
 //Avoid compiler optimization
 template<typename T> 
 	inline void doNotOptimizeAway(T&& datum) {
@@ -89,8 +91,8 @@ class Thread_array{
 			priv_shared_vec = shared_vec[parser.get_s_vector_per_thread(threadN)];
 
 			//Init function pointers
-			function[0] = &Thread_array::read_private; 
-			function[1] = &Thread_array::read_shared;
+			function[0] = &Thread_array::read_private2; 
+			function[1] = &Thread_array::read_shared2;
 			function[2] = &Thread_array::write_private;
 			function[3] = &Thread_array::write_shared;
 			function[4] = &Thread_array::rw_private;
@@ -169,22 +171,82 @@ class Thread_array{
 			return add;
 		}
 
-		
-		// 2. Writes
-		int write_private(const vectorSize size){
+
+		// 2. Writes 2 
+		int read_private2(const vectorSize size){ 
 			vectorSize i = 0; 
 			volatile int add = 0;
-			volatile vectorSize j = 0;
+			volatile vectorSize j = 0;			
 
+			// if(omp_get_thread_num() == 1)
+			// {
+			// 	sleep(1);
+			// }
+			// while(j < dist){
+			// 	i = j;
+			// 	while(i < size){
+			// 		add = priv_vec[i];					
+			// 		i+=dist;
+			// 	}
+			// 	j++;
+			// }
+			return add;
+		}
+
+		int read_shared2(vectorSize size){
+			vectorSize i = 0; 
+			volatile vectorSize j = 0;
+			volatile int add = 0;
+
+			if (omp_get_thread_num() == 1)
+			{
+
+				struct timespec tim, tim2;
+				tim.tv_sec  = 1;
+				tim.tv_nsec = 000000000L;
+				if(nanosleep(&tim , &tim2) < 0 )   
+				{
+					printf("Nano sleep system call failed \n");
+					return -1;
+				}
+				// while(j < dist){
+				// i = j;
+				// 	while(i < 26214400){
+				// 		add = priv_shared_vec[i]; 
+				// 		i+=dist;
+				// 	}
+				// 	j++;
+				// }
+				// j = 0; 
+			}
 			while(j < dist){
 				i = j;
 				while(i < size){
-					add = 'X';
-			 		priv_vec[i] = add;				
+					add = priv_shared_vec[i]; 
 					i+=dist;
 				}
 				j++;
 			}
+			
+			return add;
+		}
+
+		
+		// 2. Writes
+		int write_private(const vectorSize size){
+			// vectorSize i = 0; 
+			volatile int add = 0;
+			// volatile vectorSize j = 0;
+
+			// while(j < dist){
+			// 	i = j;
+			// 	while(i < size){
+			// 		add = 'X';
+			//  		priv_vec[i] = add;				
+			// 		i+=dist;
+			// 	}
+			// 	j++;
+			// }
 			return add;
 		}
 
@@ -192,6 +254,33 @@ class Thread_array{
 			vectorSize i = 0; 
 			volatile int add = 0;
 			volatile vectorSize j = 0;
+
+			//hacemos que el hilo 1 lea todos los datos del vector privado
+			
+			if (omp_get_thread_num() == 1)
+			{
+
+				struct timespec tim, tim2;
+				tim.tv_sec  = 1;
+				tim.tv_nsec = 000000000L;
+				if(nanosleep(&tim , &tim2) < 0 )   
+				{
+					printf("Nano sleep system call failed \n");
+					return -1;
+				}
+				// while(j < dist){
+				// i = j;
+				// 	while(i < 26214400){
+				// 		add = 'X';
+			 	// 		priv_shared_vec[i] = add;
+				// 		add = priv_shared_vec[i]; 
+				// 		i+=dist;
+				// 	}
+				// 	j++;
+				// }
+				// j = 0; 
+				
+			}
 
 			while(j < dist){
 				i = j;
@@ -209,19 +298,19 @@ class Thread_array{
 		// 3. Read-Write
 		int rw_private(vectorSize size){
 			
-			vectorSize i = 0; 
+			// vectorSize i = 0; 
 			volatile int add = 0;
-			volatile vectorSize j = 0;
+			// volatile vectorSize j = 0;
 
-			while(j < dist){
-				i = j;
-				while(i < size){
-					add = priv_vec[i];
-					priv_vec[i] = add + 1; 
-					i+=dist;
-				}
-				j++;
-			}
+			// while(j < dist){
+			// 	i = j;
+			// 	while(i < size){
+			// 		add = priv_vec[i];
+			// 		priv_vec[i] = add + 1; 
+			// 		i+=dist;
+			// 	}
+			// 	j++;
+			// }
 			return add;
 		}
 
@@ -229,6 +318,20 @@ class Thread_array{
 			vectorSize i = 0; 
 			volatile int add = 0;
 			volatile vectorSize j = 0;
+
+			
+			if (omp_get_thread_num() == 1)
+			{
+
+				struct timespec tim, tim2;
+				tim.tv_sec  = 1;
+				tim.tv_nsec = 000000000L;
+				if(nanosleep(&tim , &tim2) < 0 )   
+				{
+					printf("Nano sleep system call failed \n");
+					return -1;
+				}
+			}
 
 			while(j < dist){
 				i = j;

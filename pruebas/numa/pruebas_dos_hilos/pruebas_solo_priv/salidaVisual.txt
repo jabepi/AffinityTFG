@@ -44,3 +44,13 @@ Writes    | Hilo 1:      40.323242233
 R/W       | Hilo 1:      6.353068675         
           | Total :      9.607339277         
 
+                                           -Datos-
+-Hilo: 1
+ +CPU: 16 - Node: 0
+ +Datos recorridos del S_Vector(1): 209715200/209715200
+-Hilo: 0
+ +CPU: 12 - Node: 0
+ +Datos recorridos del S_Vector(0): 209715200/209715200
+
+                                      -Resultados-
+                         T_Datos_Compartidos 

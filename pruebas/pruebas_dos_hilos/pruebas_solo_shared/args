@@ -1,0 +1,8 @@
+opType: read write read_write
+nodePerThread: 0 0
+nodePerVector: 0
+tamPerVector: 209715200
+vectorPerThread: 0 1
+summaryType: sum
+speedupCalc: 
+numIter: 10

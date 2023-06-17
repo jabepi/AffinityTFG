@@ -5,6 +5,8 @@
 #include <vector>
 #include <iomanip>
 #include <math.h>
+#include <unordered_map>
+#include <thread>
 using namespace std;
 
 //Affinity and parallel libraries
@@ -19,9 +21,8 @@ using namespace std;
 #include "parser.hpp"
 #include "types.h"
 
-//TODO borrar o poner como un argumento más
-#define nOP 3
-#define ITER 10
+//Constants
+#define ITER 1
 #define INTVALVEC 'A'
 #define L1 32768
 #define L2 262144
@@ -29,6 +30,11 @@ using namespace std;
 
 //TODO IMPORTANTE Simplificar con numa_run_on_node  
 #define dist 192
+
+//TODO brrar 
+#define escribir 1
+#define salto 0
+
 
 int inicio = 0;
 
@@ -38,89 +44,76 @@ template<typename T>
 	asm volatile ("" : "+r" (datum));
 }
 
-//Funciones auxioliares 
+//Auxiliar function 
+// 1. getAdressNode: Get the node associated to a pointer
 int getAdressNode(void* pointer){
 	int node;
 	if (get_mempolicy(&node, NULL, 0, pointer, MPOL_F_NODE | MPOL_F_ADDR) == -1) {
-		perror("Error al obtener la política de memoria");
+		perror("Error getting mempolicy");
 		return -1;
 	}
-	printf("La dirección de memoria %p pertenece al nodo NUMA %d.\n", (void *)pointer, node);
+	printf("The address %p belong to the NUMA node %d.\n", (void *)pointer, node);
 	return node;
 }
 
-
-//Class def: contains all vector and the operations over them
 class Thread_array{
 
 	private:
+		//Vector of operations
 		static vectorType** shared_vec;
-		
-		//La zona privada siempre es única
-		vectorType* priv_vec; 
 		vectorType* priv_shared_vec;
 		
 		//Funcion pointer
 		typedef int (Thread_array::*MemFuncPtr)(vectorSize);
-        MemFuncPtr function[2*nOP]; 
-		string function_name[nOP];
-
+		unordered_map<string, MemFuncPtr> functMap;
+	
 	public:
-
 		//Constructor
 		Thread_array(){};
-		void init_Private(const int threadN, Parser& parser){
 
-			//Allocate private vector
-			if(parser.get_p_data()){
-				vectorSize size = parser.get_tam_p_vector(threadN);
-				priv_vec = (vectorType*) numa_alloc_onnode(size, parser.get_node_p_vector(threadN));
+		//Function control
+		unordered_map<std::string, MemFuncPtr> setFunctionsPointers(){
 
-				for(vectorSize i = 0; i < size; i++){
-					priv_vec[i] = INTVALVEC;
+			//Funciones sobre vectores	
+			functMap["read"] = &Thread_array::read;
+			functMap["write"] = &Thread_array::write;
+			functMap["read_write"] = &Thread_array::read_write;	
+			return functMap;
+		}
+		bool checkFunctions(vector <string> functions){
+			setFunctionsPointers();
+			for(int i = 0; i < functions.size(); i++){
+				if(functMap.find(functions[i]) == functMap.end()){
+					cout << "Error: Function " << functions[i] << " not found" << endl;
+					return false;
 				}
-
-				for(vectorSize i = 0; i < size; i++){
-					priv_vec[i] = INTVALVEC;
-				}
-
-
 			}
+			return true;
+		}
 
+		//Init private data
+		void init_Private(const int threadN, Parser& parser){
 			//Get pointer to shared vector
 			priv_shared_vec = shared_vec[parser.get_s_vector_per_thread(threadN)];
 
 			//Init function pointers
-			function[0] = &Thread_array::read_private2; 
-			function[1] = &Thread_array::read_shared2;
-			function[2] = &Thread_array::write_private;
-			function[3] = &Thread_array::write_shared;
-			function[4] = &Thread_array::rw_private;
-			function[5] = &Thread_array::rw_shared; 
-
-			//Function names
-			function_name[0] = "Reads";
-			function_name[1] = "Writes";
-			function_name[2] =  "R/W";
-		}
-		void delete_private(){
-			numa_free(priv_vec, sizeof(vectorType));
-		}
+			setFunctionsPointers();
+		}		
 		
-		//Init shared data
-		static void init_shared(Parser& parser){
-			
-			shared_vec = (vectorType**) malloc(parser.get_num_s_vector()*sizeof(vectorType*));
+		//Init vectors
+		static void init_vectors(Parser& parser){
 
+			shared_vec = (vectorType**) malloc(parser.get_num_s_vector()*sizeof(vectorType*));
 			for(int i = 0; i < parser.get_num_s_vector(); i++){
 				vectorSize size = parser.get_tam_s_vector(i);
-				shared_vec[i] = (vectorType*) numa_alloc_onnode(size, parser.get_node_s_vector(i));
+				shared_vec[i] = (vectorType*) numa_alloc_onnode(size*sizeof(vectorType), parser.get_node_s_vector(i));
 				
 				for(vectorSize j = 0; j < size; j++){
 					shared_vec[i][j] = INTVALVEC;
 				}
 			}
 		}
+
 		static void free_shared(Parser& parser){
 			for(int i = 0; i < parser.get_num_s_vector(); i++){
 				numa_free(shared_vec[i], sizeof(vectorType));
@@ -129,39 +122,20 @@ class Thread_array{
 		}
 
 		//Call functions
-		int call_function(int index, vectorSize size) {
-            return (this->*function[index])(size);
+		int call_function(string func, vectorSize size) {
+            return (this->*functMap[func])(size);
         }
-		string get_function_name(int index){
-			cout << function_name[0] << endl;
-			return function_name[index];
-		}
 
-		// Fuctions over vectors data
-		// 1. Reads
-		int read_private(const vectorSize size){ 
-			vectorSize i = 0; 
-			volatile int add = 0;
-			volatile vectorSize j = 0;			
-
-			while(j < dist){
-				i = j;
-				while(i < size){
-					add = priv_vec[i];					
-					i+=dist;
-				}
-				j++;
-			}
-			return add;
-		}
-
-		int read_shared(vectorSize size){
+		// ------------1. Standar access------------
+		//1.1 Read
+		int read(vectorSize size){
 			vectorSize i = 0; 
 			volatile int add = 0;
 			volatile vectorSize j = 0;
-
+			
 			while(j < dist){
 				i = j;
+
 				while(i < size){
 					add = priv_shared_vec[i]; 
 					i+=dist;
@@ -170,118 +144,12 @@ class Thread_array{
 			}
 			return add;
 		}
-
-
-		// 2. Writes 2 
-		int read_private2(const vectorSize size){ 
-			vectorSize i = 0; 
-			volatile int add = 0;
-			volatile vectorSize j = 0;			
-
-			// if(omp_get_thread_num() == 1)
-			// {
-			// 	sleep(1);
-			// }
-			// while(j < dist){
-			// 	i = j;
-			// 	while(i < size){
-			// 		add = priv_vec[i];					
-			// 		i+=dist;
-			// 	}
-			// 	j++;
-			// }
-			return add;
-		}
-
-		int read_shared2(vectorSize size){
-			vectorSize i = 0; 
-			volatile vectorSize j = 0;
-			volatile int add = 0;
-
-			if (omp_get_thread_num() == 1)
-			{
-
-				struct timespec tim, tim2;
-				tim.tv_sec  = 1;
-				tim.tv_nsec = 000000000L;
-				if(nanosleep(&tim , &tim2) < 0 )   
-				{
-					printf("Nano sleep system call failed \n");
-					return -1;
-				}
-				// while(j < dist){
-				// i = j;
-				// 	while(i < 26214400){
-				// 		add = priv_shared_vec[i]; 
-				// 		i+=dist;
-				// 	}
-				// 	j++;
-				// }
-				// j = 0; 
-			}
-			while(j < dist){
-				i = j;
-				while(i < size){
-					add = priv_shared_vec[i]; 
-					i+=dist;
-				}
-				j++;
-			}
-			
-			return add;
-		}
-
-		
-		// 2. Writes
-		int write_private(const vectorSize size){
-			// vectorSize i = 0; 
-			volatile int add = 0;
-			// volatile vectorSize j = 0;
-
-			// while(j < dist){
-			// 	i = j;
-			// 	while(i < size){
-			// 		add = 'X';
-			//  		priv_vec[i] = add;				
-			// 		i+=dist;
-			// 	}
-			// 	j++;
-			// }
-			return add;
-		}
-
-		int write_shared(const vectorSize size){
+		// 1.2. Writes
+		int write(const vectorSize size){
 			vectorSize i = 0; 
 			volatile int add = 0;
 			volatile vectorSize j = 0;
-
-			//hacemos que el hilo 1 lea todos los datos del vector privado
 			
-			if (omp_get_thread_num() == 1)
-			{
-
-				struct timespec tim, tim2;
-				tim.tv_sec  = 1;
-				tim.tv_nsec = 000000000L;
-				if(nanosleep(&tim , &tim2) < 0 )   
-				{
-					printf("Nano sleep system call failed \n");
-					return -1;
-				}
-				// while(j < dist){
-				// i = j;
-				// 	while(i < 26214400){
-				// 		add = 'X';
-			 	// 		priv_shared_vec[i] = add;
-				// 		add = priv_shared_vec[i]; 
-				// 		i+=dist;
-				// 	}
-				// 	j++;
-				// }
-				// j = 0; 
-				
-			}
-
 			while(j < dist){
 				i = j;
 				while(i < size){
@@ -293,51 +161,93 @@ class Thread_array{
 			}
 			return add;
 		}
-
-
-		// 3. Read-Write
-		int rw_private(vectorSize size){
-			
-			// vectorSize i = 0; 
-			volatile int add = 0;
-			// volatile vectorSize j = 0;
-
-			// while(j < dist){
-			// 	i = j;
-			// 	while(i < size){
-			// 		add = priv_vec[i];
-			// 		priv_vec[i] = add + 1; 
-			// 		i+=dist;
-			// 	}
-			// 	j++;
-			// }
-			return add;
-		}
-
-		int rw_shared(vectorSize size){
+		// 1.3. Read-Write
+		int read_write(vectorSize size){
 			vectorSize i = 0; 
 			volatile int add = 0;
 			volatile vectorSize j = 0;
 
-			
-			if (omp_get_thread_num() == 1)
-			{
-
-				struct timespec tim, tim2;
-				tim.tv_sec  = 1;
-				tim.tv_nsec = 000000000L;
-				if(nanosleep(&tim , &tim2) < 0 )   
-				{
-					printf("Nano sleep system call failed \n");
-					return -1;
+			while(j < dist){
+				i = j;
+				while(i < size){	
+					add = priv_shared_vec[i];
+					priv_shared_vec[i] = add + 1; 
+					i+=dist;
 				}
+				j++;
 			}
+			return add;
+		}
+		// 1.4 Write-Read
+		int wr_shared(vectorSize size){
+			vectorSize i = 0; 
+			volatile int add = 0;
+			volatile vectorSize j = 0;
 
 			while(j < dist){
 				i = j;
-				while(i < size){
+
+				while(i < size){	
+					priv_shared_vec[i] = 1; 
 					add = priv_shared_vec[i];
-					priv_shared_vec[i] = add + 1; 
+					i+=dist;
+				}
+				j++;
+			}
+			return add;
+		}
+
+		// ----------2. Delay access (sleep)----------
+		//2.1 Read with sleep delay
+		int read_shared_sleep(vectorSize size){
+			vectorSize i = 0; 
+			volatile int add = 0;
+			volatile vectorSize j = 0;
+
+			if(omp_get_thread_num() == 1){
+				this_thread::sleep_for(500ms);
+			}
+			while(j < dist){
+				i = j;
+
+				#pragma noprefetch priv_shared_vec
+				while(i < size){
+					add = priv_shared_vec[i]; 
+					i+=dist;
+				}
+				j++;
+			}
+			return add;
+		}
+
+
+		// ---------3. Delay access (job-addtion)----------
+		//3.1 Read with execution delay
+		int read_shared_delay(vectorSize size){
+			vectorSize i = 0; 
+			volatile int add = 0;
+			volatile vectorSize j = 0;
+			
+			//Delay to thread 1
+			if(omp_get_thread_num() == 1){
+				while(j < dist){
+					i = j;
+					#pragma noprefetch priv_shared_vec
+					while(i < 10000000){
+						add = priv_shared_vec[i]; 
+						i+=dist;
+					}
+				j++;
+				}
+				j = 0;
+			}
+			
+			while(j < dist){
+				i = j;
+
+				#pragma noprefetch priv_shared_vec
+				while(i < size){
+					add = priv_shared_vec[i]; 
 					i+=dist;
 				}
 				j++;
@@ -392,15 +302,22 @@ int main(int argc, char* argv[]){
     }
 	string inputFile = argv[1];
     string outputFile = argv[2];
+	
 
 	//Parse arguments in input file
 	Parser parser;
     if(!parser.parse_input_file(inputFile)){
-		cout << "Error parsing input file" << endl;
 		return 1;
 	}
 	
-	parser.print(); //TODO: borrar
+	//Check if functions are correct
+	Thread_array* array = new Thread_array();
+	vector<string> opList = parser.get_op_list();
+	if (!array->checkFunctions(opList)) {
+		delete array;
+		return 1;
+	}
+	delete array; 
 	
 	//Open output file
 	ofstream outfile(outputFile+"Visual.txt", std::ios::app);
@@ -408,46 +325,53 @@ int main(int argc, char* argv[]){
        cout << "Error openning file: " << outputFile+"Visual.txt" << endl;
        return 1;
     }
-	
-	//Auxiliar variables
-	int half = ceil(parser.get_num_threads()/2);
-	int increment = 0;
-
-	//Get cpu and nodes information 
-	vector<cpu_set_t> cpus_vec = getHardwareData();
+	parser.print(outfile);
 	
 	//Openmp clauses
 	omp_set_num_threads(parser.get_num_threads());
 	omp_set_dynamic(false);
 
-	//Variables for cache flush 
+	//Vector initialization
+	Thread_array::init_vectors(parser);
+
+	//Shared variables
+	//1. Impresion 
+	int half = ceil(parser.get_num_threads()/2);
+	int increment = 0;
+	//2. Time marks
+	double tmarkT=0;
+	//3. Cache flush
 	int num_nodes = numa_max_node() + 1;
     std::vector<int> primer_hilo_por_nodo(num_nodes, -1);
+	//4. Hardware data
+	vector<cpu_set_t> cpus_vec = getHardwareData();
+	//5. Number of repetitions
+	int num_iter = parser.get_num_iter();
+	//6. Type of sumary 
+	string summaryType = parser.get_summary_type();
+	//7. Speed up operations 
+	vector<string> speedUpCalcList = parser.get_speedup_calc();
+	unordered_map<string, double> speedUpDataT;
 	
-	//Shared set creation
-	Thread_array::init_shared(parser);
-	
-	//Get parser information
-	bool pData = parser.get_p_data();
-
-	//Time marks
-	double tmarkpT=0;
-	double tmarksT=0;	
-
 	#pragma omp parallel
 	{
 		//Variables
-		int i; 
-		int op = 0, k = 0;
+		int i, result;
 
-		//Auxiliar variables
-		int result, result2;
-		vectorSize tam;
+		//Speed up data per thread
+		unordered_map<string, double> speedUpData;
+		for (const string& op : speedUpCalcList) {
+			auto pos = op.find("/");
+			string op1 = op.substr(0, pos);
+			string op2 = op.substr(pos + 1, op.size() - pos - 1);
+			speedUpData[op1] = 0;
+			speedUpData[op2] = 0;
+			speedUpData[op] = 0;
+		}
 
 		//Time marks
 		chrono::high_resolution_clock::time_point start, end;
 		std::chrono::duration<double> diff;
-		double tmarkp;
 		double tmarks;
 
 		//Allocate thread on node
@@ -457,23 +381,6 @@ int main(int argc, char* argv[]){
 		{
 			sched_setaffinity(0, sizeof(cpus_vec[node]), &cpus_vec[node]);
 		}
-		
-		#pragma omp single
-		{
-			outfile << setw(50) << "-Datos-" << endl;
-		}
-		#pragma omp critical
-        {
-			//Print thread information
-			outfile << "-Hilo: " << thread << endl;
-			outfile << " +CPU: " << sched_getcpu() << " - Node: " << node << endl;
-			if(pData){
-				outfile << " +Tamaño del P_Vector(" << parser.get_node_p_vector(thread) << "): " << parser.get_tam_p_vector(thread) << endl;
-			}
-			outfile << " +Datos recorridos del S_Vector(" << parser.get_s_vector_per_thread(thread) << "): " << parser.get_num_s_elm_proc(thread) 
-			<< "/" << parser.get_tam_s_vector(parser.get_s_vector_per_thread(thread))  << endl;
-		}
-		#pragma omp barrier	
         
 		//Configure cache flush
         #pragma omp critical
@@ -485,138 +392,148 @@ int main(int argc, char* argv[]){
         #pragma omp barrier
 
 		//Allocate private data for each thread
+		int vectorID = parser.get_s_vector_per_thread(thread);
+		vectorSize tam = parser.get_tam_s_vector(vectorID);
 		Thread_array array;
 		array.init_Private(thread, parser);
 
-		//Variables axiliares //TODO 
-		bool condition;
-
 		#pragma omp single
 		{	
-			outfile << endl;
-			outfile << setw(50) << "-Resultados-" << endl;
-			if(parser.get_p_data()){
-				outfile << setw(25) << " "  << left << setw(20) << "T_Datos_Privados" ;
-			}else{
-				outfile << setw(25) << " ";
-			}
-			outfile << left << setw(20) << "T_Datos_Compartidos" << endl;
+			outfile << setw(23) << " " << "-Results-" << endl;
+			outfile << setw(31) << " " << "Time_Cost(s)" << endl;
 		}
-		
-		//Operations 
-		while (op < nOP){
-			
-			
-			condition = parser.get_op_type(op);
-			
-			//Check if the operation is active
-			if(condition){
 
+		//Call all test functions
+		for (const string& op : opList) {
+
+			//Time marks
+			#pragma omp single
+			{
+				tmarkT=0;
+			}
+			tmarks = 0;
+			
+			i=0;
+			while(i < num_iter){
+				//Flush cache
+				if (thread == primer_hilo_por_nodo[node]) {
+					flushCache(node);
+				}
+				#pragma omp barrier
+
+				//Function call
+				start = std::chrono::high_resolution_clock::now();
+				result = array.call_function(op, tam);
+				end = std::chrono::high_resolution_clock::now();
+				diff = end - start;
+
+				tmarks += diff.count();
+				i++;
+			}
+			tmarks /= num_iter;
+			doNotOptimizeAway(result);
+
+			//Print results
+			#pragma omp critical
+			{	
+				if(increment == half){
+					outfile << setw(15)  << op << "|";
+				}else{
+					outfile << setw(15)  << " " << "|";
+				}
+				outfile  << left << setw(15) << (" Thread " + to_string(thread)  + ":");
+				outfile  << fixed << setprecision(9) << left << setw(20) << tmarks << endl;
+				
+				//Summary 
+				if(summaryType == "max")
+					tmarkT = max(tmarkT, tmarks);
+				else if(summaryType == "min")
+					tmarkT = min(tmarkT, tmarks);
+				else if(summaryType == "sum")
+					tmarkT += tmarks;
+				increment++;
+			}
+			#pragma omp barrier
+			
+			#pragma omp single
+			{
+				outfile << setw(15)  <<   " " << "|";
+				outfile << left << setw(15) << " Total:";
+				outfile << fixed << setprecision(9) << left << setw(20) << tmarkT << endl;
+				outfile << endl;
+
+			}
+
+			//Speed up data
+			auto iter = speedUpData.find(op);
+			//If op is an operation used to calculate speed up
+			if (iter != speedUpData.end()) {
+				speedUpData[op] = tmarks;
 				#pragma omp single
 				{
-					tmarkpT=0;
-					tmarksT=0;	
-				}
-				
-				//1.1. Private
-				if(pData){
-					
-					tam = parser.get_tam_p_vector(thread);
-					i = 0;
-					tmarkp = 0;
-					while(i<ITER){
-						
-						//Flush cache
-						if (thread == primer_hilo_por_nodo[node]) {
-							flushCache(node);
-						}
-						#pragma omp barrier	
+					speedUpDataT[op] = tmarks;
+				} 
+			}
+			increment = 0;	
+		}
+		
+		//Print speed up data
+		if(!speedUpCalcList.empty()){
+			#pragma omp barrier
+			#pragma omp single
+			{
+				outfile << setw(23) << " " << "-Speedup-" << endl;
+			}
+			#pragma omp barrier
 
-						start = std::chrono::high_resolution_clock::now();
-						
-						result = array.call_function(k, tam);
-						
-						end = std::chrono::high_resolution_clock::now();
-						diff = end - start;
-						tmarkp += diff.count();
-						i++;
-					}
-					tmarkp /= ITER;
-					doNotOptimizeAway(result);
-				}
-				
-				//1.2. Shared
-				tam = parser.get_num_s_elm_proc(thread);
-				i=0;
-				tmarks = 0;
-				
-				while(i < ITER){
-					//Flush cache
-					if (thread == primer_hilo_por_nodo[node]) {
-						flushCache(node);
-					}
-					
-					// #pragma omp barrier	
-					// if(omp_get_thread_num() == 1){
-					// 	sleep(1);
-					// }
+			//For each speed up operation
+			for( const string& op : speedUpCalcList) {
 
-					start = std::chrono::high_resolution_clock::now();
-					
-					result2 = array.call_function(k+1, tam);
+				//Get the operands of the operation
+				auto pos = op.find("/");
+				string op1 = op.substr(0, pos);
+				string op2 = op.substr(pos + 1, op.size() - pos - 1);
 
-					end = std::chrono::high_resolution_clock::now();
-					diff = end - start;
-					tmarks += diff.count();
-					i++;
-				}
-				tmarks /= ITER;
-				doNotOptimizeAway(result2);
-
-				//Print results
+				//Each thread calculate its speed up
 				#pragma omp critical
 				{	
 					if(increment == half){
-						outfile << setw(10)  <<   array.get_function_name(op) << "| "  ;
+						outfile << setw(15)  << op << "|";
 					}else{
-						outfile << setw(10)  <<   " " << "| "  ;
+						outfile << setw(15)  << " " << "|";
 					}
-					
-					outfile  << "Hilo " << thread << left << setw(7) << ":"  ;
-					if(pData){
-						 outfile << fixed << setprecision(9) << left << setw(20) << tmarkp;
-						 tmarkpT += tmarkp;
-					}
-					outfile << fixed << setprecision(9) << left << setw(20) << tmarks << endl;
-					tmarksT += tmarks;
-
 					increment++;
+						
+					outfile  << left << setw(15) << (" Thread " + to_string(thread)  + ":");
+					double divisionResult = 0.0;
+					if (speedUpData[op2] != 0) {
+						divisionResult = speedUpData[op1] / speedUpData[op2];
+					}
+					outfile  << fixed << setprecision(9) << left << setw(20) << divisionResult << endl;
 				}
 				#pragma omp barrier
-				
+
+				//A single thread calculate the total speed up
 				#pragma omp single
 				{
-					outfile << setw(10)  <<   " " << "| "  ;
-					outfile  << "Total " << left << setw(7) << ":"  ;
-					if(pData){
-						 outfile << fixed << setprecision(9) << left << setw(20) << tmarkpT;
+					outfile << setw(15)  <<   " " << "|";
+					outfile << left << setw(15) << " Total:";
+					double divisionResult = 0.0;
+					if (speedUpDataT[op2] != 0) {
+						divisionResult = speedUpDataT[op1] / speedUpDataT[op2];
 					}
-					outfile << fixed << setprecision(9) << left << setw(20) << tmarksT << endl;
+					outfile << fixed << setprecision(9) << left << setw(20) << divisionResult << endl;
 					outfile << endl;
 				}
-				
+				#pragma omp barrier
+				increment = 0;
 			}
-			op+=1;
-			k+=2;
-			increment = 0;
 		}
-
-		//Destruimos el objeto 
-		array.delete_private();
 	}
-	cout << endl;
 	Thread_array::free_shared(parser);
+	outfile << endl;
 	outfile.close();
-
-	return 0;
+	return 0;		
 }
+
+

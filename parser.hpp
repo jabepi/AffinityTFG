@@ -8,10 +8,8 @@
 #include <vector>
 #include <map>
 #include <functional>
-
+#include <unordered_map>
 #include "types.h"
-
-#define nOP 3
 #define pInfo 2
 
 using namespace std;
@@ -19,321 +17,291 @@ using namespace std;
 class Parser {
 public:
 
-    
     Parser() = default;
     ~Parser() {
-        cout << "Parser destructor" << endl;
-        delete[] SvectorPerThread;
+        delete[] vectorPerThread;
+    }
+    void parserError(string error) {
+        cout << "Parser error: " << error << endl;
+        exit(1);
     }
 
+    //Function to parse the input file
     bool parse_input_file(const string& filename) {
         ifstream file(filename);
         string line;
-        int value; 
-        long long value2;
-
-        getline(file, line);
-        istringstream iss(line);
-        string key;
-        iss >> key;
+        string stringValue;
+        vectorSize intValue; 
 
         // Get the node asocciated to each thread  
-        if (key != "nodeThread:") {
-            cout << "Error: nodeThread not found" << endl;
-            file.close();
-            return false;
-        } 
-        while (iss >> value) {
-            nodeThread.push_back(value);
-        }
-        
         getline(file, line);
-        iss.clear(); 
-        iss.str(line);
-        iss >> key;
-        
-        //Get the operations that are going to be performed in the program 
-        //TODO mejorar esto
-        if (key != "opType:") {
-            cout << "Error: opType not found" << endl;
+        istringstream iss(line);    
+        iss >> stringValue;        
+        if (stringValue != "opType:") {
+            parserError("OpType not found");
             file.close();
             return false; 
         }
-        NopTot = 0;
-        bool flag = 0;
         string op;
-        iss >> op;
-        for (int i = 0; i < nOP; i++) {
-            std::cout << op << std::endl;
-            if (op.compare("-")) {
-                opType[i] = true;
-                NopTot++;
-                flag = 1;
-            } else {
-                opType[i] = false;
-            }
-            iss >> op;
+        while (iss >> op) {
+            opType.push_back(op);
         }
-        if(!flag){
-            cout << "No operations to perform" << endl;
+        if(!opType.size()){
+            parserError("No operations to perform");
             file.close();
             return false;
         }
 
-
+        //Get the operations to be performed in the program 
         getline(file, line);
         iss.clear(); 
         iss.str(line);
-        iss >> key;
-            
-        // Activate/deactivate usage of the private data
-        //TODO repensar esto
-        if (key == "pData:") {
-
-            iss >> pData;
-            if(pData){
-                                         
-                getline(file, line);
-                iss.clear(); 
-                iss.str(line);
-                iss >> key;
-                
-                // Get the node of each private vector
-                if (key != "nodePVector:") {
-                    cout << "Error: nodePVector not found" << endl;
-                    file.close();
-                    return false;
-                } 
-                for (int i = 0; i < (int)nodeThread.size(); i++) {
-                    iss >> value;
-                    nodePVector.push_back(value);
-                }
-                
-                getline(file, line);
-                iss.clear(); 
-                iss.str(line);
-                iss >> key;
-
-                //Get size of each private vector
-                if (key != "tamPVector:") {
-                    cout << "Error: tamPVector not found" << endl;
-                    file.close();
-                    return false;
-                }
-                for (int i = 0; i < (int)nodeThread.size(); i++) {
-                    iss >> value2;
-                    tamPVector.push_back(value2);
-                }
-                
-            } 
-        }
-
-        getline(file, line);
-        iss.clear(); 
-        iss.str(line);
-        iss >> key; 
-            
-        //Get the node of each shared vector
-        if (key != "nodeSVector:") {
-            cout << "Error: nodeSVector not found" << endl;
+        iss >> stringValue;
+        if (stringValue != "nodePerThread:") {
+            parserError("nodePerThread not found");
             file.close();
             return false;
         } 
-        while (iss >> value) {
-            
-            nodeSVector.push_back(value);
+        while (iss >> intValue) {
+            nodePerThread.push_back(intValue);
+        }
+        
+        //Get the node of each vector
+        getline(file, line);
+        iss.clear(); 
+        iss.str(line);
+        iss >> stringValue;
+        if (stringValue != "nodePerVector:") {
+            parserError("nodePerVector not found");
+            file.close();
+            return false;
+        } 
+        while (iss >> intValue) {
+            nodePerVector.push_back(intValue);
         }
 
+        //Get the size of each vector
         getline(file, line);
         iss.clear();
         iss.str(line);
-        iss >> key;
-
-        //Get the size of each shared vector
-        if (key != "tamSVector:") {
-            cout << "Error: tamSVector not found" << endl;
+        iss >> stringValue;
+        if (stringValue != "tamPerVector:") {
+            parserError("tamPerVector not found");
             file.close();
             return false;
         }
-        while (iss >> value) {
-            tamSVector.push_back(value);
+        while (iss >> intValue) {
+            tamPerVector.push_back(intValue);
         }
 
+        //Get vector that each thread is going to process
         getline(file, line);
         iss.clear();
         iss.str(line);
-        iss >> key;
-
-        //Get the shared vector that each thread is going to process
-        if (key != "SvectorPerThread:") {
-            cout << "Error: SvectorPerThread not found" << endl;
+        iss >> stringValue;        
+        if (stringValue != "vectorPerThread:") {
+            parserError("vectorPerThread not found");
             file.close();
             return false;
         }
-
-        initialize_SvectorPerThread();
+        initialize_vectorPerThread();
         string group;
-        for(int i =0; i < (int)nodeSVector.size(); i++) { 
+        for(int i =0; i < (int)nodePerVector.size(); i++) { 
             getline(iss, group, ',');
             istringstream groupStream(group);
-            while (groupStream >> value) { 
-                SvectorPerThread[value] = i;
+            while (groupStream >> intValue) { 
+                vectorPerThread[intValue] = i;
             }
-            
         }
+
+        //Get the type of summary to be performed
         getline(file, line);
         iss.clear();
         iss.str(line);
-        iss >> key;
-
-        //Get the number of elements to process by each thread
-        if (key != "numSElmProc:") {
-            cout << "Error: numSElmProc not found" << endl;
+        iss >> stringValue;
+        if (stringValue != "summaryType:") {
+            parserError("summaryType not found");
             file.close();
             return false;
         }
-        while (iss >> value) {
-            numSElmProc.push_back(value);
+        iss >> summaryType;       
+
+        //Get the speedups to be calculated
+        getline(file, line);
+        iss.clear();
+        iss.str(line);
+        iss >> stringValue;
+        if (stringValue != "speedupCalc:") {
+            file.close();
+            return false;
         }
+        while (iss >> stringValue) {
+            auto pos = stringValue.find("/");
+            //Check if the operation is in the list of operations
+            string aux = stringValue.substr(0, pos);
+            if(opType.end() == find(opType.begin(), opType.end(), aux)){
+                parserError("Operation \"" + aux + "\" not set for execution");
+                file.close();
+                return false;
+            }
+            aux = stringValue.substr(pos+1, stringValue.size());
+            if(opType.end() == find(opType.begin(), opType.end(), aux)){
+                parserError("Operation \"" + aux + "\" not set for execution");
+                file.close();
+                return false;
+            }
+            speedupCalcList.push_back(stringValue);
+        }
+
+        //Get number of times to repeat the execution
+        getline(file, line);
+        iss.clear();
+        iss.str(line);
+        iss >> stringValue;
+        if (stringValue != "numIter:") {
+            parserError("numIter not found");
+            file.close();
+            return false;
+        }
+        iss >> intValue;
+        numIter = intValue;
+
+        
 
         file.close();        
         return true;
+        
+        
     }
 
     //Getter the number of threads
     int get_num_threads() {
-        return (int)nodeThread.size();
+        return (int)nodePerThread.size();
     }
 
     //Getter the node of each thread
     int get_node_thread(int thread) {
-        return nodeThread[thread];
+        return nodePerThread[thread];
     }
 
     //Getter the operations that are going to be performed in the program (1: read, 2: write, 3: read/write)
-    bool get_op_type(int op) {
-        return opType[op];
-    }
-
-    //Getter the number of operations that are going to be performed in the program
-    int get_num_op_tot() {
-        return NopTot;
-    }
-
-    //Getter the usage of the private data
-    bool get_p_data() {
-        return pData;
-    }
-
-    //Getter the node of each private vector
-    int get_node_p_vector(int thread) {
-        return nodePVector[thread];
-    }
-
-    //Getter the size of each private vector
-    vectorSize get_tam_p_vector(int thread) {
-        return tamPVector[thread];
+    vector<string> get_op_list() {
+        return opType;
     }
 
     //Get number of shared vectors
     int get_num_s_vector() {
-        return nodeSVector.size();
+        return nodePerVector.size();
     }
 
     //Getter the node of each shared vector
     int get_node_s_vector(int vector) {
-        return nodeSVector[vector];
+        return nodePerVector[vector];
     }
 
     //Getter the size of each shared vector
     vectorSize get_tam_s_vector(int vector) {
-        return tamSVector[vector];
+        return tamPerVector[vector];
     }
 
     //Getter the shared vector that each thread is going to process
     int get_s_vector_per_thread(int thread) {
-        return SvectorPerThread[thread];
+        return vectorPerThread[thread];
     }
 
-    //Getter the number of elements to process by each thread
-    int get_num_s_elm_proc(int thread) {
-        return numSElmProc[thread];
+    //Get the number of times to repeat the execution
+    int get_num_iter() {
+        return numIter;
     }
 
+    //Get the type of summary to be performed
+    string get_summary_type() {
+        return summaryType;
+    }
 
-    //Auxiliar function to print the data
-    void print() {
-        cout << "nodeThread: ";
-        for (int value : nodeThread) {
-            cout << value << " ";
+    //Get the speedups to be calculated
+    vector<string> get_speedup_calc() {
+        return speedupCalcList;
+    }
+
+    //Print parser data
+    void print(ofstream& outfile) {
+        
+        outfile << setw(18) << " " << "--Execution data--" << endl;
+        outfile << "+ Vectors data" << endl;
+        for (int i = 0; i < (int)nodePerVector.size(); ++i) {
+            outfile << " - Vector "  << setw(6) << left << i;
+            outfile << "node: " << setw(6) << left << nodePerVector[i];
+            outfile << "size: " << tamPerVector[i] << endl;
         }
+        outfile << "\n\n";
+
+        outfile << "+ Threads data" << endl;
+        for (int i = 0; i < (int)nodePerThread.size(); ++i) {
+            outfile << " - Thread " << setw(6) << left << i;
+            outfile << "node: " << setw(6) << left << nodePerThread[i];
+            outfile << "vector: " << vectorPerThread[i];
+            outfile << endl;
+        }
+        outfile << "\n";
+        outfile << "+ Operation data" << endl;
+        outfile << " - Operations to be performed: ";
+        for (int i = 0; i < (int)opType.size(); ++i) {
+            outfile << opType[i] << ", ";
+        }
+        outfile << endl;
+        outfile << " - type of summary: " << summaryType << endl;
+        outfile << "\n";
+    }
+
+    //Print parser data to be used in scripting
+    void printP(){
+        int i;
+        cout << "Execution data:" << endl;
+        cout << "Vectors:";
+        for (i = 0; i < (int)nodePerVector.size()-1; ++i) {
+            cout << "[" << nodePerVector[i] << "," << tamPerVector[i] << "],";
+        }
+        cout << "[" << nodePerVector[nodePerVector.size()-1] << "," << tamPerVector[nodePerVector.size()-1] << "]";
+        cout << endl;
+        cout << "Threads:";
+        for (i = 0; i < (int)nodePerThread.size()-1; ++i) {
+            cout << "[" << nodePerThread[i] << "," << vectorPerThread[i] << "],";
+        }
+        cout << "[" << nodePerThread[nodePerThread.size()-1] << "," << vectorPerThread[nodePerThread.size()-1] << "]";
+        cout << endl;
+        cout << "Operations:";
+        
+        for (i = 0; i < (int)opType.size()-1; ++i) {
+            cout << opType[i] << ",";
+        }
+        cout << opType[opType.size()-1];
         cout << endl;
 
-        cout << "opType: ";
-        for (int i = 0; i < 3; ++i) {
-            cout << opType[i] << " ";
+        cout << "Summary:" << summaryType << endl;
+        cout << "SpeedupCalc:"; 
+        for (i = 0; i < (int)speedupCalcList.size()-1; ++i) {
+            cout << speedupCalcList[i] << ",";
         }
-        cout << endl;
+        cout << speedupCalcList[speedupCalcList.size()-1] << endl;
 
-        cout << "pData: " << pData << endl;
-
-        cout << "nodePVector: ";
-        for (int value : nodePVector) {
-            cout << value << " ";
-        }
-        cout << endl;
-
-        cout << "tamPVector: ";
-        for (long long value : tamPVector) {
-            cout << value << " ";
-        }
-        cout << endl;
-
-        cout << "nodeSVector: ";
-        for (int value : nodeSVector) {
-            cout << value << " ";
-        }
-        cout << endl;
-
-        cout << "tamSVector: ";
-        for (int value : tamSVector) {
-            cout << value << " ";
-        }
-        cout << endl;
-
-        cout << "SvectorPerThread: ";
-        for (int i = 0; i < (int)nodeThread.size(); ++i) {
-            cout << SvectorPerThread[i] << " ";
-        }
-        cout << endl;
-
-        cout << "numSElmProc: ";
-        for (int value : numSElmProc) {
-            cout << value << " ";
-        }
-        cout << endl << endl;
-        }
+    }
 
 private:
-    vector<int> nodeThread;
-    bool opType[nOP];
-    int NopTot;
-    bool pData;
-    vector<int> nodePVector;
-    vector<vectorSize> tamPVector;
-    vector<int> nodeSVector;
-    vector<vectorSize> tamSVector; 
-    int* SvectorPerThread;
-    vector<vectorSize> numSElmProc;
-
-    void  initialize_SvectorPerThread() {
-        int size = (int)nodeThread.size();
-        SvectorPerThread = new int[size];
-
+    vector<int> nodePerThread;
+    vector<string> opType;
+    vector<int> nodePerVector;
+    vector<vectorSize> tamPerVector; 
+    int* vectorPerThread;
+    string summaryType;
+    vector <string> speedupCalcList;
+    int numIter;
+    void  initialize_vectorPerThread() {
+        int size = (int)nodePerThread.size();
+        vectorPerThread = new int[size];
         for (int i = 0; i < size; ++i) {
-            SvectorPerThread[i] = -1;
+            vectorPerThread[i] = -1;
         }
     }
 };
-
 #endif // PARSER_HPP

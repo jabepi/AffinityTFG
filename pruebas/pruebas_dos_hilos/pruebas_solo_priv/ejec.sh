@@ -1,10 +1,12 @@
 #!/bin/bash
-clear
-archivo="../../../../affinity"
-g++ "$archivo.cpp" -lnuma -fopenmp -O0 -o "$archivo.out"
+archivo="../../../affinity"
+if [ $# -eq 1 ] && [ "$1" == "1" ]; then
+    clear
+    g++ "$archivo.cpp" -lnuma -fopenmp -O0 -o "$archivo.out"
+fi
 
 # Define un vector con elementos que contienen pares de números
-vector=("0 2 0 0" "0 0 0 0" "2 2 0 0" "0 2 0 2" "0 2 2 0" "0 0 0 2")
+vector=("0 2 0 2" "0 0 0 2" "0 2 2 0" "0 2 0 0" "0 0 0 0" "2 2 0 0")
 
 # Recorre el vector
 for elemento in "${vector[@]}"; do
@@ -15,8 +17,8 @@ for elemento in "${vector[@]}"; do
     D0=${numeros[2]}
     D1=${numeros[3]}
 
-    sed -i "s/^nodeThread:.*$/nodeThread: $H0 $H1/g" args
-    sed -i "s/^nodeSVector:.*$/nodeSVector: $D0 $D1/g" args
+    sed -i "s/^nodePerThread:.*$/nodePerThread: $H0 $H1/g" args
+    sed -i "s/^nodePerVector:.*$/nodePerVector: $D0 $D1/g" args
 
     ./"$archivo.out" args salida
 done

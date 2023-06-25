@@ -1,9 +1,9 @@
-opType: write_read
+opType: read_s write_s read_write_s
 nodePerThread: 0 0
 nodePerVector: 0
-tamPerVector: 209715200
+tamPerVector: 2
 vectorPerThread: 0 1
 summaryType: max
 speedupCalc: 
 numIter: 1
-argsExtra: sleep:100
+argsExtra: sleep:900

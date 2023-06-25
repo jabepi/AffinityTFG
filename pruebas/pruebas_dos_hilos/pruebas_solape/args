@@ -1,0 +1,9 @@
+opType: read_h write_h read_write_h
+nodePerThread: 0 0
+nodePerVector: 0
+tamPerVector: 2
+vectorPerThread: 0 1
+summaryType: max
+speedupCalc: 
+numIter: 1
+argsExtra: sleep:100

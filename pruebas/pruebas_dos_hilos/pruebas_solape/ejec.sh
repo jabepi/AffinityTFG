@@ -12,7 +12,6 @@ fi
 
 # Posiciones de los hilos y del vector
 vector=( "0 2 0" "0 0 2" "0 0 0")
-sleepValues=( "0" "10" "20" "30" "40" "100" "200" "300" "400" "500" "600" "700" "800" "900" )
 
 for elemento in "${vector[@]}"; do
 
@@ -22,10 +21,7 @@ for elemento in "${vector[@]}"; do
     H1=${numeros[1]}
     D0=${numeros[2]}
 
-    for sleepValue in "${sleepValues[@]}"; do
-        sed -i "s/^nodePerThread:.*$/nodePerThread: $H0 $H1/g" args
-        sed -i "s/^nodePerVector:.*$/nodePerVector: $D0/g" args
-        sed -i -r "s/(sleep:)[0-9]+/\1$sleepValue/g" args
-        ./"$archivo.out" args salidaSleep
-    done
+    sed -i "s/^nodePerThread:.*$/nodePerThread: $H0 $H1/g" args
+    sed -i "s/^nodePerVector:.*$/nodePerVector: $D0/g" args
+    ./"$archivo.out" args salida
 done

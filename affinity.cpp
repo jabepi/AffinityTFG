@@ -26,16 +26,7 @@ using namespace std;
 #define L1 32768
 #define L2 262144
 #define L3 26214400
-
-//TODO IMPORTANTE Simplificar con numa_run_on_node  
-#define dist 192 //TODO modificar
-
-//TODO brrar 
-#define escribir 1
-#define salto 0
-
-
-int inicio = 0;
+#define dist 192 
 
 //Avoid compiler optimization
 template<typename T> 
@@ -86,9 +77,6 @@ class Thread_array{
 			functMap["read_h"] = &Thread_array::read_h;
 			functMap["write_h"] = &Thread_array::write_h;
 			functMap["read_write_h"] = &Thread_array::read_write_h;
-			functMap["read_ja"] = &Thread_array::read_ja;
-			functMap["write_ja"] = &Thread_array::write_ja;
-			functMap["read_write_ja"] = &Thread_array::read_write_ja;
 			return functMap;
 		}
 		bool checkFunctions(vector <string> functions){
@@ -340,104 +328,6 @@ class Thread_array{
 			}
 			return add;
 		}
-
-
-		// ---------4. Delay access (job-addtion)----------
-		//4.1 Read with execution delay
-		int read_ja(vectorSize size){
-			vectorSize i = 0; 
-			volatile int add = 0;
-			volatile vectorSize j = 0;
-			
-			//Delay to thread 1
-			if(omp_get_thread_num() == 1){
-				while(j < dist){
-					i = j;					
-					while(i < 26214400){
-						add = priv_shared_vec[i]; 
-						i+=dist;
-					}
-				j++;
-				}
-				j = 0;
-			}
-			
-			while(j < dist){
-				i = j;
-				while(i < size){
-					add = priv_shared_vec[i]; 
-					i+=dist;
-				}
-				j++;
-			}
-			return add;
-		}
-		//4.2 Write with execution delay
-		int write_ja(vectorSize size){
-			vectorSize i = 0; 
-			volatile int add = 0;
-			volatile vectorSize j = 0;
-			
-			//Delay to thread 1
-			if(omp_get_thread_num() == 1){
-				while(j < dist){
-					i = j;
-					#pragma noprefetch priv_shared_vec
-					while(i < 26214400){
-						add = 'X';
-			 			priv_shared_vec[i] = add;
-						i+=dist;
-					}
-				j++;
-				}
-				j = 0;
-			}
-			
-			while(j < dist){
-				i = j;
-				while(i < size){
-					add = 'X';
-			 		priv_shared_vec[i] = add;
-					i+=dist;
-				}
-				j++;
-			}
-			return add;
-		}
-		//4.2 Read-Write with execution delay
-		int read_write_ja(vectorSize size){
-			vectorSize i = 0; 
-			volatile int add = 0;
-			volatile vectorSize j = 0;
-			
-			//Delay to thread 1
-			if(omp_get_thread_num() == 1){
-				while(j < dist){
-					i = j;
-					#pragma noprefetch priv_shared_vec
-					while(i < 26214400){
-						add = priv_shared_vec[i];
-						priv_shared_vec[i] = add + 1; 
-						i+=dist;
-					}
-				j++;
-				}
-				j = 0;
-			}
-			
-			while(j < dist){
-				i = j;
-				while(i < size){
-					add = priv_shared_vec[i];
-					priv_shared_vec[i] = add + 1; 
-					i+=dist;
-				}
-				j++;
-			}
-			return add;
-		}
-
-
 };
 
 vectorType** Thread_array::shared_vec;
@@ -486,7 +376,6 @@ int main(int argc, char* argv[]){
     }
 	string inputFile = argv[1];
     string outputFile = argv[2];
-	
 
 	//Parse arguments in input file
 	Parser parser;
@@ -678,7 +567,7 @@ int main(int argc, char* argv[]){
 				string op1 = op.substr(0, pos);
 				string op2 = op.substr(pos + 1, op.size() - pos - 1);
 
-				//Each thread calculate its speed up
+				//Each thread calculate its speedup
 				#pragma omp critical
 				{	
 					if(increment == half){
@@ -697,7 +586,7 @@ int main(int argc, char* argv[]){
 				}
 				#pragma omp barrier
 
-				//A single thread calculate the total speed up
+				//A single thread calculate the total speedup
 				#pragma omp single
 				{
 					outfile << setw(15)  <<   " " << "|";
@@ -719,5 +608,3 @@ int main(int argc, char* argv[]){
 	outfile.close();
 	return 0;		
 }
-
-

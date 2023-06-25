@@ -1,7 +1,7 @@
 opType: write_read
 nodePerThread: 3
 nodePerVector: 3
-tamPerVector: 209715200 
+tamPerVector: 2
 vectorPerThread: 0
 summaryType: sum
 speedupCalc: 

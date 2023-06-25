@@ -166,12 +166,28 @@ public:
         iss >> intValue;
         numIter = intValue;
 
+        //Get extra arguments
+        getline(file, line);
+        iss.clear();
+        iss.str(line);
+        iss >> stringValue;
+        if (stringValue != "argsExtra:") {
+            parserError("argsExtra not found");
+            file.close();
+            return false;
+        }
         
+        for (string line; getline(iss, line, ','); ){
+            auto pos = line.find(":");
+            string arg = line.substr(0, pos);
+            arg.erase(0, arg.find_first_not_of(" \t\r\n"));
+            string value = line.substr(pos+1, line.size());
+            value.erase(0, value.find_first_not_of(" \t\r\n"));
+            argsExtra[arg] = value;
+        }
 
         file.close();        
         return true;
-        
-        
     }
 
     //Getter the number of threads
@@ -222,6 +238,10 @@ public:
     //Get the speedups to be calculated
     vector<string> get_speedup_calc() {
         return speedupCalcList;
+    }
+    //Get extra arguments
+    unordered_map<string, string> get_args_extra() {
+        return argsExtra;
     }
 
     //Print parser data
@@ -295,6 +315,7 @@ private:
     int* vectorPerThread;
     string summaryType;
     vector <string> speedupCalcList;
+    unordered_map<string, string> argsExtra;
     int numIter;
     void  initialize_vectorPerThread() {
         int size = (int)nodePerThread.size();
@@ -303,5 +324,6 @@ private:
             vectorPerThread[i] = -1;
         }
     }
+    
 };
 #endif // PARSER_HPP

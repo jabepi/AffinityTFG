@@ -22,14 +22,13 @@ using namespace std;
 #include "types.h"
 
 //Constants
-#define ITER 1
 #define INTVALVEC 'A'
 #define L1 32768
 #define L2 262144
 #define L3 26214400
 
 //TODO IMPORTANTE Simplificar con numa_run_on_node  
-#define dist 192
+#define dist 192 //TODO modificar
 
 //TODO brrar 
 #define escribir 1
@@ -62,6 +61,9 @@ class Thread_array{
 		//Vector of operations
 		static vectorType** shared_vec;
 		vectorType* priv_shared_vec;
+
+		//Extra arguments 
+		unordered_map<string, string> arg;
 		
 		//Funcion pointer
 		typedef int (Thread_array::*MemFuncPtr)(vectorSize);
@@ -73,11 +75,20 @@ class Thread_array{
 
 		//Function control
 		unordered_map<std::string, MemFuncPtr> setFunctionsPointers(){
-
 			//Funciones sobre vectores	
 			functMap["read"] = &Thread_array::read;
 			functMap["write"] = &Thread_array::write;
-			functMap["read_write"] = &Thread_array::read_write;	
+			functMap["read_write"] = &Thread_array::read_write;
+			functMap["write_read"] = &Thread_array::write_read;
+			functMap["read_s"] = &Thread_array::read_s;
+			functMap["write_s"] = &Thread_array::write_s;
+			functMap["read_write_s"] = &Thread_array::read_write_s;
+			functMap["read_h"] = &Thread_array::read_h;
+			functMap["write_h"] = &Thread_array::write_h;
+			functMap["read_write_h"] = &Thread_array::read_write_h;
+			functMap["read_ja"] = &Thread_array::read_ja;
+			functMap["write_ja"] = &Thread_array::write_ja;
+			functMap["read_write_ja"] = &Thread_array::read_write_ja;
 			return functMap;
 		}
 		bool checkFunctions(vector <string> functions){
@@ -96,6 +107,9 @@ class Thread_array{
 			//Get pointer to shared vector
 			priv_shared_vec = shared_vec[parser.get_s_vector_per_thread(threadN)];
 
+			//Get extra arguments
+			arg = parser.get_args_extra();
+			
 			//Init function pointers
 			setFunctionsPointers();
 		}		
@@ -179,7 +193,7 @@ class Thread_array{
 			return add;
 		}
 		// 1.4 Write-Read
-		int wr_shared(vectorSize size){
+		int write_read(vectorSize size){
 			vectorSize i = 0; 
 			volatile int add = 0;
 			volatile vectorSize j = 0;
@@ -197,15 +211,16 @@ class Thread_array{
 			return add;
 		}
 
-		// ----------2. Delay access (sleep)----------
-		//2.1 Read with sleep delay
-		int read_shared_sleep(vectorSize size){
+
+		// -------------2. half-access ----------
+		//2.1 Read 
+		int read_h(vectorSize size){
 			vectorSize i = 0; 
 			volatile int add = 0;
 			volatile vectorSize j = 0;
 
 			if(omp_get_thread_num() == 1){
-				this_thread::sleep_for(500ms);
+				size = size/2;
 			}
 			while(j < dist){
 				i = j;
@@ -219,11 +234,117 @@ class Thread_array{
 			}
 			return add;
 		}
+		//2.2. Writes
+		int write_h(vectorSize size){
+			vectorSize i = 0; 
+			volatile int add = 0;
+			volatile vectorSize j = 0;
+			
+			if(omp_get_thread_num() == 1){
+				size = size/2;
+			}
+			while(j < dist){
+				i = j;
+				while(i < size){
+					add = 'X';
+			 		priv_shared_vec[i] = add;
+					i+=dist;
+				}
+				j++;
+			}
+			return add;
+		}
+		//2.3. Read-Write
+		int read_write_h(vectorSize size){
+			vectorSize i = 0; 
+			volatile int add = 0;
+			volatile vectorSize j = 0;
+
+			if(omp_get_thread_num() == 1){
+				size = size/2;
+			}
+			while(j < dist){
+				i = j;
+				while(i < size){	
+					add = priv_shared_vec[i];
+					priv_shared_vec[i] = add + 1; 
+					i+=dist;
+				}
+				j++;
+			}
+			return add;
+		}
+
+		// ----------3. Delay access (sleep)----------
+		//3.1 Read 
+		int read_s(vectorSize size){
+			vectorSize i = 0; 
+			volatile int add = 0;
+			volatile vectorSize j = 0;
+			
+			int sleep = stoi(arg["sleep"]);
+			if(omp_get_thread_num() == 1){
+				this_thread::sleep_for(chrono::milliseconds(sleep));
+			}
+			while(j < dist){
+				i = j;
+
+				#pragma noprefetch priv_shared_vec
+				while(i < size){
+					add = priv_shared_vec[i]; 
+					i+=dist;
+				}
+				j++;
+			}
+			return add;
+		}
+		//3.2. Writes
+		int write_s(const vectorSize size){
+			vectorSize i = 0; 
+			volatile int add = 0;
+			volatile vectorSize j = 0;
+			
+			int sleep = stoi(arg["sleep"]);
+			if(omp_get_thread_num() == 1){
+				this_thread::sleep_for(chrono::milliseconds(sleep));
+			}
+			while(j < dist){
+				i = j;
+				while(i < size){
+					add = 'X';
+			 		priv_shared_vec[i] = add;
+					i+=dist;
+				}
+				j++;
+			}
+			return add;
+		}
+		//3.3. Read-Write
+		int read_write_s(vectorSize size){
+			vectorSize i = 0; 
+			volatile int add = 0;
+			volatile vectorSize j = 0;
+
+			int sleep = stoi(arg["sleep"]);
+			if(omp_get_thread_num() == 1){
+				this_thread::sleep_for(chrono::milliseconds(sleep));
+			}
+			while(j < dist){
+				i = j;
+				while(i < size){	
+					add = priv_shared_vec[i];
+					priv_shared_vec[i] = add + 1; 
+					i+=dist;
+				}
+				j++;
+			}
+			return add;
+		}
 
 
-		// ---------3. Delay access (job-addtion)----------
-		//3.1 Read with execution delay
-		int read_shared_delay(vectorSize size){
+		// ---------4. Delay access (job-addtion)----------
+		//4.1 Read with execution delay
+		int read_ja(vectorSize size){
 			vectorSize i = 0; 
 			volatile int add = 0;
 			volatile vectorSize j = 0;
@@ -231,9 +352,8 @@ class Thread_array{
 			//Delay to thread 1
 			if(omp_get_thread_num() == 1){
 				while(j < dist){
-					i = j;
-					#pragma noprefetch priv_shared_vec
-					while(i < 10000000){
+					i = j;					
+					while(i < 26214400){
 						add = priv_shared_vec[i]; 
 						i+=dist;
 					}
@@ -244,8 +364,6 @@ class Thread_array{
 			
 			while(j < dist){
 				i = j;
-
-				#pragma noprefetch priv_shared_vec
 				while(i < size){
 					add = priv_shared_vec[i]; 
 					i+=dist;
@@ -254,6 +372,72 @@ class Thread_array{
 			}
 			return add;
 		}
+		//4.2 Write with execution delay
+		int write_ja(vectorSize size){
+			vectorSize i = 0; 
+			volatile int add = 0;
+			volatile vectorSize j = 0;
+			
+			//Delay to thread 1
+			if(omp_get_thread_num() == 1){
+				while(j < dist){
+					i = j;
+					#pragma noprefetch priv_shared_vec
+					while(i < 26214400){
+						add = 'X';
+			 			priv_shared_vec[i] = add;
+						i+=dist;
+					}
+				j++;
+				}
+				j = 0;
+			}
+			
+			while(j < dist){
+				i = j;
+				while(i < size){
+					add = 'X';
+			 		priv_shared_vec[i] = add;
+					i+=dist;
+				}
+				j++;
+			}
+			return add;
+		}
+		//4.2 Read-Write with execution delay
+		int read_write_ja(vectorSize size){
+			vectorSize i = 0; 
+			volatile int add = 0;
+			volatile vectorSize j = 0;
+			
+			//Delay to thread 1
+			if(omp_get_thread_num() == 1){
+				while(j < dist){
+					i = j;
+					#pragma noprefetch priv_shared_vec
+					while(i < 26214400){
+						add = priv_shared_vec[i];
+						priv_shared_vec[i] = add + 1; 
+						i+=dist;
+					}
+				j++;
+				}
+				j = 0;
+			}
+			
+			while(j < dist){
+				i = j;
+				while(i < size){
+					add = priv_shared_vec[i];
+					priv_shared_vec[i] = add + 1; 
+					i+=dist;
+				}
+				j++;
+			}
+			return add;
+		}
+
+
 };
 
 vectorType** Thread_array::shared_vec;

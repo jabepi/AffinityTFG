@@ -11,7 +11,7 @@ if [ $# -eq 2 ] && [ "$1" == "1" ]; then
 fi
 
 # Posiciones de los hilos y del vector
-vector=("0 2 0" "0 0 2" "0 0 0")
+vector=( "0 2 0" "0 0 2" "0 0 0")
 
 for elemento in "${vector[@]}"; do
 
@@ -23,6 +23,5 @@ for elemento in "${vector[@]}"; do
 
     sed -i "s/^nodePerThread:.*$/nodePerThread: $H0 $H1/g" args
     sed -i "s/^nodePerVector:.*$/nodePerVector: $D0/g" args
-
     ./"$archivo.out" args salida
 done
